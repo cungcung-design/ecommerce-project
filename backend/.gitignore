@@ -3,3 +3,10 @@ node_modules/
 dist/
 
 /src/generated/prisma
+
+# IDE / Agent files
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+prisma.config.ts
