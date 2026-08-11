@@ -84,20 +84,22 @@ model Product {
 }
 
 model Order {
-  id               Int           @id @default(autoincrement())
+  id               Int            @id @default(autoincrement())
   userId           Int
-  totalAmount      Decimal       @db.Decimal(10, 2)
-  status           OrderStatus   @default(PENDING)
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  totalAmount      Decimal        @db.Decimal(10, 2)
+  status           OrderStatus    @default(PENDING)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   shippingAddress  String
   shippingCity     String
   shippingCountry  String
   shippingName     String
   shippingPhone    String
+  paymentMethod    PaymentMethod?
   paymentReference String?
-  paymentStatus    PaymentStatus @default(PENDING)
-  user             User          @relation(fields: [userId], references: [id])
+  paymentStatus    PaymentStatus  @default(PENDING)
+  payment          Payment?
+  user             User           @relation(fields: [userId], references: [id])
   items            OrderItem[]
 
   @@index([userId])
@@ -118,6 +120,21 @@ model OrderItem {
   @@index([productId])
 }
 
+model Payment {
+  id            Int           @id @default(autoincrement())
+  orderId       Int           @unique
+  amount        Decimal       @db.Decimal(10, 2)
+  method        PaymentMethod
+  status        PaymentStatus @default(PENDING)
+  transactionId String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  order         Order         @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@index([transactionId])
+}
+
 enum Role {
   CUSTOMER
   ADMIN
@@ -130,6 +147,11 @@ enum OrderStatus {
   DELIVERED
   CANCELLED
   CONFIRMED
+}
+
+enum PaymentMethod {
+  COD
+  ONLINE
 }
 
 enum PaymentStatus {

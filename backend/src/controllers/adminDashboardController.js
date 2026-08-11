@@ -1,21 +1,23 @@
-import prisma from "../lib/prisma.js";
-
 import {
-  getDashboardStats as fetchDashboardStats,
+  getAdminDashboard,
 } from "../services/adminDashboardService.js";
 
-export const getDashboardStats = async (req, res, next) => {
-  try {
-    const stats = await fetchDashboardStats();
+import prisma from "../lib/prisma.js";
 
-    res.json({
-      success: true,
-      data: stats,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+export const getAdminDashboardController =
+  async (req, res, next) => {
+    try {
+      const dashboard =
+        await getAdminDashboard();
+
+      res.json({
+        success: true,
+        data: dashboard,
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
 
 export const getAllCustomers = async (req, res) => {
   try {

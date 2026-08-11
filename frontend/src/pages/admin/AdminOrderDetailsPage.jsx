@@ -16,8 +16,10 @@ export default function AdminOrderDetailsPage() {
 
   if (isLoading) {
     return (
-      <div className="p-8">
-        Loading order...
+      <div className="p-4 sm:p-8">
+        <p className="text-gray-600">
+          Loading order...
+        </p>
       </div>
     );
   }
@@ -32,7 +34,7 @@ export default function AdminOrderDetailsPage() {
 
   return (
     <div>
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-2xl font-bold">
             Order #{order.id}
@@ -45,7 +47,7 @@ export default function AdminOrderDetailsPage() {
 
         <Link
           to="/admin/orders"
-          className="rounded-lg border px-4 py-2"
+          className="rounded-lg border px-4 py-2 text-sm"
         >
           Back to Orders
         </Link>

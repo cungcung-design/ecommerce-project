@@ -1,9 +1,12 @@
+import AdminDashboardCard
+  from "../../components/admin/AdminDashboardCard";
+
+import AdminRecentOrders
+  from "../../components/admin/AdminRecentOrders";
+
 import {
   useAdminDashboard,
 } from "../../hooks/useAdminDashboard";
-
-import AdminDashboardCard
-  from "../../components/admin/AdminDashboardCard";
 
 export default function AdminDashboard() {
   const {
@@ -30,11 +33,13 @@ export default function AdminDashboard() {
     );
   }
 
+  const stats = data?.stats || {};
+
   return (
     <div>
       <div className="mb-6">
         <h1 className="text-2xl font-bold">
-          Dashboard
+          Admin Dashboard
         </h1>
 
         <p className="mt-1 text-sm text-gray-500">
@@ -45,61 +50,38 @@ export default function AdminDashboard() {
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
         <AdminDashboardCard
           title="Total Users"
-          value={data.users}
+          value={stats.totalUsers}
         />
 
         <AdminDashboardCard
-          title="Products"
-          value={data.products}
+          title="Total Products"
+          value={stats.totalProducts}
         />
 
         <AdminDashboardCard
-          title="Orders"
-          value={data.orders}
+          title="Active Products"
+          value={stats.activeProducts}
         />
 
         <AdminDashboardCard
-          title="Revenue"
-          value={`$${data.revenue}`}
+          title="Total Orders"
+          value={stats.totalOrders}
         />
       </div>
 
-      <div className="mt-6 rounded-xl border bg-white">
-        <div className="border-b p-6">
-          <h2 className="text-lg font-semibold">
-            Recent Orders
-          </h2>
-        </div>
+      <div className="mt-6 rounded-xl border bg-white p-6">
+        <p className="text-sm text-gray-500">
+          Total Revenue
+        </p>
 
-        <div className="divide-y">
-          {data.recentOrders.map((order) => (
-            <div
-              key={order.id}
-              className="flex items-center justify-between p-6"
-            >
-              <div>
-                <p className="font-medium">
-                  Order #{order.id}
-                </p>
-
-                <p className="text-sm text-gray-500">
-                  {order.user.name}
-                </p>
-              </div>
-
-              <div className="text-right">
-                <p className="font-semibold">
-                  ${order.totalAmount}
-                </p>
-
-                <p className="text-sm text-gray-500">
-                  {order.status}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <p className="mt-2 text-3xl font-bold">
+          ${stats.totalRevenue}
+        </p>
       </div>
+
+      <AdminRecentOrders
+        orders={data?.recentOrders || []}
+      />
     </div>
   );
 }

@@ -1,103 +1,124 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAdminOrders } from "../../hooks/useAdminOrders";
 
+import AdminOrderTable from "../../components/admin/AdminOrderTable";
+
+const statusOptions = [
+  { value: "", label: "All Status" },
+  { value: "PENDING", label: "Pending" },
+  { value: "CONFIRMED", label: "Confirmed" },
+  { value: "PROCESSING", label: "Processing" },
+  { value: "SHIPPED", label: "Shipped" },
+  { value: "DELIVERED", label: "Delivered" },
+  { value: "CANCELLED", label: "Cancelled" },
+];
+
 function AdminOrders() {
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("");
+  const [page, setPage] = useState(1);
+
   const {
-    data: orders = [],
+    data,
     isLoading,
     isError,
-  } = useAdminOrders();
+  } = useAdminOrders({
+    q: search,
+    status: statusFilter || undefined,
+    page,
+    limit: 10,
+  });
+
+  const orders = data?.orders || [];
+  const pagination = data?.pagination || {};
+
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+    setPage(1);
+  };
+
+  const handleStatusChange = (event) => {
+    setStatusFilter(event.target.value);
+    setPage(1);
+  };
 
   if (isLoading) {
     return (
-      <div className="p-8">
-        Loading orders...
+      <div className="p-4 sm:p-8">
+        <p className="text-gray-600">
+          Loading orders...
+        </p>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="p-8">
-        Failed to load orders.
+      <div className="p-4 sm:p-8">
+        <p className="text-red-600">
+          Failed to load orders.
+        </p>
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold">
-        Orders
-      </h1>
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">
+            Orders
+          </h1>
 
-      <div className="mt-8 overflow-x-auto rounded-xl border">
-        <table className="w-full min-w-[700px]">
-          <thead>
-            <tr className="border-b text-left">
-              <th className="p-4">
-                Order
-              </th>
+          <p className="mt-1 text-sm text-gray-500">
+            Manage customer orders
+          </p>
+        </div>
 
-              <th className="p-4">
-                Customer
-              </th>
-
-              <th className="p-4">
-                Total
-              </th>
-
-              <th className="p-4">
-                Status
-              </th>
-
-              <th className="p-4">
-                Action
-              </th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {orders.map((order) => (
-              <tr
-                key={order.id}
-                className="border-b"
-              >
-                <td className="p-4">
-                  #{order.id}
-                </td>
-
-                <td className="p-4">
-                  <div>
-                    {order.user.name}
-                  </div>
-
-                  <div className="text-sm text-gray-500">
-                    {order.user.email}
-                  </div>
-                </td>
-
-                <td className="p-4">
-                  ${order.totalAmount}
-                </td>
-
-                <td className="p-4">
-                  {order.status}
-                </td>
-
-                <td className="p-4">
-                  <Link
-                    to={`/admin/orders/${order.id}`}
-                    className="underline"
-                  >
-                    View
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Link
+          to="/admin/orders"
+          className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
+        >
+          Refresh
+        </Link>
       </div>
+
+      {/* Search and Filter */}
+      <div className="mb-6 flex flex-col gap-3 sm:flex-row">
+        <div className="flex-1">
+          <input
+            type="text"
+            value={search}
+            onChange={handleSearchChange}
+            placeholder="Search customer..."
+            className="w-full rounded-lg border bg-white px-4 py-3 outline-none"
+          />
+        </div>
+
+        <div className="sm:w-48">
+          <select
+            value={statusFilter}
+            onChange={handleStatusChange}
+            className="w-full rounded-lg border bg-white px-4 py-3 outline-none"
+          >
+            {statusOptions.map((opt) => (
+              <option key={opt.value} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Order Table / Cards */}
+      <AdminOrderTable
+        orders={orders}
+        pagination={pagination}
+        page={page}
+        setPage={setPage}
+      />
     </div>
   );
 }

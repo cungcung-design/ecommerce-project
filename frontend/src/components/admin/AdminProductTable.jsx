@@ -1,5 +1,8 @@
 import { Link } from "react-router-dom";
 
+import AdminStockStatus
+  from "./AdminStockStatus";
+
 import { useDeleteProduct, useUpdateProductStatus } from "../../hooks/useAdminProducts";
 
 function AdminProductTable({ products, pagination, page, setPage }) {
@@ -39,7 +42,9 @@ function AdminProductTable({ products, pagination, page, setPage }) {
         <table className="w-full">
           <thead className="border-b bg-gray-50">
             <tr>
+              <th className="px-6 py-4 text-left text-sm">Image</th>
               <th className="px-6 py-4 text-left text-sm">Product</th>
+              <th className="px-6 py-4 text-left text-sm">Category</th>
               <th className="px-6 py-4 text-left text-sm">Price</th>
               <th className="px-6 py-4 text-left text-sm">Stock</th>
               <th className="px-6 py-4 text-left text-sm">Status</th>
@@ -50,11 +55,33 @@ function AdminProductTable({ products, pagination, page, setPage }) {
           <tbody className="divide-y">
             {products.map((product) => (
               <tr key={product.id}>
+                <td className="px-6 py-4">
+                  {product.imageUrl ? (
+                    <img
+                      src={product.imageUrl}
+                      alt={product.name}
+                      className="h-10 w-10 rounded-lg object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-xs text-gray-400">
+                      No img
+                    </div>
+                  )}
+                </td>
+
                 <td className="px-6 py-4">{product.name}</td>
+
+                <td className="px-6 py-4">
+                  {product.category?.name}
+                </td>
 
                 <td className="px-6 py-4">${product.price}</td>
 
-                <td className="px-6 py-4">{product.stock}</td>
+                <td className="px-6 py-4">
+                  <AdminStockStatus
+                    stock={product.stock}
+                  />
+                </td>
 
                 <td className="px-6 py-4">
                   <span

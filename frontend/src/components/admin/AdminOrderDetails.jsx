@@ -1,5 +1,10 @@
+import OrderStatus from "../../components/orders/OrderStatus";
+import AdminOrderStatus from "./AdminOrderStatus";
+import PaymentStatusBadge from "../payments/PaymentStatusBadge";
+import { paymentStatusDescription } from "../../validators/paymentValidator";
+
 function AdminOrderDetails({ order }) {
-  const subtotal = order.items?.reduce(
+  const itemsSubtotal = order.items?.reduce(
     (sum, item) =>
       sum + Number(item.price) * item.quantity,
     0
@@ -9,41 +14,149 @@ function AdminOrderDetails({ order }) {
 
   return (
     <div className="space-y-6">
+      {/* Customer Info + Order Summary - responsive */}
+      <div className="grid gap-6 lg:grid-cols-2">
+        {/* Customer Info */}
+        <div className="rounded-xl border bg-white p-6">
+          <h2 className="mb-4 text-lg font-semibold">
+            Customer Information
+          </h2>
 
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold">
-            Order #{order.id}
-          </h1>
+          <div className="space-y-1 text-sm">
+            <p className="font-medium">
+              {order.user?.name || "N/A"}
+            </p>
 
-          <p className="mt-1 text-sm text-gray-500">
-            Order details
-          </p>
+            <p className="text-gray-600">
+              {order.user?.email || "N/A"}
+            </p>
+          </div>
+
+          <div className="mt-4 space-y-1 text-sm">
+            <p>
+              <span className="font-medium">
+                Order ID:
+              </span>{" "}
+              #{order.id}
+            </p>
+
+            <p>
+              <span className="font-medium">
+                Date:
+              </span>{" "}
+              {new Date(order.createdAt).toLocaleDateString(
+                "en-US",
+                {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                }
+              )}
+            </p>
+
+            <p>
+              <span className="font-medium">
+                Payment:
+              </span>{" "}
+              {order.paymentStatus || "PENDING"}
+            </p>
+          </div>
         </div>
-      </div>
 
+        {/* Order Summary */}
+        <div className="rounded-xl border bg-white p-6">
+          <h2 className="mb-4 text-lg font-semibold">
+            Order Summary
+          </h2>
+
+          <div className="space-y-3 text-sm">
+            <div className="flex justify-between">
+              <span>Subtotal</span>
+              <span>${itemsSubtotal.toFixed(2)}</span>
+            </div>
+
+            <div className="flex justify-between">
+              <span>Shipping</span>
+              <span>
+                ${(total - itemsSubtotal).toFixed(2)}
+              </span>
+            </div>
+
+            <div className="border-t pt-3">
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total</span>
+                <span>${total.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+       <div className="mt-4">
+            <OrderStatus status={order.status} />
+          </div>
+        </div>
+       </div>
+
+      {/* Payment Information */}
       <div className="rounded-xl border bg-white p-6">
         <h2 className="mb-4 text-lg font-semibold">
-          Customer Information
+          Payment Information
         </h2>
 
-        <div className="space-y-1">
+        <div className="mb-4">
+          <PaymentStatusBadge
+            method={order.paymentMethod || "COD"}
+            status={order.paymentStatus || "PENDING"}
+          />
+        </div>
+
+        <p className="mb-3 text-sm text-gray-600">
+          {paymentStatusDescription[order.paymentStatus || "PENDING"]}
+        </p>
+
+        <div className="space-y-1 text-sm">
           <p>
             <span className="font-medium">
-              Name:
+              Total Amount:
             </span>{" "}
-            {order.user?.name}
+            ${Number(order.totalAmount).toFixed(2)}
           </p>
 
-          <p>
-            <span className="font-medium">
-              Email:
-            </span>{" "}
-            {order.user?.email}
-          </p>
+          {order.paymentReference && (
+            <p>
+              <span className="font-medium">
+                Reference:
+              </span>{" "}
+              <span className="break-all">
+                {order.paymentReference}
+              </span>
+            </p>
+          )}
         </div>
       </div>
 
+      {/* Shipping Address */}
+      <div className="rounded-xl border bg-white p-6">
+        <h2 className="mb-4 text-lg font-semibold">
+          Shipping Address
+        </h2>
+
+        <div className="space-y-1 text-sm">
+          <p className="font-medium">
+            {order.shippingName}
+          </p>
+
+          <p>{order.shippingAddress}</p>
+
+          <p>
+            {order.shippingCity},{" "}
+            {order.shippingCountry}
+          </p>
+
+          <p>Phone: {order.shippingPhone}</p>
+        </div>
+      </div>
+
+      {/* Order Items */}
       <div className="rounded-xl border bg-white p-6">
         <h2 className="mb-4 text-lg font-semibold">
           Order Items
@@ -55,9 +168,9 @@ function AdminOrderDetails({ order }) {
               key={item.id}
               className="flex items-center justify-between py-4"
             >
-              <div>
+              <div className="flex-1">
                 <p className="font-medium">
-                  {item.product?.name}
+                  {item.product?.name || "Product"}
                 </p>
 
                 <p className="text-sm text-gray-500">
@@ -72,7 +185,9 @@ function AdminOrderDetails({ order }) {
 
                 <p className="text-sm text-gray-500">
                   Subtotal: $
-                  {(Number(item.price) * item.quantity).toFixed(2)}
+                  {(
+                    Number(item.price) * item.quantity
+                  ).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -80,72 +195,11 @@ function AdminOrderDetails({ order }) {
         </div>
       </div>
 
-      <div className="rounded-xl border bg-white p-6">
-        <h2 className="mb-4 text-lg font-semibold">
-          Order Summary
-        </h2>
-
-        <div className="space-y-3">
-          <div className="flex justify-between">
-            <span>Subtotal</span>
-            <span>${subtotal.toFixed(2)}</span>
-          </div>
-
-          <div className="flex justify-between">
-            <span>Shipping</span>
-            <span>
-              {order.shippingAddress
-                ? "Included"
-                : "N/A"}
-            </span>
-          </div>
-
-          <div className="border-t pt-3">
-            <div className="flex justify-between text-lg font-bold">
-              <span>Total</span>
-              <span>${total.toFixed(2)}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-xl border bg-white p-6">
-          <h2 className="mb-3 font-semibold">
-            Payment Status
-          </h2>
-
-          <span
-            className={`rounded-full px-3 py-1 text-sm font-medium ${
-              order.paymentStatus === "PAID"
-                ? "bg-green-100 text-green-700"
-                : order.paymentStatus === "FAILED"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-yellow-100 text-yellow-700"
-            }`}
-          >
-            {order.paymentStatus}
-          </span>
-        </div>
-
-        <div className="rounded-xl border bg-white p-6">
-          <h2 className="mb-3 font-semibold">
-            Order Status
-          </h2>
-
-          <span
-            className={`rounded-full px-3 py-1 text-sm font-medium ${
-              order.status === "DELIVERED"
-                ? "bg-green-100 text-green-700"
-                : order.status === "CANCELLED"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-blue-100 text-blue-700"
-            }`}
-          >
-            {order.status}
-          </span>
-        </div>
-      </div>
+      {/* Status Update */}
+      <AdminOrderStatus
+        orderId={order.id}
+        currentStatus={order.status}
+      />
     </div>
   );
 }

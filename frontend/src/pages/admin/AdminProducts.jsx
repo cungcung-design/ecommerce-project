@@ -13,6 +13,7 @@ import AdminProductTable
 function AdminProducts() {
   const [search, setSearch] = useState("");
   const [categoryId, setCategoryId] = useState("");
+  const [isActive, setIsActive] = useState("");
   const [page, setPage] = useState(1);
 
   const {
@@ -22,6 +23,7 @@ function AdminProducts() {
   } = useAdminProducts({
     search,
     categoryId: categoryId || undefined,
+    isActive: isActive || undefined,
     page,
     limit: 10,
   });
@@ -97,6 +99,27 @@ function AdminProducts() {
               {cat.name}
             </option>
           ))}
+        </select>
+
+        <select
+          value={isActive}
+          onChange={(event) => {
+            setIsActive(event.target.value);
+            setPage(1);
+          }}
+          className="rounded-lg border bg-white px-4 py-3 outline-none"
+        >
+          <option value="">
+            All Status
+          </option>
+
+          <option value="true">
+            Active
+          </option>
+
+          <option value="false">
+            Inactive
+          </option>
         </select>
       </div>
 

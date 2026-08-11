@@ -1,16 +1,23 @@
 import prisma from "../lib/prisma.js";
 
-export const getDashboardStats = async () => {
+export const getAdminDashboard = async () => {
   const [
-    users,
-    products,
-    orders,
+    totalUsers,
+    totalProducts,
+    activeProducts,
+    totalOrders,
     revenueResult,
     recentOrders,
   ] = await Promise.all([
     prisma.user.count(),
 
     prisma.product.count(),
+
+    prisma.product.count({
+      where: {
+        isActive: true,
+      },
+    }),
 
     prisma.order.count(),
 
@@ -34,6 +41,7 @@ export const getDashboardStats = async () => {
       include: {
         user: {
           select: {
+            id: true,
             name: true,
             email: true,
           },
@@ -43,12 +51,17 @@ export const getDashboardStats = async () => {
   ]);
 
   return {
-    users,
-    products,
-    orders,
+    stats: {
+      totalUsers,
+      totalProducts,
+      activeProducts,
+      totalOrders,
 
-    revenue:
-      revenueResult._sum.totalAmount || 0,
+      totalRevenue:
+        revenueResult._sum.totalAmount
+          ? Number(revenueResult._sum.totalAmount)
+          : 0,
+    },
 
     recentOrders,
   };

@@ -59,7 +59,7 @@ function CreateProduct() {
         <AdminProductForm
           onSubmit={handleSubmit}
           submitLabel="Create Product"
-          isLoading={createProduct.isPending || uploadImage.isPending}
+          isSubmitting={createProduct.isPending || uploadImage.isPending}
         />
       </div>
 

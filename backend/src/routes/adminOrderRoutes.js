@@ -4,6 +4,7 @@ import {
   listAllOrders,
   showAdminOrder,
   changeOrderStatus,
+  showAdminOrderPayment,
 } from "../controllers/adminOrderController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -20,7 +21,9 @@ router.get("/", listAllOrders);
 
 router.get("/:id", showAdminOrder);
 
-router.patch(
+router.get("/:id/payment", showAdminOrderPayment);
+
+router.put(
   "/:id/status",
   validate(updateOrderStatusSchema),
   changeOrderStatus

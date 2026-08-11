@@ -1,154 +1,222 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useCategories } from "../../hooks/useCategories";
 
-export default function AdminProductForm({
-  initialData = {},
-  onSubmit,
-  submitLabel = "Save",
-  isLoading = false,
-}) {
-  const { data: categories } = useCategories();
+import {
+  adminProductSchema,
+} from "../../validators/adminProductValidator";
 
-  const [form, setForm] = useState({
-    name: initialData.name || "",
-    description: initialData.description || "",
-    price: initialData.price || "",
-    stock: initialData.stock || "",
-    categoryId: initialData.categoryId?.toString() || "",
-    isActive: initialData.isActive ?? true,
+export default function AdminProductForm({
+  categories: externalCategories,
+  defaultValues,
+  onSubmit,
+  isSubmitting = false,
+  submitLabel = "Save Product",
+}) {
+  const { data: categoriesFromHook } =
+    useCategories();
+
+  const categories =
+    externalCategories || categoriesFromHook || [];
+
+  const {
+    register,
+    handleSubmit,
+    formState: {
+      errors,
+    },
+  } = useForm({
+    resolver:
+      zodResolver(
+        adminProductSchema
+      ),
+
+    defaultValues:
+      defaultValues ?? {
+        name: "",
+        description: "",
+        price: "",
+        stock: 0,
+        categoryId: "",
+        isActive: true,
+      },
   });
 
-  const handleChange = (event) => {
-    setForm({
-      ...form,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    onSubmit({
-      ...form,
-      price: Number(form.price),
-      stock: Number(form.stock),
-      categoryId: Number(form.categoryId),
-      isActive: form.isActive,
-    });
-  };
-
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-6 rounded-xl border bg-white p-6"
+    >
+
+      {/* Name */}
+
       <div>
-        <label className="block font-medium">
+
+        <label className="mb-2 block font-medium">
           Product Name
         </label>
 
         <input
-          name="name"
-          value={form.name}
-          onChange={handleChange}
-          required
-          className="mt-2 w-full rounded-lg border p-3"
+          {...register("name")}
+          className="w-full rounded-lg border px-4 py-3"
+          placeholder="Enter product name"
         />
+
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-600">
+            {errors.name.message}
+          </p>
+        )}
+
       </div>
 
+
+      {/* Description */}
+
       <div>
-        <label className="block font-medium">
+
+        <label className="mb-2 block font-medium">
           Description
         </label>
 
         <textarea
-          name="description"
-          value={form.description}
-          onChange={handleChange}
-          rows="5"
-          className="mt-2 w-full rounded-lg border p-3"
+          {...register("description")}
+          rows={5}
+          className="w-full rounded-lg border px-4 py-3"
+          placeholder="Enter product description"
         />
+
+        {errors.description && (
+          <p className="mt-1 text-sm text-red-600">
+            {errors.description.message}
+          </p>
+        )}
+
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+
+      {/* Price + Stock */}
+
+      <div className="grid gap-4 md:grid-cols-2">
+
         <div>
-          <label className="block font-medium">
+
+          <label className="mb-2 block font-medium">
             Price
           </label>
 
           <input
             type="number"
-            name="price"
             step="0.01"
-            value={form.price}
-            onChange={handleChange}
-            required
-            className="mt-2 w-full rounded-lg border p-3"
+            {...register("price")}
+            className="w-full rounded-lg border px-4 py-3"
           />
+
+          {errors.price && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.price.message}
+            </p>
+          )}
+
         </div>
 
+
         <div>
-          <label className="block font-medium">
+
+          <label className="mb-2 block font-medium">
             Stock
           </label>
 
           <input
             type="number"
-            name="stock"
-            value={form.stock}
-            onChange={handleChange}
-            required
-            min="0"
-            className="mt-2 w-full rounded-lg border p-3"
+            {...register("stock")}
+            className="w-full rounded-lg border px-4 py-3"
           />
+
+          {errors.stock && (
+            <p className="mt-1 text-sm text-red-600">
+              {errors.stock.message}
+            </p>
+          )}
+
         </div>
+
       </div>
 
+
+      {/* Category */}
+
       <div>
-        <label className="block font-medium">
+
+        <label className="mb-2 block font-medium">
           Category
         </label>
 
         <select
-          name="categoryId"
-          value={form.categoryId}
-          onChange={handleChange}
-          required
-          className="mt-2 w-full rounded-lg border p-3"
+          {...register("categoryId")}
+          className="w-full rounded-lg border px-4 py-3"
         >
+
           <option value="">
             Select Category
           </option>
 
-          {categories?.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-              {cat.name}
-            </option>
-          ))}
+          {categories.map(
+            (category) => (
+
+              <option
+                key={category.id}
+                value={category.id}
+              >
+                {category.name}
+              </option>
+
+            )
+          )}
+
         </select>
+
+        {errors.categoryId && (
+          <p className="mt-1 text-sm text-red-600">
+            {errors.categoryId.message}
+          </p>
+        )}
+
       </div>
 
-      <label className="flex items-center gap-2">
+
+      {/* Active */}
+
+      <label className="flex items-center gap-3">
+
         <input
           type="checkbox"
-          name="isActive"
-          checked={form.isActive}
-          onChange={(event) =>
-            setForm({
-              ...form,
-              isActive: event.target.checked,
-            })
-          }
+          {...register("isActive")}
         />
 
-        <span>Active</span>
+        <span>
+          Product is active
+        </span>
+
       </label>
+
+
+      {/* Submit */}
 
       <button
         type="submit"
-        disabled={isLoading}
-        className="rounded-lg bg-black px-6 py-3 text-white disabled:opacity-40"
+        disabled={isSubmitting}
+        className="rounded-lg bg-black px-6 py-3 text-white disabled:opacity-50"
       >
-        {isLoading ? "Saving..." : submitLabel}
+
+        {isSubmitting
+          ? "Saving..."
+          : submitLabel}
+
       </button>
+
     </form>
   );
 }

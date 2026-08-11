@@ -9,6 +9,7 @@ import categoryRoutes from "./routes/categoryRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
+import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import adminOrderRoutes from "./routes/adminOrderRoutes.js";
 import adminUserRoutes from "./routes/adminUserRoutes.js";
@@ -16,6 +17,7 @@ import adminProductRoutes from "./routes/adminProductRoutes.js";
 import adminCategoryRoutes from "./routes/adminCategoryRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import refreshRoutes from "./routes/refreshRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import prisma from "./lib/prisma.js";
 
@@ -28,6 +30,8 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || "http://localhost:5173 ",
   credentials: true,
 }));
+
+app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
 
 const loginLimiter = rateLimit({
@@ -70,6 +74,8 @@ app.use("/api/categories", categoryRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/payments", paymentRoutes);
+app.use("/api/admin/dashboard", adminDashboardRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/products", adminProductRoutes);

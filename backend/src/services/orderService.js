@@ -1,6 +1,7 @@
 import prisma from "../lib/prisma.js";
+import { calculateTotals, createPaymentRecord } from "./paymentService.js";
 
-export const createOrder = async (userId, shipping) => {
+export const createOrder = async (userId, shipping, paymentMethod) => {
   return prisma.$transaction(async (tx) => {
     const cart = await tx.cart.findUnique({
       where: { userId },
@@ -19,9 +20,7 @@ export const createOrder = async (userId, shipping) => {
       throw error;
     }
 
-    let totalAmount = 0;
-    const orderItems = [];
-
+    const cartItems = [];
     for (const item of cart.items) {
       const product = item.product;
 
@@ -37,31 +36,42 @@ export const createOrder = async (userId, shipping) => {
         throw error;
       }
 
-      totalAmount += Number(product.price) * item.quantity;
-
-      orderItems.push({
+      cartItems.push({
         productId: product.id,
         quantity: item.quantity,
         price: product.price,
       });
     }
 
+    const { shipping: shippingCost, total, orderItems } = calculateTotals(cartItems);
+
     const order = await tx.order.create({
       data: {
         userId,
-        totalAmount,
+        totalAmount: total,
         shippingName: shipping.name,
         shippingPhone: shipping.phone,
         shippingAddress: shipping.address,
         shippingCity: shipping.city,
-        shippingCountry: shipping.country,
+        shippingCountry: shipping.postalCode,
+        paymentMethod,
         items: {
           create: orderItems,
         },
       },
       include: {
-        items: true,
+        items: {
+          include: {
+            product: true,
+          },
+        },
       },
+    });
+
+    await createPaymentRecord(tx, {
+      orderId: order.id,
+      amount: total,
+      method: paymentMethod,
     });
 
     for (const item of cart.items) {
@@ -117,4 +127,37 @@ export const getUserOrderById = async (userId, orderId) => {
   }
 
   return order;
+};
+
+export const cancelOrder = async (userId, orderId) => {
+  const order = await prisma.order.findFirst({
+    where: {
+      id: Number(orderId),
+      userId,
+    },
+  });
+
+  if (!order) {
+    const error = new Error("Order not found");
+    error.statusCode = 404;
+    throw error;
+  }
+
+  if (order.status !== "PENDING") {
+    const error = new Error("This order cannot be cancelled");
+    error.statusCode = 400;
+    throw error;
+  }
+
+  return prisma.order.update({
+    where: { id: Number(orderId) },
+    data: { status: "CANCELLED" },
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+    },
+  });
 };

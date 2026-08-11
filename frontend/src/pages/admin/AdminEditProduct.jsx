@@ -120,10 +120,10 @@ function AdminEditProduct() {
 
       <div className="mt-8">
         <AdminProductForm
-          initialData={form}
+          defaultValues={form}
           onSubmit={handleSubmit}
           submitLabel="Save Changes"
-          isLoading={saving || updateProduct.isPending || uploadImage.isPending}
+          isSubmitting={saving || updateProduct.isPending || uploadImage.isPending}
         />
       </div>
 

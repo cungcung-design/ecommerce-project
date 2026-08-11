@@ -4,6 +4,8 @@ import {
   storeOrder,
   listMyOrders,
   showMyOrder,
+  cancelMyOrder,
+  showMyOrderPayment,
 } from "../controllers/orderController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
@@ -20,6 +22,10 @@ router.get("/", listMyOrders);
 
 router.get("/:id", showMyOrder);
 
+router.get("/:id/payment", showMyOrderPayment);
+
 router.post("/", validate(shippingSchema), storeOrder);
+
+router.post("/:id/cancel", cancelMyOrder);
 
 export default router;

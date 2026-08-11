@@ -12,10 +12,11 @@ import Products from "./pages/Products";
 import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Cart from "./pages/Cart";
-import Checkout from "./pages/Checkout";
-import Orders from "./pages/Orders";
-import OrderDetails from "./pages/OrderDetails";
+import CartPage from "./pages/CartPage";
+import CheckoutPage from "./pages/CheckoutPage";
+import PaymentResultPage from "./pages/PaymentResultPage";
+import MyOrdersPage from "./pages/MyOrdersPage";
+import OrderDetailsPage from "./pages/OrderDetailsPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
@@ -62,23 +63,28 @@ function App() {
 
           <Route
             path="/cart"
-            element={<Cart />}
+            element={<CartPage />}
           />
 
           <Route element={<ProtectedRoute />}>
             <Route
               path="/checkout"
-              element={<Checkout />}
+              element={<CheckoutPage />}
+            />
+
+            <Route
+              path="/payment/result"
+              element={<PaymentResultPage />}
             />
 
             <Route
               path="/orders"
-              element={<Orders />}
+              element={<MyOrdersPage />}
             />
 
             <Route
               path="/orders/:id"
-              element={<OrderDetails />}
+              element={<OrderDetailsPage />}
             />
           </Route>
      

@@ -26,6 +26,10 @@ import {
   updateProductSchema,
 } from "../middleware/validationMiddleware.js";
 
+import {
+  createAdminProductSchema,
+} from "../validators/adminProductValidator.js";
+
 const router =
   express.Router();
 
@@ -46,7 +50,9 @@ router.get(
 
 router.post(
   "/",
-  validate(productSchema),
+  validate(
+    createAdminProductSchema
+  ),
   createProduct
 );
 

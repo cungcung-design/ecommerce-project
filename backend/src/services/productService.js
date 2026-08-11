@@ -1,14 +1,16 @@
 import prisma from "../lib/prisma.js";
 import cloudinary from "../config/cloudinary.js";
 
-export const getProducts = async ({ search, category, categoryId, page, limit, includeInactive }) => {
+export const getProducts = async ({ search, category, categoryId, page, limit, includeInactive, isActive }) => {
   const currentPage = Number(page) || 1;
   const pageSize = Number(limit) || 12;
   const skip = (currentPage - 1) * pageSize;
 
   const where = {};
 
-  if (!includeInactive) {
+  if (isActive !== undefined && isActive !== "") {
+    where.isActive = isActive === "true";
+  } else if (!includeInactive) {
     where.isActive = true;
   }
 

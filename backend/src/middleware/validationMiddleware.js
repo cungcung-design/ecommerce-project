@@ -1,5 +1,7 @@
 import { z } from "zod";
 
+import { paymentMethodEnum } from "../validators/paymentValidator.js";
+
 export const validate = (schema) => {
   return (req, res, next) => {
     const result = schema.safeParse(req.body);
@@ -55,9 +57,18 @@ export const updateCartItemSchema = z.object({
 });
 
 export const shippingSchema = z.object({
-  name: z.string().min(1, "Shipping name is required"),
-  phone: z.string().min(1, "Phone number is required"),
-  address: z.string().min(1, "Address is required"),
-  city: z.string().min(1, "City is required"),
-  country: z.string().min(1, "Country is required"),
+  items: z.array(
+    z.object({
+      productId: z.coerce.number().int().positive(),
+      quantity: z.coerce.number().int().positive(),
+    })
+  ).min(1, "At least one item is required"),
+  shipping: z.object({
+    name: z.string().min(1, "Shipping name is required"),
+    phone: z.string().min(1, "Phone number is required"),
+    address: z.string().min(1, "Address is required"),
+    city: z.string().min(1, "City is required"),
+    postalCode: z.string().min(1, "Postal code is required"),
+  }),
+  paymentMethod: paymentMethodEnum.default("COD"),
 });
