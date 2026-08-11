@@ -1,19 +1,34 @@
+import HeroSection from "../components/sections/HeroSection";
+import FeaturesSection from "../components/sections/FeaturesSection";
+import CategoriesSection from "../components/sections/CategoriesSection";
+import ProductGridSection from "../components/sections/ProductGridSection";
+import PromoBannerSection from "../components/sections/PromoBannerSection";
+import demoProducts from "../data/demoProducts";
+
 function Home() {
+  const products = demoProducts;
+
   return (
-    <div className="space-y-8">
-      <section className="rounded-2xl bg-gray-100 px-6 py-16 text-center">
-        <h1 className="text-4xl font-bold">
-          Welcome to Our Store
-        </h1>
+    <div>
+      <HeroSection />
+      <FeaturesSection />
+      <CategoriesSection />
 
-        <p className="mt-4 text-gray-600">
-          Find the products you love.
-        </p>
+      <ProductGridSection
+        title="New Arrivals"
+        actionText="View All New Arrivals →"
+        products={products}
+        viewAllLink="/products"
+      />
 
-        <button className="mt-6 rounded-lg bg-black px-6 py-3 text-white">
-          Shop Now
-        </button>
-      </section>
+      <ProductGridSection
+        title="Best Sellers"
+        actionText="View All Best Sellers →"
+        products={products.slice(0, 6)}
+        viewAllLink="/products"
+      />
+
+      <PromoBannerSection />
     </div>
   );
 }

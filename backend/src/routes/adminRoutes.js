@@ -2,12 +2,8 @@ import express from "express";
 
 import {
   getDashboardStats,
-  getAllOrders,
-  updateOrderStatus,
   getAllCustomers,
-  getOrderById,
-} from "../controllers/adminController.js";
-
+} from "../controllers/adminDashboardController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import { adminOnly } from "../middleware/adminMiddleware.js";
 
@@ -17,12 +13,6 @@ router.use(protect);
 router.use(adminOnly);
 
 router.get("/dashboard", getDashboardStats);
-
-router.get("/orders", getAllOrders);
-
-router.get("/orders/:id", getOrderById);
-
-router.patch("/orders/:id/status", updateOrderStatus);
 
 router.get("/customers", getAllCustomers);
 

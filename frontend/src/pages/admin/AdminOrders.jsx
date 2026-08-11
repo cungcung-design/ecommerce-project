@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 import { useAdminOrders } from "../../hooks/useAdminOrders";
 
-function Orders() {
+function AdminOrders() {
   const {
     data: orders = [],
     isLoading,
@@ -102,4 +102,4 @@ function Orders() {
   );
 }
 
-export default Orders;
+export default AdminOrders;

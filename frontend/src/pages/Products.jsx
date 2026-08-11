@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useProducts } from "../hooks/useProducts";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/cards/ProductCard";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 

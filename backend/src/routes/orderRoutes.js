@@ -1,19 +1,25 @@
 import express from "express";
 
 import {
-  createOrder,
-  getMyOrders,
-  getOrderById,
+  storeOrder,
+  listMyOrders,
+  showMyOrder,
 } from "../controllers/orderController.js";
 
 import { protect } from "../middleware/authMiddleware.js";
+import {
+  validate,
+  shippingSchema,
+} from "../middleware/validationMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", protect, createOrder);
+router.use(protect);
 
-router.get("/my-orders", protect, getMyOrders);
+router.get("/", listMyOrders);
 
-router.get("/:id", protect, getOrderById);
+router.get("/:id", showMyOrder);
+
+router.post("/", validate(shippingSchema), storeOrder);
 
 export default router;

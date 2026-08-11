@@ -6,7 +6,7 @@ export function useAdminDashboard() {
     queryKey: ["admin", "dashboard"],
     queryFn: async () => {
       const response = await api.get("/admin/dashboard");
-      return response.data.stats;
+      return response.data.data;
     },
   });
 }

@@ -19,13 +19,14 @@ import OrderDetails from "./pages/OrderDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
-import Dashboard from "./pages/admin/Dashboard";
-import AdminProducts from "./pages/admin/Products";
-import AdminOrders from "./pages/admin/Orders";
-import AdminOrderDetails from "./pages/admin/OrderDetails";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminOrderDetailsPage from "./pages/admin/AdminOrderDetailsPage";
 import CreateProduct from "./pages/admin/CreateProduct";
-import EditProduct from "./pages/admin/EditProduct";
-import Customers from "./pages/admin/Customers";
+import AdminEditProduct from "./pages/admin/AdminEditProduct";
+import AdminUserPage from "./pages/admin/AdminUserPage";
+import AdminCategoryPage from "./pages/admin/AdminCategoryPage";
 
 function App() {
   return (
@@ -80,7 +81,7 @@ function App() {
               element={<OrderDetails />}
             />
           </Route>
-    
+     
           <Route element={<AdminRoute />}>
             <Route
               path="/admin"
@@ -88,7 +89,7 @@ function App() {
             >
               <Route
                 index
-                element={<Dashboard />}
+                element={<AdminDashboard />}
               />
 
               <Route
@@ -103,7 +104,7 @@ function App() {
 
               <Route
                 path="products/:id/edit"
-                element={<EditProduct />}
+                element={<AdminEditProduct />}
               />
 
               <Route
@@ -113,12 +114,17 @@ function App() {
 
               <Route
                 path="orders/:id"
-                element={<AdminOrderDetails />}
+                element={<AdminOrderDetailsPage />}
               />
 
               <Route
-                path="customers"
-                element={<Customers />}
+                path="users"
+                element={<AdminUserPage />}
+              />
+
+              <Route
+                path="categories"
+                element={<AdminCategoryPage />}
               />
             </Route>
           </Route>

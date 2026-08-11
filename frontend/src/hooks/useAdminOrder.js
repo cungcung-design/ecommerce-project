@@ -6,7 +6,7 @@ export function useAdminOrder(id) {
     queryKey: ["admin", "order", id],
     queryFn: async () => {
       const response = await api.get(`/admin/orders/${id}`);
-      return response.data.order;
+      return response.data.data;
     },
     enabled: Boolean(id),
   });

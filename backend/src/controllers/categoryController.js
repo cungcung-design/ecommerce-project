@@ -1,67 +1,68 @@
-import prisma from "../lib/prisma.js";
+import * as categoryService from "../services/categoryService.js";
 
-export const getCategories = async (req, res) => {
+export const getCategories = async (req, res, next) => {
   try {
-    const categories = await prisma.category.findMany({
-      orderBy: {
-        name: "asc",
-      },
-    });
+    const categories = await categoryService.getCategories();
 
     res.json({
       success: true,
       categories,
     });
   } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      success: false,
-      message: "Failed to fetch categories",
-    });
+    next(error);
   }
 };
 
-export const createCategory = async (req, res) => {
+export const getCategory = async (req, res, next) => {
   try {
-    const { name } = req.body;
+    const category = await categoryService.getCategoryById(req.params.id);
 
-    if (!name) {
-      return res.status(400).json({
-        success: false,
-        message: "Category name is required",
-      });
-    }
-
-    const existingCategory = await prisma.category.findUnique({
-      where: {
-        name,
-      },
-    });
-
-    if (existingCategory) {
-      return res.status(409).json({
-        success: false,
-        message: "Category already exists",
-      });
-    }
-
-    const category = await prisma.category.create({
-      data: {
-        name,
-      },
-    });
-
-    res.status(201).json({
+    res.json({
       success: true,
       category,
     });
   } catch (error) {
-    console.error(error);
+    next(error);
+  }
+};
 
-    res.status(500).json({
-      success: false,
-      message: "Failed to create category",
+export const createCategory = async (req, res, next) => {
+  try {
+    const category = await categoryService.createCategory(req.body.name);
+
+    res.status(201).json({
+      success: true,
+      message: "Category created successfully",
+      category,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateCategory = async (req, res, next) => {
+  try {
+    const category = await categoryService.updateCategory(req.params.id, req.body.name);
+
+    res.json({
+      success: true,
+      message: "Category updated successfully",
+      category,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteCategory = async (req, res, next) => {
+  try {
+    await categoryService.deleteCategory(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Category deleted successfully",
+    });
+  } catch (error) {
+    next(error);
   }
 };

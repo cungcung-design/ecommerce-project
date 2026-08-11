@@ -1,0 +1,99 @@
+import { Link } from "react-router-dom";
+import { useCartStore } from "../../store/cartStore";
+
+function ProductCard({ product }) {
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const discount = product.discount || null;
+  const hasDiscount = Boolean(discount);
+  const productImage = product.imageUrl || product.image || "";
+
+  return (
+    <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
+      <Link to={`/products/${product.id}`} className="block">
+        <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+          {productImage ? (
+            <img
+              src={productImage}
+              alt={product.name}
+              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-gray-400">
+              No Image
+            </div>
+          )}
+
+          {hasDiscount && (
+            <span className="absolute left-3 top-3 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white">
+              {discount}
+            </span>
+          )}
+
+          {!hasDiscount && product.isActive !== false && (
+            <span className="absolute left-3 top-3 rounded-full bg-gray-900 px-2 py-1 text-xs font-semibold text-white">
+              New
+            </span>
+          )}
+
+          <button
+            aria-label="Add to wishlist"
+            className="absolute right-3 top-3 rounded-full bg-white/90 p-2 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+          </button>
+        </div>
+      </Link>
+
+      <div className="p-4">
+        <p className="text-xs text-gray-500">
+          {product.category?.name}
+        </p>
+
+        <Link to={`/products/${product.id}`}>
+          <h3 className="mt-1 text-sm font-semibold text-gray-900 line-clamp-1">
+            {product.name}
+          </h3>
+        </Link>
+
+        <div className="mt-2 flex items-center gap-2">
+          <span className="text-sm font-semibold text-gray-900">
+            ${product.price}
+          </span>
+
+          {hasDiscount && product.originalPrice && (
+            <span className="text-xs text-gray-400 line-through">
+              ${product.originalPrice}
+            </span>
+          )}
+        </div>
+
+        <div className="mt-2 flex items-center gap-1">
+          <div className="flex text-orange-500">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+              </svg>
+            ))}
+          </div>
+          <span className="text-xs text-gray-500">(128)</span>
+        </div>
+
+        <button
+          onClick={() => addToCart(product)}
+          disabled={product.stock === 0}
+          className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-gray-900 hover:text-gray-900 disabled:opacity-40"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          {product.stock === 0 ? "Out of Stock" : "Quick Add"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default ProductCard;

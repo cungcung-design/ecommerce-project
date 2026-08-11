@@ -7,8 +7,13 @@ import dotenv from "dotenv";
 import productRoutes from "./routes/productRoutes.js";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
+import adminOrderRoutes from "./routes/adminOrderRoutes.js";
+import adminUserRoutes from "./routes/adminUserRoutes.js";
+import adminProductRoutes from "./routes/adminProductRoutes.js";
+import adminCategoryRoutes from "./routes/adminCategoryRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import refreshRoutes from "./routes/refreshRoutes.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
@@ -20,7 +25,7 @@ const app = express();
 
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "http://localhost:5173 ",
   credentials: true,
 }));
 app.use(express.json());
@@ -43,10 +48,32 @@ app.get("/", (req, res) => {
   });
 });
 
+app.get("/api/health", async (req, res) => {
+  try {
+    await prisma.$queryRaw`SELECT 1`;
+    res.json({
+      success: true,
+      message: "E-commerce API is running",
+      database: "connected",
+      environment: process.env.NODE_ENV,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Database connection failed",
+    });
+  }
+});
+
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/admin/orders", adminOrderRoutes);
+app.use("/api/admin/users", adminUserRoutes);
+app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/admin/categories", adminCategoryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/refresh", refreshRoutes);

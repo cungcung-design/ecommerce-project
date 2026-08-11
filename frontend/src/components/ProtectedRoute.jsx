@@ -13,8 +13,18 @@ function ProtectedRoute() {
     );
   }
 
-  if (!user) {
+  const token = localStorage.getItem("token");
+
+  if (!user && !token) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (!user && token) {
+    return (
+      <div className="p-8">
+        Loading...
+      </div>
+    );
   }
 
   return <Outlet />;
