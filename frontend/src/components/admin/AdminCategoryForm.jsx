@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function AdminCategoryForm({ initialData = {}, onSubmit, isLoading = false, submitLabel = "Save" }) {
   const [name, setName] = useState(initialData.name || "");
+
+  useEffect(() => {
+    setName(initialData.name || "");
+  }, [initialData]);
 
   const handleSubmit = (event) => {
     event.preventDefault();

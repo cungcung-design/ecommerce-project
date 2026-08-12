@@ -13,6 +13,7 @@ import {
 function AdminCategoryPage() {
   const [search, setSearch] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
+  const [error, setError] = useState("");
 
   const { data: categories = [], isLoading, isError } = useAdminCategories();
   const createCategory = useCreateAdminCategory();
@@ -29,13 +30,19 @@ function AdminCategoryPage() {
   }, [categories, search]);
 
   const handleSubmit = async (payload) => {
-    if (editingCategory) {
-      await updateCategory.mutateAsync({ id: editingCategory.id, name: payload.name });
-      setEditingCategory(null);
-      return;
-    }
+    setError("");
 
-    await createCategory.mutateAsync(payload.name);
+    try {
+      if (editingCategory) {
+        await updateCategory.mutateAsync({ id: editingCategory.id, name: payload.name });
+        setEditingCategory(null);
+        return;
+      }
+
+      await createCategory.mutateAsync(payload.name);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to save category");
+    }
   };
 
   const handleToggleStatus = async (category) => {
@@ -44,7 +51,11 @@ function AdminCategoryPage() {
 
     if (!confirmed) return;
 
-    await updateStatus.mutateAsync({ id: category.id, isActive: nextStatus });
+    try {
+      await updateStatus.mutateAsync({ id: category.id, isActive: nextStatus });
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to update category status");
+    }
   };
 
   const handleDelete = async (category) => {
@@ -52,7 +63,11 @@ function AdminCategoryPage() {
 
     if (!confirmed) return;
 
-    await deleteCategory.mutateAsync(category.id);
+    try {
+      await deleteCategory.mutateAsync(category.id);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to delete category");
+    }
   };
 
   return (
@@ -71,6 +86,10 @@ function AdminCategoryPage() {
           className="rounded-lg border px-3 py-2 md:w-80"
         />
       </div>
+
+      {error && (
+        <div className="rounded-lg bg-red-50 p-4 text-red-600">{error}</div>
+      )}
 
       <AdminCategoryForm
         initialData={editingCategory || {}}
