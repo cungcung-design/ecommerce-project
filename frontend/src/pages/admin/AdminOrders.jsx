@@ -47,7 +47,7 @@ function AdminOrders() {
   if (isLoading) {
     return (
       <div className="p-4 sm:p-8">
-        <p className="text-gray-600">
+        <p className="text-gray-400">
           Loading orders...
         </p>
       </div>
@@ -57,7 +57,7 @@ function AdminOrders() {
   if (isError) {
     return (
       <div className="p-4 sm:p-8">
-        <p className="text-red-600">
+        <p className="text-red-400">
           Failed to load orders.
         </p>
       </div>
@@ -68,18 +68,18 @@ function AdminOrders() {
     <div>
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold text-slate-900">
             Orders
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-slate-500">
             Manage customer orders
           </p>
         </div>
 
         <Link
           to="/admin/orders"
-          className="rounded-lg bg-black px-4 py-2 text-sm font-medium text-white"
+          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-500"
         >
           Refresh
         </Link>
@@ -92,8 +92,8 @@ function AdminOrders() {
             type="text"
             value={search}
             onChange={handleSearchChange}
-            placeholder="Search customer..."
-            className="w-full rounded-lg border bg-white px-4 py-3 outline-none"
+            placeholder="Search by customer name or email..."
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-blue-500"
           />
         </div>
 
@@ -101,7 +101,7 @@ function AdminOrders() {
           <select
             value={statusFilter}
             onChange={handleStatusChange}
-            className="w-full rounded-lg border bg-white px-4 py-3 outline-none"
+            className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm text-slate-700 outline-none focus:border-blue-500"
           >
             {statusOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>

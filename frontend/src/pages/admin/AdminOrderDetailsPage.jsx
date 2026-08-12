@@ -17,7 +17,7 @@ export default function AdminOrderDetailsPage() {
   if (isLoading) {
     return (
       <div className="p-4 sm:p-8">
-        <p className="text-gray-600">
+        <p className="text-slate-500">
           Loading order...
         </p>
       </div>
@@ -26,7 +26,7 @@ export default function AdminOrderDetailsPage() {
 
   if (isError || !order) {
     return (
-      <div className="rounded-lg bg-red-50 p-4 text-red-600">
+      <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
         Order not found.
       </div>
     );
@@ -36,11 +36,11 @@ export default function AdminOrderDetailsPage() {
     <div>
       <div className="mb-6 flex flex-col gap-3 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">
+          <h1 className="text-2xl font-bold text-slate-900">
             Order #{order.id}
           </h1>
 
-          <p className="mt-1 text-sm text-gray-500">
+          <p className="mt-1 text-sm text-slate-500">
             Order details
           </p>
         </div>

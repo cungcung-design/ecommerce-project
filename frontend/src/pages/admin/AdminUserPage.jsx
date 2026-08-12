@@ -52,22 +52,22 @@ function AdminUserPage() {
     <div>
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Users</h1>
-          <p className="mt-1 text-sm text-gray-500">
+          <h1 className="text-2xl font-bold text-slate-900">Users</h1>
+          <p className="mt-1 text-sm text-slate-500">
             Manage registered users and account status
           </p>
         </div>
 
         <AdminUserForm
           searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          onSearchChange={(value) => setSearchTerm(value)}
         />
       </div>
 
-      {isLoading && <div className="rounded-lg bg-white p-6">Loading users...</div>}
+      {isLoading && <div className="rounded-lg border border-slate-200 bg-white p-6 text-slate-500">Loading users...</div>}
 
       {isError && (
-        <div className="rounded-lg bg-red-50 p-4 text-red-600">
+        <div className="rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
           Failed to load users.
         </div>
       )}

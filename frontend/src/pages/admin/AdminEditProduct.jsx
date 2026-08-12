@@ -28,8 +28,7 @@ function AdminEditProduct() {
     isActive: true,
   });
 
-  const [imageFile, setImageFile] = useState(null);
-  const [preview, setPreview] = useState("");
+  const [initialImageUrl, setInitialImageUrl] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -42,7 +41,7 @@ function AdminEditProduct() {
           `/admin/products/${id}`
         );
 
-        const product = response.data.data;
+        const product = response.data.product;
 
         setForm({
           name: product.name || "",
@@ -52,7 +51,7 @@ function AdminEditProduct() {
           categoryId: product.categoryId?.toString() || "",
           isActive: product.isActive ?? true,
         });
-        setPreview(product.imageUrl || "");
+        setInitialImageUrl(product.imageUrl || "");
       } catch (error) {
         setError(
           error.response?.data?.message ||
@@ -66,18 +65,7 @@ function AdminEditProduct() {
     loadProduct();
   }, [id]);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      return;
-    }
-
-    setImageFile(file);
-    setPreview(URL.createObjectURL(file));
-  };
-
-  const handleSubmit = async (productData) => {
+  const handleSubmit = async (productData, imageFile) => {
     try {
       setSaving(true);
       setError("");
@@ -110,10 +98,10 @@ function AdminEditProduct() {
 
   return (
     <div className="mx-auto max-w-2xl">
-      <h1 className="text-3xl font-bold">Edit Product</h1>
+      <h1 className="text-3xl font-bold text-slate-900">Edit Product</h1>
 
       {error && (
-        <div className="mt-6 rounded-lg bg-red-50 p-4 text-red-600">
+        <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
           {error}
         </div>
       )}
@@ -121,36 +109,10 @@ function AdminEditProduct() {
       <div className="mt-8">
         <AdminProductForm
           defaultValues={form}
+          initialImageUrl={initialImageUrl}
           onSubmit={handleSubmit}
           submitLabel="Save Changes"
           isSubmitting={saving || updateProduct.isPending || uploadImage.isPending}
-        />
-      </div>
-
-      <div className="mt-8">
-        <h3 className="mb-4 font-medium">Product Image</h3>
-
-        {preview && !imageFile && (
-          <img
-            src={preview}
-            alt="Current"
-            className="mb-4 h-64 w-full rounded-xl object-cover"
-          />
-        )}
-
-        {preview && imageFile && (
-          <img
-            src={preview}
-            alt="Preview"
-            className="mb-4 h-64 w-full rounded-xl object-cover"
-          />
-        )}
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="mt-2"
         />
       </div>
 
@@ -158,7 +120,7 @@ function AdminEditProduct() {
         <button
           type="button"
           onClick={() => navigate("/admin/products")}
-          className="rounded-lg border px-6 py-3"
+          className="rounded-lg border border-slate-300 px-6 py-3 text-slate-700 hover:bg-slate-50"
         >
           Back to Products
         </button>

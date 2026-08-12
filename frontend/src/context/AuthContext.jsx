@@ -15,7 +15,6 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const refreshToken = localStorage.getItem("refreshToken");
 
     if (!token) {
       setLoading(false);
@@ -25,29 +24,11 @@ export function AuthProvider({ children }) {
     const getCurrentUser = async () => {
       try {
         const response = await api.get("/auth/me");
-
         setUser(response.data.user);
       } catch (error) {
-        if (refreshToken) {
-          try {
-            const refreshResponse = await api.post("/refresh", { refreshToken });
-            const { accessToken, refreshToken: newRefreshToken } = refreshResponse.data;
-            localStorage.setItem("token", accessToken);
-            localStorage.setItem("refreshToken", newRefreshToken);
-            api.defaults.headers.common["Authorization"] = `Bearer ${accessToken}`;
-            
-            const userResponse = await api.get("/auth/me");
-            setUser(userResponse.data.user);
-          } catch (refreshError) {
-            localStorage.removeItem("token");
-            localStorage.removeItem("refreshToken");
-            setUser(null);
-          }
-        } else {
-          localStorage.removeItem("token");
-          localStorage.removeItem("refreshToken");
-          setUser(null);
-        }
+        localStorage.removeItem("token");
+        localStorage.removeItem("refreshToken");
+        setUser(null);
       } finally {
         setLoading(false);
       }

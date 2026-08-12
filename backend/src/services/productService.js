@@ -158,9 +158,11 @@ export const updateProduct = async (id, data) => {
   });
 };
 
-export const deactivateProduct = async (id) => {
+export const deleteProduct = async (id) => {
+  const productId = Number(id);
+
   const product = await prisma.product.findUnique({
-    where: { id: Number(id) },
+    where: { id: productId },
     select: { imagePublicId: true },
   });
 
@@ -170,14 +172,42 @@ export const deactivateProduct = async (id) => {
     throw error;
   }
 
-  if (product.imagePublicId) {
-    await cloudinary.uploader.destroy(product.imagePublicId);
+  // Never destroy order history: products referenced by past orders
+  // cannot be hard-deleted.
+  const orderItemCount = await prisma.orderItem.count({
+    where: { productId },
+  });
+
+  if (orderItemCount > 0) {
+    const error = new Error(
+      "Cannot delete this product because it is part of existing orders."
+    );
+    error.statusCode = 409;
+    throw error;
   }
 
-  return prisma.product.update({
-    where: { id: Number(id) },
-    data: { isActive: false },
-  });
+  // Best-effort cleanup: a Cloudinary failure (e.g. missing/invalid
+  // credentials) must never prevent the product from being deleted.
+  if (product.imagePublicId) {
+    try {
+      await cloudinary.uploader.destroy(product.imagePublicId);
+    } catch (error) {
+      console.warn(
+        `Failed to delete Cloudinary image for product ${id}:`,
+        error.message
+      );
+    }
+  }
+
+  // Remove the product and any transient cart references atomically.
+  return prisma.$transaction([
+    prisma.cartItem.deleteMany({
+      where: { productId },
+    }),
+    prisma.product.delete({
+      where: { id: productId },
+    }),
+  ]);
 };
 
 export const updateProductStatus = async (id, isActive) => {

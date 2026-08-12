@@ -5,30 +5,30 @@ function AdminUserTable({
   onRoleChange,
 }) {
   return (
-    <div className="overflow-x-auto rounded-xl border bg-white">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-50 text-left">
+        <thead className="bg-slate-50 text-left">
           <tr>
-            <th className="px-4 py-3">Name</th>
-            <th className="px-4 py-3">Email</th>
-            <th className="px-4 py-3">Role</th>
-            <th className="px-4 py-3">Status</th>
-            <th className="px-4 py-3">Orders</th>
-            <th className="px-4 py-3">Joined</th>
-            <th className="px-4 py-3">Actions</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Name</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Email</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Role</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Status</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Orders</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Joined</th>
+            <th className="px-4 py-3 text-slate-500 font-medium">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {users.map((user) => (
-            <tr key={user.id} className="border-t">
-              <td className="px-4 py-3 font-medium">{user.name}</td>
-              <td className="px-4 py-3">{user.email}</td>
+            <tr key={user.id} className="border-t border-slate-200">
+              <td className="px-4 py-3 font-medium text-slate-900">{user.name}</td>
+              <td className="px-4 py-3 text-slate-700">{user.email}</td>
               <td className="px-4 py-3">
                 <select
                   value={user.role}
                   onChange={(event) => onRoleChange(user, event.target.value)}
-                  className="rounded border px-2 py-1"
+                  className="rounded border border-slate-300 bg-white px-2 py-1 text-slate-900"
                   disabled={user.id === currentUserId}
                 >
                   <option value="CUSTOMER">Customer</option>
@@ -37,26 +37,24 @@ function AdminUserTable({
               </td>
               <td className="px-4 py-3">
                 <span
-                  className={`rounded-full px-2 py-1 text-xs font-medium ${
+                  className={`rounded-full px-2 py-1 text-xs font-medium border ${
                     user.isActive
-                      ? "bg-green-100 text-green-700"
-                      : "bg-red-100 text-red-700"
+                      ? "bg-blue-50 text-blue-600 border-blue-200"
+                      : "bg-red-50 text-red-600 border-red-200"
                   }`}
                 >
                   {user.isActive ? "Active" : "Inactive"}
                 </span>
               </td>
-              <td className="px-4 py-3">{user._count?.orders ?? 0}</td>
-              <td className="px-4 py-3">
+              <td className="px-4 py-3 text-slate-700">{user._count?.orders ?? 0}</td>
+              <td className="px-4 py-3 text-slate-500">
                 {new Date(user.createdAt).toLocaleDateString()}
               </td>
               <td className="px-4 py-3">
                 <button
                   onClick={() => onStatusToggle(user)}
                   className={`rounded px-3 py-1 text-sm ${
-                    user.isActive
-                      ? "bg-red-600 text-white"
-                      : "bg-green-600 text-white"
+                    user.isActive ? "bg-red-500 text-white" : "bg-blue-500 text-white"
                   }`}
                   disabled={user.id === currentUserId}
                 >

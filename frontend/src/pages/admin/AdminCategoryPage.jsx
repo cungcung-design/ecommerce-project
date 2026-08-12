@@ -1,4 +1,10 @@
 import { useMemo, useState } from "react";
+import { 
+  Search, 
+  Layers, 
+  AlertCircle, 
+  Loader2 
+} from "lucide-react";
 
 import AdminCategoryForm from "../../components/admin/AdminCategoryForm";
 import AdminCategoryTable from "../../components/admin/AdminCategoryTable";
@@ -29,88 +35,133 @@ function AdminCategoryPage() {
     });
   }, [categories, search]);
 
-  const handleSubmit = async (payload) => {
+  const handleSubmit = (payload) => {
     setError("");
 
-    try {
-      if (editingCategory) {
-        await updateCategory.mutateAsync({ id: editingCategory.id, name: payload.name });
-        setEditingCategory(null);
-        return;
-      }
-
-      await createCategory.mutateAsync(payload.name);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to save category");
+    if (editingCategory) {
+      updateCategory.mutate(
+        { id: editingCategory.id, name: payload.name },
+        {
+          onSuccess: () => setEditingCategory(null),
+          onError: (err) =>
+            setError(err.response?.data?.message || "Failed to update category"),
+        }
+      );
+    } else {
+      createCategory.mutate(payload.name, {
+        onError: (err) =>
+          setError(err.response?.data?.message || "Failed to create category"),
+      });
     }
   };
 
-  const handleToggleStatus = async (category) => {
+  const handleToggleStatus = (category) => {
+    setError("");
     const nextStatus = !category.isActive;
     const confirmed = window.confirm(`${nextStatus ? "Activate" : "Deactivate"} this category?`);
 
-    if (!confirmed) return;
-
-    try {
-      await updateStatus.mutateAsync({ id: category.id, isActive: nextStatus });
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to update category status");
+    if (confirmed) {
+      updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
+        onError: (err) => setError(err.response?.data?.message || "Failed to update status"),
+      });
     }
   };
 
-  const handleDelete = async (category) => {
+  const handleDelete = (category) => {
+    setError("");
     const confirmed = window.confirm(`Delete category "${category.name}"?`);
 
-    if (!confirmed) return;
-
-    try {
-      await deleteCategory.mutateAsync(category.id);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to delete category");
+    if (confirmed) {
+      deleteCategory.mutate(category.id, {
+        onError: (err) => setError(err.response?.data?.message || "Failed to delete category"),
+      });
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      {/* Header Section */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Categories</h1>
-          <p className="mt-1 text-sm text-gray-500">Manage product categories</p>
+          <h1 className="text-2xl font-bold tracking-tight text-slate-900">
+            Categories Dashboard
+          </h1>
+          <p className="mt-1 text-sm text-slate-500">
+            Organize and oversee your product classification tree.
+          </p>
         </div>
 
-        <input
-          type="text"
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-          placeholder="Search categories"
-          className="rounded-lg border px-3 py-2 md:w-80"
+        {/* Search Bar */}
+        <div className="relative flex-1 min-w-[260px] max-w-md">
+          <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Search categories..."
+            className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-4 text-sm text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20"
+          />
+        </div>
+      </div>
+
+      {/* Global Error Banner */}
+      {error && (
+        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-sm">
+          <AlertCircle className="h-5 w-5 shrink-0" />
+          <span>{error}</span>
+        </div>
+      )}
+
+      {/* Form Container Card */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+        <AdminCategoryForm
+          initialData={editingCategory || {}}
+          onSubmit={handleSubmit}
+          isLoading={createCategory.isPending || updateCategory.isPending}
+          submitLabel={editingCategory ? "Update Category" : "Create Category"}
         />
       </div>
 
-      {error && (
-        <div className="rounded-lg bg-red-50 p-4 text-red-600">{error}</div>
+      {/* Loading State */}
+      {isLoading && (
+        <div className="flex h-48 w-full items-center justify-center rounded-2xl border border-slate-200 bg-white">
+          <div className="flex items-center gap-3 text-slate-500">
+            <Loader2 className="h-6 w-6 animate-spin text-blue-500" />
+            <span className="text-sm font-medium">Loading categories...</span>
+          </div>
+        </div>
       )}
 
-      <AdminCategoryForm
-        initialData={editingCategory || {}}
-        onSubmit={handleSubmit}
-        isLoading={createCategory.isPending || updateCategory.isPending}
-        submitLabel={editingCategory ? "Update Category" : "Create Category"}
-      />
-
-      {isLoading && <div className="rounded-lg bg-white p-6">Loading categories...</div>}
-
+      {/* Error State */}
       {isError && (
-        <div className="rounded-lg bg-red-50 p-4 text-red-600">Failed to load categories.</div>
+        <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-600 shadow-sm">
+          <AlertCircle className="h-5 w-5 shrink-0" />
+          <span>Failed to load categories. Please try again.</span>
+        </div>
       )}
 
+      {/* Table / Empty State Wrapper */}
       {!isLoading && !isError && (
-        <AdminCategoryTable
-          categories={filteredCategories}
-          onEdit={setEditingCategory}
-          onToggleStatus={handleToggleStatus}
-          onDelete={handleDelete}
-        />
+        filteredCategories.length === 0 ? (
+          <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-50 text-blue-500">
+              <Layers className="h-6 w-6" />
+            </div>
+            <h3 className="mt-4 text-base font-semibold text-slate-900">No categories found</h3>
+            <p className="mt-1 text-sm text-slate-500 max-w-sm">
+              Try updating your search query or add a new category using the form above.
+            </p>
+          </div>
+        ) : (
+          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+            <AdminCategoryTable
+              categories={filteredCategories}
+              onEdit={setEditingCategory}
+              onToggleStatus={handleToggleStatus}
+              onDelete={handleDelete}
+            />
+          </div>
+        )
       )}
     </div>
   );

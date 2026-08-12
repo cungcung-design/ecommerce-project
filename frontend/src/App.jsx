@@ -24,7 +24,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminOrderDetailsPage from "./pages/admin/AdminOrderDetailsPage";
-import CreateProduct from "./pages/admin/CreateProduct";
+import AdminCreateProduct from "./pages/admin/AdminCreateProduct";
 import AdminEditProduct from "./pages/admin/AdminEditProduct";
 import AdminUserPage from "./pages/admin/AdminUserPage";
 import AdminCategoryPage from "./pages/admin/AdminCategoryPage";
@@ -34,6 +34,7 @@ function App() {
     <BrowserRouter>
       <Routes>
 
+        {/* Public & Customer routes (with Navbar/Footer + max-w container) */}
         <Route element={<MainLayout />}>
 
           <Route
@@ -87,54 +88,55 @@ function App() {
               element={<OrderDetailsPage />}
             />
           </Route>
-     
-          <Route element={<AdminRoute />}>
+
+        </Route>
+
+        {/* Admin routes (full-width, outside MainLayout) */}
+        <Route element={<AdminRoute />}>
+          <Route
+            path="/admin"
+            element={<AdminLayout />}
+          >
             <Route
-              path="/admin"
-              element={<AdminLayout />}
-            >
-              <Route
-                index
-                element={<AdminDashboard />}
-              />
+              index
+              element={<AdminDashboard />}
+            />
 
-              <Route
-                path="products"
-                element={<AdminProducts />}
-              />
+            <Route
+              path="products"
+              element={<AdminProducts />}
+            />
 
-              <Route
-                path="products/create"
-                element={<CreateProduct />}
-              />
+            <Route
+              path="products/create"
+              element={<AdminCreateProduct />}
+            />
 
-              <Route
-                path="products/:id/edit"
-                element={<AdminEditProduct />}
-              />
+            <Route
+              path="products/:id/edit"
+              element={<AdminEditProduct />}
+            />
 
-              <Route
-                path="orders"
-                element={<AdminOrders />}
-              />
+            <Route
+              path="orders"
+              element={<AdminOrders />}
+            />
 
-              <Route
-                path="orders/:id"
-                element={<AdminOrderDetailsPage />}
-              />
+            <Route
+              path="orders/:id"
+              element={<AdminOrderDetailsPage />}
+            />
 
-              <Route
-                path="users"
-                element={<AdminUserPage />}
-              />
+            <Route
+              path="users"
+              element={<AdminUserPage />}
+            />
 
-              <Route
-                path="categories"
-                element={<AdminCategoryPage />}
-              />
-            </Route>
+            <Route
+              path="categories"
+              element={<AdminCategoryPage />}
+            />
           </Route>
-
         </Route>
 
       </Routes>

@@ -56,7 +56,7 @@ export const verifyRefreshToken = async (token) => {
 export const revokeRefreshToken = async (token) => {
   const tokenHash = hashToken(token);
 
-  await prisma.refreshToken.delete({
+  await prisma.refreshToken.deleteMany({
     where: {
       tokenHash,
     },

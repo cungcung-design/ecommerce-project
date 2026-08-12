@@ -33,19 +33,19 @@ function AdminOrderStatus({ orderId, currentStatus }) {
 
   return (
     <div className="rounded-xl border bg-white p-6">
-      <h2 className="mb-4 text-lg font-semibold">
+      <h2 className="mb-4 text-lg font-semibold text-slate-900">
         Current Status
       </h2>
 
-      <p className="mb-4 text-sm text-gray-600">
+      <p className="mb-4 text-sm text-slate-600">
         Status:{" "}
-        <span className="font-medium">
+        <span className="font-medium text-slate-900">
           {statusLabels[currentStatus] ?? currentStatus}
         </span>
       </p>
 
       {validOptions.length === 0 ? (
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-slate-500">
           No further status transitions are allowed for
           this order.
         </p>
@@ -53,7 +53,7 @@ function AdminOrderStatus({ orderId, currentStatus }) {
         <>
           <label
             htmlFor={`status-select-${orderId}`}
-            className="mb-2 block text-sm font-medium"
+            className="mb-2 block text-sm font-medium text-slate-900"
           >
             Select new status
           </label>
@@ -65,7 +65,7 @@ function AdminOrderStatus({ orderId, currentStatus }) {
               setSelectedStatus(event.target.value)
             }
             disabled={updateStatus.isPending}
-            className="w-full rounded-lg border px-4 py-3 outline-none disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">
               Choose a status...
@@ -87,7 +87,7 @@ function AdminOrderStatus({ orderId, currentStatus }) {
               })
             }
             disabled={!canUpdate}
-            className="mt-4 w-full rounded-lg bg-black px-6 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-4 w-full rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
             {updateStatus.isPending
               ? "Updating..."
@@ -97,7 +97,7 @@ function AdminOrderStatus({ orderId, currentStatus }) {
       )}
 
       {updateStatus.isPending && (
-        <p className="mt-3 text-sm text-gray-500">
+        <p className="mt-3 text-sm text-slate-500">
           Updating status...
         </p>
       )}

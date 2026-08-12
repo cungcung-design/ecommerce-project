@@ -30,11 +30,11 @@ export const updateProduct = async (req, res, next) => {
 
 export const deleteProduct = async (req, res, next) => {
   try {
-    await productService.deactivateProduct(req.params.id);
+    await productService.deleteProduct(req.params.id);
 
     res.json({
       success: true,
-      message: "Product deactivated successfully",
+      message: "Product deleted successfully",
     });
   } catch (error) {
     next(error);

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import AdminStockStatus
@@ -8,14 +9,31 @@ import { useDeleteProduct, useUpdateProductStatus } from "../../hooks/useAdminPr
 function AdminProductTable({ products, pagination, page, setPage }) {
   const deleteProduct = useDeleteProduct();
   const toggleStatus = useUpdateProductStatus();
+  const [error, setError] = useState(null);
+  const [deletingId, setDeletingId] = useState(null);
 
   const totalPages = pagination?.totalPages || 1;
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm("Delete this product?");
+    const confirmed = window.confirm(
+      "Delete this product permanently? This cannot be undone."
+    );
 
-    if (confirmed) {
-      await deleteProduct.mutate(id);
+    if (!confirmed) {
+      return;
+    }
+
+    setError(null);
+    setDeletingId(id);
+
+    try {
+      await deleteProduct.mutateAsync(id);
+    } catch (err) {
+      setError(
+        err?.response?.data?.message || "Failed to delete product. Please try again."
+      );
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -28,8 +46,8 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
   if (products.length === 0) {
     return (
-      <div className="overflow-hidden rounded-xl border bg-white">
-        <div className="px-6 py-8 text-center text-sm text-gray-500">
+      <div className="overflow-hidden rounded-xl border border-slate-200 bg-white">
+        <div className="px-6 py-8 text-center text-sm text-slate-500">
           No products found.
         </div>
       </div>
@@ -38,44 +56,57 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
   return (
     <>
-      <div className="overflow-hidden rounded-xl border bg-white">
-        <table className="w-full">
-          <thead className="border-b bg-gray-50">
+      {error && (
+        <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          <span>{error}</span>
+          <button
+            onClick={() => setError(null)}
+            className="shrink-0 text-red-500 hover:text-red-400"
+            aria-label="Dismiss error"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
+        <table className="w-full min-w-[700px]">
+          <thead className="border-b border-slate-200 bg-slate-50">
             <tr>
-              <th className="px-6 py-4 text-left text-sm">Image</th>
-              <th className="px-6 py-4 text-left text-sm">Product</th>
-              <th className="px-6 py-4 text-left text-sm">Category</th>
-              <th className="px-6 py-4 text-left text-sm">Price</th>
-              <th className="px-6 py-4 text-left text-sm">Stock</th>
-              <th className="px-6 py-4 text-left text-sm">Status</th>
-              <th className="px-6 py-4 text-right text-sm">Actions</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Image</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Product</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Category</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Price</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Stock</th>
+              <th className="px-6 py-4 text-left text-sm text-slate-500">Status</th>
+              <th className="px-6 py-4 text-right text-sm text-slate-500">Actions</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y">
+          <tbody className="divide-y divide-slate-100">
             {products.map((product) => (
-              <tr key={product.id}>
+              <tr key={product.id} className="hover:bg-slate-50">
                 <td className="px-6 py-4">
                   {product.imageUrl ? (
                     <img
                       src={product.imageUrl}
                       alt={product.name}
-                      className="h-10 w-10 rounded-lg object-cover"
+                      className="h-10 w-10 rounded-lg object-cover border border-slate-200"
                     />
                   ) : (
-                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gray-100 text-xs text-gray-400">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">
                       No img
                     </div>
                   )}
                 </td>
 
-                <td className="px-6 py-4">{product.name}</td>
+                <td className="px-6 py-4 text-slate-900">{product.name}</td>
 
-                <td className="px-6 py-4">
+                <td className="px-6 py-4 text-slate-500">
                   {product.category?.name}
                 </td>
 
-                <td className="px-6 py-4">${product.price}</td>
+                <td className="px-6 py-4 text-slate-900">${product.price}</td>
 
                 <td className="px-6 py-4">
                   <AdminStockStatus
@@ -85,20 +116,20 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
                 <td className="px-6 py-4">
                   <span
-                    className={`rounded-full px-2 py-1 text-xs ${
+                    className={`rounded-full px-2 py-1 text-xs border ${
                       product.isActive
-                        ? "bg-green-100 text-green-700"
-                        : "bg-red-100 text-red-700"
+                        ? "bg-blue-50 text-blue-600 border-blue-200"
+                        : "bg-red-50 text-red-600 border-red-200"
                     }`}
                   >
                     {product.isActive ? "Active" : "Inactive"}
                   </span>
                 </td>
 
-                <td className="px-6 py-4 text-right">
+                <td className="px-6 py-4 text-right whitespace-nowrap">
                   <Link
                     to={`/admin/products/${product.id}/edit`}
-                    className="mr-3 text-sm font-medium"
+                    className="mr-3 text-sm font-medium text-blue-600 hover:text-blue-500"
                   >
                     Edit
                   </Link>
@@ -106,16 +137,17 @@ function AdminProductTable({ products, pagination, page, setPage }) {
                   <button
                     onClick={() => handleToggleStatus(product)}
                     disabled={toggleStatus.isPending}
-                    className="mr-3 text-sm font-medium disabled:opacity-40"
+                    className="mr-3 text-sm font-medium text-amber-600 hover:text-amber-500 disabled:opacity-40"
                   >
                     {product.isActive ? "Deactivate" : "Activate"}
                   </button>
 
                   <button
                     onClick={() => handleDelete(product.id)}
-                    className="text-sm font-medium text-red-600"
+                    disabled={deletingId === product.id}
+                    className="text-sm font-medium text-red-600 hover:text-red-500 disabled:cursor-not-allowed disabled:opacity-40"
                   >
-                    Delete
+                    {deletingId === product.id ? "Deleting..." : "Delete"}
                   </button>
                 </td>
               </tr>
@@ -129,19 +161,19 @@ function AdminProductTable({ products, pagination, page, setPage }) {
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page <= 1}
-            className="rounded-lg border px-4 py-2 text-sm disabled:opacity-40"
+            className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-40"
           >
             Previous
           </button>
 
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-slate-500">
             Page {pagination?.page || page} of {totalPages}
           </span>
 
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page >= totalPages}
-            className="rounded-lg border px-4 py-2 text-sm disabled:opacity-40"
+            className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm text-slate-700 hover:bg-slate-50 disabled:opacity-40"
           >
             Next
           </button>
