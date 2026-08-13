@@ -26,10 +26,24 @@ dotenv.config();
 const app = express();
 
 app.use(helmet());
-app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
-  credentials: true,
-}));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:4173",
+  "https://ecommerce-frontend-yn2u.onrender.com",
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS blocked origin: ${origin}`));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
 app.use(express.json());
