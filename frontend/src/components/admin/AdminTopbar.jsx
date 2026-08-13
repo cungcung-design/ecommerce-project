@@ -18,7 +18,7 @@ function AdminTopbar({ onMenuClick }) {
         <button
           type="button"
           onClick={onMenuClick}
-          className="rounded-lg border border-white/15 p-2 text-white/70 hover:bg-blue-500/10 hover:text-white md:hidden"
+          className="rounded-lg border border-gray-200 p-2 text-gray-600 hover:bg-blue-500/10 hover:text-blue-600 md:hidden"
           aria-label="Open menu"
         >
           <svg
