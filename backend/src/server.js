@@ -28,6 +28,9 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   "http://localhost:5173",
+  "http://localhost:5174",
+  "http://localhost:5175",
+  "http://localhost:5176",
   "http://localhost:4173",
   "https://ecommerce-frontend-yn2u.onrender.com",
 ];
@@ -38,7 +41,7 @@ app.use(
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
-        callback(new Error(`CORS blocked origin: ${origin}`));
+        callback(new Error("Not allowed by CORS"));
       }
     },
     credentials: true,
