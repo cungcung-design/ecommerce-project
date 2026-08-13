@@ -7,7 +7,10 @@ export function useUploadImage() {
       const formData = new FormData();
       formData.append("image", file);
 
-      const response = await api.post("/upload/image", formData);
+      const response = await api.post(
+        "/upload/image",
+        formData
+      );
 
       return response.data.image;
     },

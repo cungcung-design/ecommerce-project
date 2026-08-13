@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useCartStore } from "../store/cartStore";
+import { useCart } from "../hooks/useCart";
 
 function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useAuth();
-  const items = useCartStore((state) => state.items);
-  const cartCount = items.reduce((total, item) => total + item.quantity, 0);
+  const { data: cart } = useCart({ enabled: !!user });
+  const cartCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   return (
     <nav className="border-b">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4">
+        <div className="flex items-center justify-between px-4 py-4">
           <Link to="/" className="text-2xl font-bold tracking-tight">
             NovaTrend
           </Link>
@@ -37,7 +37,7 @@ function Navbar() {
               About
             </Link>
             <Link to="/" className="text-sm font-medium hover:text-orange-600 transition-colors">
-              Blog
+              Products
             </Link>
             <Link to="/" className="text-sm font-medium hover:text-orange-600 transition-colors">
               Contact
@@ -120,7 +120,7 @@ function Navbar() {
             <Link to="/products" className="block text-sm font-medium hover:text-orange-600">Best Sellers</Link>
             <Link to="/products" className="block text-sm font-medium hover:text-orange-600">Categories</Link>
             <Link to="/" className="block text-sm font-medium hover:text-orange-600">About</Link>
-            <Link to="/" className="block text-sm font-medium hover:text-orange-600">Blog</Link>
+            <Link to="/" className="block text-sm font-medium hover:text-orange-600">Products</Link>
             <Link to="/" className="block text-sm font-medium hover:text-orange-600">Contact</Link>
 
             <div className="flex gap-4 pt-2">

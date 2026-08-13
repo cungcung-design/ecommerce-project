@@ -51,6 +51,26 @@ export const useCartStore = create(
         })),
 
       clearCart: () => set({ items: [] }),
+
+      upsertCartItem: (cartItem) =>
+        set((state) => {
+          const product = cartItem.product || cartItem;
+          const existingItem = state.items.find((item) => item.id === product.id);
+
+          if (existingItem) {
+            return {
+              items: state.items.map((item) =>
+                item.id === product.id
+                  ? { ...product, quantity: cartItem.quantity }
+                  : item
+              ),
+            };
+          }
+
+          return {
+            items: [...state.items, { ...product, quantity: cartItem.quantity }],
+          };
+        }),
     }),
     { name: "shopping-cart" }
   )

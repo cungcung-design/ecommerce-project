@@ -1,13 +1,21 @@
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
+import { useCategories } from "../hooks/useCategories";
 import ProductCard from "../components/cards/ProductCard";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Products() {
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState("");
   const [page, setPage] = useState(1);
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categoryParam = searchParams.get("category");
+  const categoryIdParam = searchParams.get("categoryId");
+  const categoryId = categoryIdParam && !isNaN(Number(categoryIdParam))
+    ? Number(categoryIdParam)
+    : (categoryParam && !isNaN(Number(categoryParam)) ? Number(categoryParam) : undefined);
 
   const {
     data,
@@ -16,10 +24,30 @@ function Products() {
     error,
   } = useProducts({
     search,
-    category,
+    categoryId,
     page,
     limit: 12,
   });
+
+  const { data: categories = [] } = useCategories();
+
+  const selectedCategory = categories.find((c) => c.id === categoryId);
+
+  const handleCategoryChange = (id) => {
+    if (id) {
+      searchParams.set("category", String(id));
+    } else {
+      searchParams.delete("category");
+    }
+    setSearchParams(searchParams);
+    setPage(1);
+  };
+
+  const clearCategory = () => {
+    searchParams.delete("category");
+    setSearchParams(searchParams);
+    setPage(1);
+  };
 
   if (isLoading) {
     return <Loading />;
@@ -39,10 +67,21 @@ function Products() {
   const products = data?.products || [];
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">
-        Products
-      </h1>
+    <div className="mx-auto max-w-7xl px-4">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">
+          {selectedCategory ? selectedCategory.name : "Products"}
+        </h1>
+
+        {selectedCategory && (
+          <button
+            onClick={clearCategory}
+            className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+          >
+            Clear Filter
+          </button>
+        )}
+      </div>
 
       {/* Search */}
       <div className="mt-6">
@@ -58,13 +97,13 @@ function Products() {
         />
       </div>
 
-      {/* Category */}
+      {/* Category Filter */}
       <div className="mt-4">
         <select
-          value={category}
+          value={selectedCategory ? selectedCategory.id : ""}
           onChange={(event) => {
-            setCategory(event.target.value);
-            setPage(1);
+            const value = event.target.value;
+            handleCategoryChange(value ? Number(value) : undefined);
           }}
           className="rounded-lg border p-3"
         >
@@ -72,17 +111,11 @@ function Products() {
             All Categories
           </option>
 
-          <option value="electronics">
-            Electronics
-          </option>
-
-          <option value="clothing">
-            Clothing
-          </option>
-
-          <option value="books">
-            Books
-          </option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
         </select>
       </div>
 
@@ -95,6 +128,12 @@ function Products() {
           />
         ))}
       </div>
+
+      {products.length === 0 && (
+        <div className="mt-8 text-center text-gray-500">
+          No products found.
+        </div>
+      )}
 
       {/* Pagination */}
       <div className="mt-8 flex justify-center gap-4">

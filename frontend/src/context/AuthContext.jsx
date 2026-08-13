@@ -6,6 +6,7 @@ import {
 } from "react";
 
 import api from "../services/api";
+import { queryClient } from "../lib/queryClient";
 
 const AuthContext = createContext(null);
 
@@ -82,10 +83,12 @@ export function AuthProvider({ children }) {
     } catch (error) {
       // Ignore logout errors
     }
-    
+
     localStorage.removeItem("token");
     localStorage.removeItem("refreshToken");
     setUser(null);
+
+    queryClient.removeQueries({ queryKey: ["cart"] });
   };
 
   return (

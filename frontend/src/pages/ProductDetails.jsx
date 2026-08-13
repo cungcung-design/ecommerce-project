@@ -34,7 +34,8 @@ function ProductDetails() {
   };
 
   return (
-    <div className="grid gap-10 md:grid-cols-2">
+    <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="grid gap-10 md:grid-cols-2">
       <div>
         {product.imageUrl && (
           <img
@@ -97,8 +98,9 @@ function ProductDetails() {
           </Link>
         </div>
       </div>
-    </div>
-  );
+      </div>
+      </div>
+    );
 }
 
 export default ProductDetails;

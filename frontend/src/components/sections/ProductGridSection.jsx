@@ -3,7 +3,7 @@ import ProductCard from "../cards/ProductCard";
 function ProductGridSection({ title, actionText, products, viewAllLink = "/products" }) {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-16">
+      <div className=" px-4 py-16">
         <div className="flex items-center justify-between">
           <h2 className="text-3xl font-bold text-gray-900">
             {title}

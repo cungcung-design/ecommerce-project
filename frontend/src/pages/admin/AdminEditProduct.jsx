@@ -97,16 +97,16 @@ function AdminEditProduct() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl">
-      <h1 className="text-3xl font-bold text-slate-900">Edit Product</h1>
+    <div className="mx-auto max-w-xl">
+      <h1 className="text-2xl font-bold text-slate-900">Edit Product</h1>
 
       {error && (
-        <div className="mt-6 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
+        <div className="mt-4 rounded-lg border border-red-200 bg-red-50 p-4 text-red-600">
           {error}
         </div>
       )}
 
-      <div className="mt-8">
+      <div className="mt-6">
         <AdminProductForm
           defaultValues={form}
           initialImageUrl={initialImageUrl}
@@ -116,11 +116,11 @@ function AdminEditProduct() {
         />
       </div>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <button
           type="button"
           onClick={() => navigate("/admin/products")}
-          className="rounded-lg border border-slate-300 px-6 py-3 text-slate-700 hover:bg-slate-50"
+          className="rounded-lg border border-slate-300 px-4 py-2 text-sm text-slate-700 hover:bg-slate-50"
         >
           Back to Products
         </button>

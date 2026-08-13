@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 
 import {
-  QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 
@@ -11,7 +10,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 
 import "./index.css";
 
-const queryClient = new QueryClient();
+import { queryClient } from "./lib/queryClient";
 
 ReactDOM.createRoot(
   document.getElementById("root")

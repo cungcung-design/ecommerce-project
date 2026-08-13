@@ -40,7 +40,7 @@ const features = [
 function FeaturesSection() {
   return (
     <section className="bg-white">
-      <div className="mx-auto max-w-7xl px-4 py-12">
+      <div className=" px-4 py-12">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <div key={index} className="flex items-start gap-4 rounded-2xl border border-gray-100 p-6 shadow-sm transition-shadow hover:shadow-md">

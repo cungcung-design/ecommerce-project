@@ -1,12 +1,39 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useCartStore } from "../../store/cartStore";
+import { useAddToCart } from "../../hooks/useCart";
 
 function ProductCard({ product }) {
-  const addToCart = useCartStore((state) => state.addToCart);
+  const addToCartMutation = useAddToCart();
+  const [added, setAdded] = useState(false);
+  const [error, setError] = useState(null);
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
   const productImage = product.imageUrl || product.image || "";
+
+  const handleQuickAdd = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (addToCartMutation.isPending) return;
+    if (product.stock === 0) return;
+
+    setError(null);
+    addToCartMutation.mutate(
+      { productId: product.id, quantity: 1 },
+      {
+        onSuccess: () => {
+          setAdded(true);
+          setTimeout(() => setAdded(false), 1500);
+        },
+        onError: (err) => {
+          const message = err.response?.data?.message || "Failed to add to cart";
+          setError(message);
+          setTimeout(() => setError(null), 3000);
+        },
+      }
+    );
+  };
 
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
@@ -82,15 +109,25 @@ function ProductCard({ product }) {
         </div>
 
         <button
-          onClick={() => addToCart(product)}
-          disabled={product.stock === 0}
+          onClick={handleQuickAdd}
+          disabled={product.stock === 0 || addToCartMutation.isPending}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-gray-900 hover:text-gray-900 disabled:opacity-40"
         >
           <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
           </svg>
-          {product.stock === 0 ? "Out of Stock" : "Quick Add"}
+          {addToCartMutation.isPending
+            ? "Adding..."
+            : added
+              ? "Added to Cart ✓"
+              : product.stock === 0
+                ? "Out of Stock"
+                : "Quick Add"}
         </button>
+
+        {error && (
+          <p className="mt-2 text-xs text-red-500">{error}</p>
+        )}
       </div>
     </div>
   );
