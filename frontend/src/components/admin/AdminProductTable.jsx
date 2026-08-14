@@ -5,36 +5,44 @@ import AdminStockStatus
   from "./AdminStockStatus";
 
 import { useDeleteProduct, useUpdateProductStatus } from "../../hooks/useAdminProducts";
+import useNotification from "../../hooks/useNotification";
 
 function AdminProductTable({ products, pagination, page, setPage }) {
   const deleteProduct = useDeleteProduct();
   const toggleStatus = useUpdateProductStatus();
   const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const { confirm } = useNotification();
 
   const totalPages = pagination?.totalPages || 1;
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Delete this product permanently? This cannot be undone."
-    );
+    confirm({
+      title: "Delete Product",
+      message: "Delete this product permanently? This cannot be undone.",
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      variant: "danger",
+    }).then((confirmed) => {
+      if (!confirmed) {
+        return;
+      }
 
-    if (!confirmed) {
-      return;
-    }
+      setError(null);
+      setDeletingId(id);
 
-    setError(null);
-    setDeletingId(id);
-
-    try {
-      await deleteProduct.mutateAsync(id);
-    } catch (err) {
-      setError(
-        err?.response?.data?.message || "Failed to delete product. Please try again."
-      );
-    } finally {
-      setDeletingId(null);
-    }
+      deleteProduct.mutate(id, {
+        onSuccess: () => {
+          setDeletingId(null);
+        },
+        onError: (err) => {
+          setError(
+            err?.response?.data?.message || "Failed to delete product. Please try again."
+          );
+          setDeletingId(null);
+        },
+      });
+    });
   };
 
   const handleToggleStatus = async (product) => {

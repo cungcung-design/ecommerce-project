@@ -49,10 +49,10 @@ function CountdownTimer() {
         { label: "Secs", value: timeLeft.seconds },
       ].map((item) => (
         <div key={item.label} className="text-center">
-          <div className="rounded-lg bg-white/20 px-3 py-2 backdrop-blur-sm">
+          <div className="rounded-lg bg-white/25 px-3 py-2 backdrop-blur-md border border-white/20 shadow-inner">
             <span className="text-xl font-bold text-white">{pad(item.value)}</span>
           </div>
-          <span className="mt-1 block text-xs text-white/80">{item.label}</span>
+          <span className="mt-1 block text-xs font-medium text-white/90">{item.label}</span>
         </div>
       ))}
     </div>
@@ -62,9 +62,13 @@ function CountdownTimer() {
 function PromoBannerSection() {
   return (
     <section className="bg-white">
-      <div className=" px-4 py-16">
+      <div className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-red-500 to-red-600 p-8 lg:p-12">
+          
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-8 lg:p-12 shadow-xl shadow-orange-500/10 group">
+            {/* Subtle background glow effect */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none" />
+
             <div className="relative z-10">
               <span className="text-sm font-semibold uppercase tracking-wider text-white/90">
                 {promoData.flashSale.tag}
@@ -86,16 +90,16 @@ function PromoBannerSection() {
               </Link>
             </div>
 
-            <div className="absolute -bottom-10 -right-10 z-0 hidden lg:block">
+            <div className="absolute -bottom-10 -right-10 z-0 hidden lg:block pointer-events-none transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6">
               <img
                 src={promoData.flashSale.productImage}
                 alt="Flash sale product"
-                className="h-64 w-64 rotate-12 transform object-contain drop-shadow-2xl"
+                className="h-64 w-64 rotate-12 transform object-contain drop-shadow-[0_20px_20px_rgba(0,0,0,0.25)]"
               />
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl bg-gray-900">
+          <div className="relative overflow-hidden rounded-3xl bg-gray-900 shadow-xl group">
             <div className="absolute inset-0">
               <img
                 src={promoData.collection.backgroundImage}

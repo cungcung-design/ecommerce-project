@@ -15,11 +15,13 @@ import {
   useUpdateAdminCategory,
   useUpdateAdminCategoryStatus,
 } from "../../hooks/useAdminCategories";
+import useNotification from "../../hooks/useNotification";
 
 function AdminCategoryPage() {
   const [search, setSearch] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
   const [error, setError] = useState("");
+  const { notify, confirm } = useNotification();
 
   const { data: categories = [], isLoading, isError } = useAdminCategories();
   const createCategory = useCreateAdminCategory();
@@ -58,24 +60,35 @@ function AdminCategoryPage() {
   const handleToggleStatus = (category) => {
     setError("");
     const nextStatus = !category.isActive;
-    const confirmed = window.confirm(`${nextStatus ? "Activate" : "Deactivate"} this category?`);
-
-    if (confirmed) {
-      updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
-        onError: (err) => setError(err.response?.data?.message || "Failed to update status"),
-      });
-    }
+    confirm({
+      title: "Confirm Status Change",
+      message: `${nextStatus ? "Activate" : "Deactivate"} this category?`,
+      confirmText: nextStatus ? "Activate" : "Deactivate",
+      cancelText: "Cancel",
+    }).then((confirmed) => {
+      if (confirmed) {
+        updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
+          onError: (err) => setError(err.response?.data?.message || "Failed to update status"),
+        });
+      }
+    });
   };
 
   const handleDelete = (category) => {
     setError("");
-    const confirmed = window.confirm(`Delete category "${category.name}"?`);
-
-    if (confirmed) {
-      deleteCategory.mutate(category.id, {
-        onError: (err) => setError(err.response?.data?.message || "Failed to delete category"),
-      });
-    }
+    confirm({
+      title: "Delete Category",
+      message: `Delete category "${category.name}"?`,
+      confirmText: "Delete",
+      cancelText: "Cancel",
+      variant: "danger",
+    }).then((confirmed) => {
+      if (confirmed) {
+        deleteCategory.mutate(category.id, {
+          onError: (err) => setError(err.response?.data?.message || "Failed to delete category"),
+        });
+      }
+    });
   };
 
   return (

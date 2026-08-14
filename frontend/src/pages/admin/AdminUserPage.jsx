@@ -8,10 +8,12 @@ import {
   useUpdateAdminUserRole,
   useUpdateAdminUserStatus,
 } from "../../hooks/useAdminUsers";
+import useNotification from "../../hooks/useNotification";
 
 function AdminUserPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { user: currentUser } = useAuth();
+  const { notify, confirm } = useNotification();
 
   const {
     data: users = [],
@@ -24,24 +26,28 @@ function AdminUserPage() {
 
   const handleStatusToggle = (user) => {
     if (user.id === currentUser?.id) {
-      window.alert("You cannot deactivate your own account.");
+      notify({ variant: "warning", message: "You cannot deactivate your own account." });
       return;
     }
 
     const nextStatus = !user.isActive;
 
-    const confirmed = window.confirm(
-      `${nextStatus ? "Activate" : "Deactivate"} this user?`
-    );
-
-    if (!confirmed) return;
-
-    updateStatus.mutate({ id: user.id, isActive: nextStatus });
+    confirm({
+      title: "Confirm Status Change",
+      message: `${nextStatus ? "Activate" : "Deactivate"} this user?`,
+      confirmText: nextStatus ? "Activate" : "Deactivate",
+      cancelText: "Cancel",
+      variant: "default",
+    }).then((confirmed) => {
+      if (confirmed) {
+        updateStatus.mutate({ id: user.id, isActive: nextStatus });
+      }
+    });
   };
 
   const handleRoleChange = (user, role) => {
     if (user.id === currentUser?.id && role !== "ADMIN") {
-      window.alert("You cannot change your own role to Customer.");
+      notify({ variant: "warning", message: "You cannot change your own role to Customer." });
       return;
     }
 

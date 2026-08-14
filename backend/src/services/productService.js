@@ -1,7 +1,7 @@
 import prisma from "../lib/prisma.js";
 import cloudinary from "../config/cloudinary.js";
 
-export const getProducts = async ({ search, category, categoryId, page, limit, includeInactive, isActive }) => {
+export const getProducts = async ({ search, category, categoryId, page, limit, includeInactive, isActive, sort }) => {
   const currentPage = Number(page) || 1;
   const pageSize = Number(limit) || 12;
   const skip = (currentPage - 1) * pageSize;
@@ -29,13 +29,25 @@ export const getProducts = async ({ search, category, categoryId, page, limit, i
     where.categoryId = Number(categoryId);
   }
 
+  const orderBy = { createdAt: "desc" };
+
+  if (sort === "newest") {
+    orderBy.createdAt = "desc";
+  } else if (sort === "best-selling") {
+    orderBy.id = "desc";
+  } else if (sort === "price-asc") {
+    orderBy.price = "asc";
+  } else if (sort === "price-desc") {
+    orderBy.price = "desc";
+  }
+
   const [products, total] = await Promise.all([
     prisma.product.findMany({
       where,
       include: { category: true },
       skip,
       take: pageSize,
-      orderBy: { createdAt: "desc" },
+      orderBy,
     }),
     prisma.product.count({ where }),
   ]);

@@ -53,12 +53,10 @@ export function useCancelOrder() {
     },
 
     onSuccess: (data, orderId) => {
-      queryClient.invalidateQueries({
-        queryKey: ["orders"],
-      });
+      queryClient.setQueryData(["order", orderId], data);
 
       queryClient.invalidateQueries({
-        queryKey: ["order", orderId],
+        queryKey: ["orders"],
       });
 
       queryClient.invalidateQueries({

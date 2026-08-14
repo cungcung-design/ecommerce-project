@@ -151,7 +151,7 @@ export const cancelOrder = async (userId, orderId) => {
 
   return prisma.order.update({
     where: { id: Number(orderId) },
-    data: { status: "CANCELLED" },
+    data: { status: "CANCELLED", cancelledAt: new Date() },
     include: {
       items: {
         include: {

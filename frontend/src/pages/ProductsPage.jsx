@@ -16,6 +16,8 @@ function Products() {
   const categoryId = categoryIdParam && !isNaN(Number(categoryIdParam))
     ? Number(categoryIdParam)
     : (categoryParam && !isNaN(Number(categoryParam)) ? Number(categoryParam) : undefined);
+  const sort = searchParams.get("sort");
+  const isNewArrivals = sort === "newest";
 
   const {
     data,
@@ -27,6 +29,7 @@ function Products() {
     categoryId,
     page,
     limit: 12,
+    sort,
   });
 
   const { data: categories = [] } = useCategories();
@@ -67,8 +70,8 @@ function Products() {
   const products = data?.products || [];
 
   return (
-    <div className="mx-auto max-w-7xl px-4">
-      <div className="flex items-center justify-between">
+    <div className="w-full px-6 lg:px-10 xl:px-12">
+      <div className="flex items-center justify-between mt-8">
         <h1 className="text-3xl font-bold">
           {selectedCategory ? selectedCategory.name : "Products"}
         </h1>
@@ -120,7 +123,7 @@ function Products() {
       </div>
 
       {/* Products */}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6">
         {products.map((product) => (
           <ProductCard
             key={product.id}
@@ -131,7 +134,7 @@ function Products() {
 
       {products.length === 0 && (
         <div className="mt-8 text-center text-gray-500">
-          No products found.
+          {isNewArrivals ? "No new arrivals right now." : "No products found."}
         </div>
       )}
 

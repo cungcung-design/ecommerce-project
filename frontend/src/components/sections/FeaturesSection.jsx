@@ -1,56 +1,72 @@
+import { Truck, ShieldCheck, RefreshCw, Headphones } from "lucide-react";
+
 const features = [
   {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
+    icon: Truck,
     title: "Free Shipping",
     description: "On orders over $50",
+    gradient: "from-orange-500/10 to-amber-500/10",
+    iconColor: "text-orange-600",
+    borderColor: "hover:border-orange-200",
   },
   {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-      </svg>
-    ),
+    icon: ShieldCheck,
     title: "Secure Payments",
     description: "100% secure checkout",
+    gradient: "from-orange-500/10 to-amber-500/10",
+    iconColor: "text-orange-600",
+    borderColor: "hover:border-orange-200",
   },
   {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    ),
+    icon: RefreshCw,
     title: "Easy Returns",
     description: "30-day return policy",
+    gradient: "from-orange-500/10 to-amber-500/10",
+    iconColor: "text-orange-600",
+    borderColor: "hover:border-orange-200",
   },
   {
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" />
-      </svg>
-    ),
+    icon: Headphones,
     title: "24/7 Support",
     description: "Always here to help",
+    gradient: "from-orange-500/10 to-amber-500/10",
+    iconColor: "text-orange-600",
+    borderColor: "hover:border-orange-200",
   },
 ];
 
 function FeaturesSection() {
   return (
-    <section className="bg-white">
-      <div className=" px-4 py-12">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-start gap-4 rounded-2xl border border-gray-100 p-6 shadow-sm transition-shadow hover:shadow-md">
-              <div className="flex-shrink-0">{feature.icon}</div>
-              <div>
-                <h3 className="text-sm font-semibold text-gray-900">{feature.title}</h3>
-                <p className="mt-1 text-sm text-gray-500">{feature.description}</p>
+    <section className="bg-gradient-to-b from-white via-slate-50/50 to-white py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {features.map((feature, index) => {
+            const IconComponent = feature.icon;
+            return (
+              <div
+                key={index}
+                className={`group relative overflow-hidden flex items-start gap-4 rounded-3xl border border-slate-200/80 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-orange-500/5 ${feature.borderColor}`}
+              >
+                {/* Subtle background glow on hover */}
+                <div className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${feature.gradient} opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100`} />
+
+                <div className="relative flex-shrink-0">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-orange-50 text-orange-600 ring-4 ring-orange-50/50 transition-transform duration-300 group-hover:scale-110 group-hover:bg-orange-600 group-hover:text-white shadow-sm">
+                    <IconComponent className="h-6 w-6 transition-colors duration-300" />
+                  </div>
+                </div>
+
+                <div className="relative z-10">
+                  <h3 className="text-base font-bold text-slate-900 tracking-tight transition-colors duration-300 group-hover:text-orange-600">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-1 text-xs font-medium text-slate-500 leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

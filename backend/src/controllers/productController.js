@@ -29,6 +29,7 @@ export const getProducts = async (req, res, next) => {
       limit: req.query.limit,
       includeInactive,
       isActive: req.query.isActive,
+      sort: req.query.sort,
     });
 
     res.json({
