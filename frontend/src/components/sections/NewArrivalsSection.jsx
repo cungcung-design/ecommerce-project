@@ -9,36 +9,36 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
   const featuredImage = featured.imageUrl || featured.image || "";
 
   return (
-    <section id={id} className="bg-stone-50 py-16 sm:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id={id} className="bg-stone-50 py-10 sm:py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 sm:mb-14">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8">
           <div>
-            <span className="text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
+            <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
               New Arrivals
             </span>
-            <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-gray-900 tracking-tight">
+            <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
               New Arrivals
             </h2>
-            <p className="mt-2 text-base text-gray-500">
+            <p className="mt-1 text-sm text-gray-500">
               Discover our latest collection
             </p>
           </div>
           <Link
             to={viewAllLink}
-            className="text-sm font-semibold text-gray-900 hover:text-orange-600 transition-colors"
+            className="text-xs font-semibold text-gray-900 hover:text-orange-600 transition-colors"
           >
             VIEW ALL →
           </Link>
         </div>
 
-        {/* Main Layout - Adjusted to 6/6 split to make the left side smaller */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        {/* Main Layout */}
+        <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
           
-          {/* Featured Product (Reduced width: lg:col-span-6 instead of 7) */}
+          {/* Featured Product */}
           <div className="lg:col-span-6">
             <Link to={`/products/${featured.id}`} className="group block">
-              <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none overflow-hidden bg-gray-100">
+              <div className="relative aspect-[4/3] sm:aspect-[4/4] max-w-sm mx-auto lg:max-w-none overflow-hidden bg-gray-100 rounded-sm">
                 {featuredImage ? (
                   <img
                     src={featuredImage}
@@ -46,31 +46,31 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
                     className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
                   />
                 ) : (
-                  <div className="flex h-full w-full items-center justify-center text-gray-400 text-sm">
+                  <div className="flex h-full w-full items-center justify-center text-gray-400 text-xs">
                     No Image
                   </div>
                 )}
               </div>
-              <div className="mt-6 text-center lg:text-left">
-                <p className="text-xs font-semibold uppercase tracking-widest text-orange-600">
+              <div className="mt-4 text-center lg:text-left">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-orange-600">
                   {featured.category?.name || "New Arrival"}
                 </p>
-                <h3 className="mt-2 text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
+                <h3 className="mt-1 text-lg sm:text-xl font-bold text-gray-900 tracking-tight">
                   {featured.name}
                 </h3>
-                <p className="mt-2 text-base font-semibold text-gray-900">
+                <p className="mt-1 text-sm font-semibold text-gray-900">
                   ${featured.price}
                 </p>
-                <span className="mt-3 inline-flex items-center text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
+                <span className="mt-2 inline-flex items-center text-xs font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
                   Explore Product →
                 </span>
               </div>
             </Link>
           </div>
 
-          {/* 4 Small Products (Increased width: lg:col-span-6 instead of 5) */}
+          {/* 4 Small Products */}
           <div className="lg:col-span-6">
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               {remaining.map((product) => {
                 const image = product.imageUrl || product.image || "";
                 const badge = product.badge || product.discount;
@@ -81,7 +81,7 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
                     to={`/products/${product.id}`}
                     className="group block"
                   >
-                    <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
+                    <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 rounded-sm">
                       {image ? (
                         <img
                           src={image}
@@ -94,19 +94,19 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
                         </div>
                       )}
                       {badge && (
-                        <span className="absolute left-2 top-2 rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-bold text-white">
+                        <span className="absolute left-2 top-2 rounded-full bg-gray-900 px-2 py-0.5 text-[9px] font-bold text-white">
                           {badge}
                         </span>
                       )}
                     </div>
-                    <div className="mt-2.5">
-                      <p className="text-xs text-gray-500">
+                    <div className="mt-2">
+                      <p className="text-[11px] text-gray-500">
                         {product.category?.name}
                       </p>
-                      <h3 className="mt-0.5 text-sm font-semibold text-gray-900 line-clamp-1">
+                      <h3 className="mt-0.5 text-xs sm:text-sm font-semibold text-gray-900 line-clamp-1">
                         {product.name}
                       </h3>
-                      <p className="mt-1 text-sm font-semibold text-gray-900">
+                      <p className="mt-0.5 text-xs sm:text-sm font-semibold text-gray-900">
                         ${product.price}
                       </p>
                     </div>
