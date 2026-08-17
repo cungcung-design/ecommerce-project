@@ -20,6 +20,13 @@ function Home() {
           el.scrollIntoView({ behavior: "smooth", block: "start" });
         }, 0);
       }
+    } else if (hash === "#best-sellers") {
+      const el = document.getElementById("best-sellers");
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 0);
+      }
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -37,7 +44,9 @@ function Home() {
         viewAllLink="/products?sort=newest"
       />
 
-      <BestSellersSection />
+      <div id="best-sellers">
+        <BestSellersSection />
+      </div>
 
       <PromoBannerSection />
     </div>

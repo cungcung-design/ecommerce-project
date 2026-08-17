@@ -66,7 +66,7 @@ function Navbar() {
   const isHomeActive = pathname === "/" && hash !== "#new-arrivals";
   const isShopActive = pathname === "/products" && !sort && !category;
   const isNewArrivalsActive = hash === "#new-arrivals" || sort === "newest";
-  const isBestSellersActive = sort === "best-selling";
+  const isBestSellersActive = hash === "#best-sellers" || sort === "best-selling";
   const isCategoriesActive = Boolean(category) || pathname === "/categories";
 
   const getNavLinkClass = (isActive) =>
@@ -102,7 +102,7 @@ function Navbar() {
           <NavLink to="/#new-arrivals" className={`${getNavLinkClass(isNewArrivalsActive)} ${isNewArrivalsActive ? underlineClass : ""}`}>
             New Arrivals
           </NavLink>
-          <NavLink to="/products?sort=best-selling" className={`${getNavLinkClass(isBestSellersActive)} ${isBestSellersActive ? underlineClass : ""}`}>
+          <NavLink to="/#best-sellers" className={`${getNavLinkClass(isBestSellersActive)} ${isBestSellersActive ? underlineClass : ""}`}>
             Best Sellers
           </NavLink>
           <NavLink to="/categories" className={`${getNavLinkClass(isCategoriesActive)} ${isCategoriesActive ? underlineClass : ""}`}>
@@ -236,7 +236,7 @@ function Navbar() {
             <NavLink to="/" end className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isHomeActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Home</NavLink>
             <NavLink to="/products" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isShopActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Shop</NavLink>
             <NavLink to="/#new-arrivals" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isNewArrivalsActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>New Arrivals</NavLink>
-            <NavLink to="/products?sort=best-selling" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isBestSellersActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Best Sellers</NavLink>
+            <NavLink to="/#best-sellers" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isBestSellersActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Best Sellers</NavLink>
             <NavLink to="/categories" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isCategoriesActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Categories</NavLink>
           </div>
 
