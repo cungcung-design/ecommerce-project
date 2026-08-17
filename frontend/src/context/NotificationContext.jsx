@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
 
-import { ToastContainer } from "../components/notifications/ToastContainer.jsx";
-import { ConfirmDialog } from "../components/notifications/ConfirmDialog.jsx";
+import { ToastContainer } from "../components/notifications/ToastContainer";
+import { ConfirmDialog } from "../components/notifications/ConfirmDialog";
 
 const NotificationContext = createContext(null);
 
