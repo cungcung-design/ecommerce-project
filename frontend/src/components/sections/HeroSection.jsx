@@ -16,7 +16,7 @@ const slidesData = [
       {
         name: "Smart Watch",
         price: "$199.99",
-        image: "https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=100&h=100&fit=crop",
+        image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop",
         position: "top-2 right-2 lg:-top-4 lg:-right-6",
       },
       {
@@ -62,7 +62,7 @@ const slidesData = [
       {
         name: "Sunglasses",
         price: "$49.99",
-        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=100&h=100&fit=crop",
+        image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=100&h=100&fit=crop",
         position: "top-8 right-6 lg:top-10 lg:-right-4",
       },
       {
