@@ -1,6 +1,6 @@
 import Toast from "./Toast";
 
-function ToastContainer({ toasts, removeToast }) {
+export function ToastContainer({ toasts, removeToast }) {
   return (
     <div
       className="fixed top-4 left-4 right-4 z-[9999] flex flex-col gap-3 sm:left-auto sm:right-4 sm:max-w-md"
@@ -17,5 +17,3 @@ function ToastContainer({ toasts, removeToast }) {
     </div>
   );
 }
-
-export default ToastContainer;

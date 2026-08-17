@@ -11,25 +11,25 @@ const slidesData = [
         name: "Air Max 270",
         price: "$129.99",
         image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop",
-        position: "top-4 left-10 lg:-top-6 lg:left-20",
+        position: "top-2 left-2 lg:-top-4 lg:-left-6",
       },
       {
         name: "Smart Watch",
         price: "$199.99",
-        image: "https://i.pinimg.com/736x/e8/9f/d4/e89fd4a025aea0ffcce91d0c71bf2dbc.jpg",
-        position: "top-10 right-4 lg:top-8 lg:right-16",
+        image: "https://images.unsplash.com/photo-1546868871-af0de0ae72be?w=100&h=100&fit=crop",
+        position: "top-2 right-2 lg:-top-4 lg:-right-6",
       },
       {
         name: "Wireless Headphones",
         price: "$99.99",
-        image: "https://i.pinimg.com/736x/ce/43/99/ce4399b687015e608178b2d7f03da0ac.jpg",
-        position: "top-1/2 -left-6 lg:left-4 -translate-y-1/2",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
+        position: "top-1/2 -left-8 lg:left-2 -translate-y-1/2",
       },
       {
         name: "Water Bottle",
         price: "$24.99",
-        image: "https://i.pinimg.com/1200x/36/f7/2d/36f72df19cd9b9561cebb75991e62221.jpg",
-        position: "bottom-12 right-4 lg:bottom-16 lg:right-12",
+        image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=100&h=100&fit=crop",
+        position: "bottom-8 right-2 lg:bottom-10 lg:-right-6",
       },
     ],
   },
@@ -43,13 +43,13 @@ const slidesData = [
         name: "Denim Jacket",
         price: "$89.99",
         image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=100&h=100&fit=crop",
-        position: "top-6 left-6 lg:top-4 lg:left-12",
+        position: "top-6 left-6 lg:top-4 lg:-left-4",
       },
       {
         name: "Leather Tote",
         price: "$149.99",
         image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop",
-        position: "bottom-10 right-6 lg:bottom-12 lg:right-10",
+        position: "bottom-10 right-6 lg:bottom-12 lg:-right-4",
       },
     ],
   },
@@ -63,13 +63,13 @@ const slidesData = [
         name: "Sunglasses",
         price: "$49.99",
         image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=100&h=100&fit=crop",
-        position: "top-8 right-6 lg:top-10 lg:right-16",
+        position: "top-8 right-6 lg:top-10 lg:-right-4",
       },
       {
         name: "Sun Hat",
         price: "$34.99",
         image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=100&h=100&fit=crop",
-        position: "bottom-16 left-6 lg:bottom-20 lg:left-12",
+        position: "bottom-16 left-6 lg:bottom-20 lg:-left-4",
       },
     ],
   },
@@ -87,31 +87,19 @@ function HeroSection() {
     setActiveSlide((prev) => (prev - 1 + slidesData.length) % slidesData.length);
   };
 
-  // Auto-play time interval (changes slide every 5000ms / 5 seconds)
   useEffect(() => {
     const interval = setInterval(() => {
       handleNextSlide();
     }, 7000);
 
-    // Cleanup interval on component unmount
     return () => clearInterval(interval);
   }, []);
-
-  const handleWheel = (e) => {
-    e.preventDefault();
-    if (e.deltaX > 20 || e.deltaY > 20) {
-      handleNextSlide();
-    } else if (e.deltaX < -20 || e.deltaY < -20) {
-      handlePrevSlide();
-    }
-  };
 
   return (
     <section className="relative overflow-hidden bg-white">
       <div className="px-4 pt-4 pb-12 lg:pt-8 lg:py-20">
         <div className="grid items-center gap-12 lg:grid-cols-12">
           
-          {/* Left Column: Text & CTAs */}
           <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
             <span className="inline-block text-xs font-bold uppercase tracking-widest text-orange-600">
               {current.category}
@@ -135,7 +123,6 @@ function HeroSection() {
               </button>
             </div>
 
-            {/* Social Proof */}
             <div className="mt-10 flex items-center gap-4">
               <div className="flex -space-x-3">
                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="Customer" className="h-10 w-10 rounded-full border-2 border-white object-cover" />
@@ -150,24 +137,19 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Right Column: Visual Graphic & Floating Cards */}
           <div 
             onClick={handleNextSlide}
-            onWheel={handleWheel}
             className="relative flex justify-center items-center py-6 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
-            title="Click to view next slide, or scroll left/right"
+            title="Click to view next slide"
           >
-            {/* Red Organic Background Blob Shape */}
             <div className="absolute h-[420px] w-[90%] max-w-lg rounded-[3rem] bg-gradient-to-tr from-red-500 to-orange-500 shadow-2xl rotate-3 transition-transform duration-500 group-hover:scale-105" />
 
-            {/* Main Model Image */}
             <img
               src={current.image}
               alt="Fashion model"
               className="relative z-10 h-[480px] w-full max-w-md rounded-[2.5rem] object-cover object-top shadow-lg transition-transform duration-500 group-hover:scale-[1.02]"
             />
 
-            {/* Floating Product Cards mapped from active slide */}
             {current.floatingProducts.map((product, index) => (
               <div
                 key={index}
@@ -184,7 +166,6 @@ function HeroSection() {
 
         </div>
 
-        {/* Carousel Indicators */}
         <div className="mt-8 flex justify-center gap-2">
           {slidesData.map((_, index) => (
             <button

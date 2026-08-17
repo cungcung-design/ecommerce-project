@@ -106,9 +106,9 @@ function CheckoutPage() {
   }
 
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6 py-8 sm:py-12 space-y-8">
+    <div className="mx-auto max-w-2xl px-4 sm:px-6 py-6 sm:py-8 space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-100 pb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-slate-100 pb-4">
         <div className="space-y-1">
           <Link
             to="/cart"
@@ -116,24 +116,24 @@ function CheckoutPage() {
           >
             <ArrowLeft className="w-3.5 h-3.5" /> Back to Cart
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Checkout</h1>
+          <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Checkout</h1>
         </div>
-        <div className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-50 border border-slate-200/80 text-xs font-bold text-slate-600">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200/80 text-xs font-bold text-slate-600">
           <Lock className="w-3.5 h-3.5 text-orange-600" /> Secure 256-Bit Encryption
         </div>
       </div>
 
       {/* Error Banners */}
       {error && (
-        <div className="flex items-start gap-3 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
-          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
+        <div className="flex items-start gap-3 rounded-xl bg-rose-50 border border-rose-100 p-3.5 text-rose-700 shadow-sm">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
           <p className="text-sm font-medium">{error}</p>
         </div>
       )}
 
       {createPaymentSession.isError && (
-        <div className="flex items-start gap-3 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
-          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
+        <div className="flex items-start gap-3 rounded-xl bg-rose-50 border border-rose-100 p-3.5 text-rose-700 shadow-sm">
+          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
           <p className="text-sm font-medium">
             {createPaymentSession.error?.response?.data?.message ||
               createPaymentSession.error?.message ||
@@ -143,9 +143,9 @@ function CheckoutPage() {
       )}
 
       {/* Main Grid Layout */}
-      <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+      <div className="grid gap-6 lg:grid-cols-12 lg:items-start">
         <div className="lg:col-span-7">
-          <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-sm">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-sm">
             <CheckoutForm
               onSubmit={handleSubmit}
               onPaymentMethodChange={setPaymentMethod}
@@ -155,7 +155,7 @@ function CheckoutPage() {
         </div>
 
         <div className="lg:col-span-5">
-          <div className="sticky top-24 rounded-3xl border border-slate-200/80 bg-slate-50/50 p-6 sm:p-8 shadow-sm">
+          <div className="sticky top-24 rounded-2xl border border-slate-200/80 bg-slate-50/50 p-5 sm:p-6 shadow-sm">
             <CheckoutSummary
               items={items}
               subtotal={subtotal}
@@ -168,7 +168,7 @@ function CheckoutPage() {
       </div>
 
       {/* Footer Security Note */}
-      <div className="flex items-center justify-center gap-2 pt-4 text-xs text-slate-400 font-medium text-center">
+      <div className="flex items-center justify-center gap-2 pt-3 text-xs text-slate-400 font-medium text-center">
         <ShieldCheck className="w-4 h-4 text-orange-600" />
         <span>Prices are verified server-side. You will only be charged the confirmed order total.</span>
       </div>

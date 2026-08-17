@@ -6,17 +6,17 @@ function CheckoutSummary({ items, subtotal, shipping, total, paymentMethod }) {
     : null;
 
   return (
-    <div className="h-fit rounded-xl border bg-white p-6">
-      <h2 className="text-xl font-semibold">Order Summary</h2>
+    <div className="h-fit rounded-xl border bg-white p-5">
+      <h2 className="text-lg font-semibold">Order Summary</h2>
 
       {methodLabel && (
-        <p className="mt-1 text-sm text-gray-600">
+        <p className="mt-0.5 text-xs text-gray-600">
           Payment:{" "}
           <span className="font-medium">{methodLabel}</span>
         </p>
       )}
 
-      <div className="mt-6 space-y-4">
+      <div className="mt-4 space-y-3">
         {items.map((item) => (
           <div
             key={item.productId}
@@ -40,19 +40,19 @@ function CheckoutSummary({ items, subtotal, shipping, total, paymentMethod }) {
         ))}
       </div>
 
-      <div className="mt-6 space-y-3">
-        <div className="flex justify-between">
+      <div className="mt-4 space-y-2">
+        <div className="flex justify-between text-sm">
           <span>Subtotal</span>
           <span>${subtotal.toFixed(2)}</span>
         </div>
 
-        <div className="flex justify-between">
+        <div className="flex justify-between text-sm">
           <span>Shipping</span>
           <span>{shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`}</span>
         </div>
 
-        <div className="border-t pt-4">
-          <div className="flex justify-between text-lg font-bold">
+        <div className="border-t pt-3">
+          <div className="flex justify-between text-base font-bold">
             <span>Total</span>
             <span>${total.toFixed(2)}</span>
           </div>

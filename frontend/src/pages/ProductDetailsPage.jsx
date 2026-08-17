@@ -75,7 +75,7 @@ function ProductDetails() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-4 sm:px-6 py-6 sm:py-10 space-y-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-10 space-y-12">
       {/* Back Link */}
       <div>
         <Link 
@@ -87,9 +87,9 @@ function ProductDetails() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-        {/* Left Column: Compact Image Container */}
-        <div className="lg:col-span-5">
-          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-square max-w-md mx-auto lg:max-w-none">
+        {/* Left Column: Image */}
+        <div className="lg:col-span-7">
+          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[4/3]">
             {productImage ? (
               <img
                 src={productImage}
@@ -110,7 +110,7 @@ function ProductDetails() {
         </div>
 
         {/* Right Column: Product Details & Actions */}
-        <div className="lg:col-span-7 space-y-6">
+        <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
               {product.category?.name || "Category"}

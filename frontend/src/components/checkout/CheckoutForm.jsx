@@ -43,7 +43,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-5"
+      className="space-y-4"
     >
 
       <div>
@@ -53,7 +53,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
         <input
           {...register("fullName")}
-          className="w-full rounded-lg border px-4 py-3"
+          className="w-full rounded-lg border px-3 py-2.5 text-sm"
           placeholder="Enter your full name"
         />
 
@@ -72,7 +72,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
         <input
           {...register("phone")}
-          className="w-full rounded-lg border px-4 py-3"
+          className="w-full rounded-lg border px-3 py-2.5 text-sm"
           placeholder="Enter your phone number"
         />
 
@@ -91,7 +91,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
         <input
           {...register("address")}
-          className="w-full rounded-lg border px-4 py-3"
+          className="w-full rounded-lg border px-3 py-2.5 text-sm"
           placeholder="Enter your address"
         />
 
@@ -111,7 +111,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
           <input
             {...register("city")}
-            className="w-full rounded-lg border px-4 py-3"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm"
             placeholder="City"
           />
 
@@ -129,7 +129,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
           <input
             {...register("postalCode")}
-            className="w-full rounded-lg border px-4 py-3"
+            className="w-full rounded-lg border px-3 py-2.5 text-sm"
             placeholder="Postal Code"
           />
 
@@ -141,8 +141,8 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
         </div>
       </div>
 
-      <fieldset className="space-y-3 pt-2">
-        <legend className="mb-2 block font-medium">
+      <fieldset className="space-y-2 pt-1">
+        <legend className="mb-1.5 block text-sm font-medium">
           Payment Method
         </legend>
 
@@ -151,7 +151,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
           return (
             <label
               key={option.value}
-              className="flex w-full cursor-pointer items-center gap-3 rounded-lg border p-3 has-[:checked]:border-black has-[:checked]:bg-gray-50"
+              className="flex w-full cursor-pointer items-center gap-3 rounded-lg border p-2.5 has-[:checked]:border-black has-[:checked]:bg-gray-50"
             >
               <input
                 type="radio"
@@ -178,7 +178,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full rounded-lg bg-black px-6 py-3 text-white disabled:opacity-50"
+        className="w-full rounded-lg bg-black px-6 py-2.5 text-sm text-white disabled:opacity-50"
       >
         {isSubmitting ? "Placing Order..." : "Place Order"}
       </button>

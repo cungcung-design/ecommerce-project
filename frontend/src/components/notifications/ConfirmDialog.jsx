@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { X } from "lucide-react";
 
-function ConfirmDialog({
+export function ConfirmDialog({
   title,
   message,
   confirmText = "Confirm",
@@ -62,5 +62,3 @@ function ConfirmDialog({
     </div>
   );
 }
-
-export default ConfirmDialog;
