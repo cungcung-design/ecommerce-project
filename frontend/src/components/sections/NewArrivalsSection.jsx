@@ -32,12 +32,13 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
           </Link>
         </div>
 
-        {/* Main Layout */}
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* Featured Product */}
-          <div className="lg:col-span-7">
+        {/* Main Layout - Adjusted to 6/6 split to make the left side smaller */}
+        <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          
+          {/* Featured Product (Reduced width: lg:col-span-6 instead of 7) */}
+          <div className="lg:col-span-6">
             <Link to={`/products/${featured.id}`} className="group block">
-              <div className="relative aspect-[4/5] overflow-hidden bg-gray-100">
+              <div className="relative aspect-[4/5] max-w-md mx-auto lg:max-w-none overflow-hidden bg-gray-100">
                 {featuredImage ? (
                   <img
                     src={featuredImage}
@@ -50,14 +51,14 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
                   </div>
                 )}
               </div>
-              <div className="mt-6">
+              <div className="mt-6 text-center lg:text-left">
                 <p className="text-xs font-semibold uppercase tracking-widest text-orange-600">
                   {featured.category?.name || "New Arrival"}
                 </p>
-                <h3 className="mt-2 text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
+                <h3 className="mt-2 text-xl sm:text-2xl font-bold text-gray-900 tracking-tight">
                   {featured.name}
                 </h3>
-                <p className="mt-2 text-lg font-semibold text-gray-900">
+                <p className="mt-2 text-base font-semibold text-gray-900">
                   ${featured.price}
                 </p>
                 <span className="mt-3 inline-flex items-center text-sm font-semibold text-gray-900 group-hover:text-orange-600 transition-colors">
@@ -67,9 +68,9 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
             </Link>
           </div>
 
-          {/* 4 Small Products */}
-          <div className="lg:col-span-5">
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+          {/* 4 Small Products (Increased width: lg:col-span-6 instead of 5) */}
+          <div className="lg:col-span-6">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
               {remaining.map((product) => {
                 const image = product.imageUrl || product.image || "";
                 const badge = product.badge || product.discount;
@@ -114,6 +115,7 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
               })}
             </div>
           </div>
+
         </div>
       </div>
     </section>
