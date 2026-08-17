@@ -9,8 +9,8 @@ function NewArrivalsSection({ id, products = [], viewAllLink = "/products?sort=n
   const featuredImage = featured.imageUrl || featured.image || "";
 
   return (
-    <section id={id} className="bg-stone-50 py-10 sm:py-16">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id={id} className="bg-white py-16 sm:py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8">
           <div>

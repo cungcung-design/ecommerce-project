@@ -105,7 +105,7 @@ function BestSellersSection() {
         </div>
 
         {/* Main Spotlight */}
-        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           {/* Left: Image */}
           <div className="lg:col-span-5">
             <Link to={`/products/${current.id}`} className="group block">
@@ -126,7 +126,7 @@ function BestSellersSection() {
           </div>
 
           {/* Right: Product Info */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 pt-2">
             <div
               key={`info-${current.id}`}
               className={`transition-all duration-300 ${
@@ -177,9 +177,9 @@ function BestSellersSection() {
           </Link>
         </div>
 
-        {/* Product Navigation */}
+        {/* Product Navigation Grid */}
         <div className="mt-12 sm:mt-16">
-          <div className="flex items-center gap-6 sm:gap-8 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 sm:flex-wrap">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             {products.map((product, index) => {
               const isActive = index === activeIndex;
 
@@ -190,37 +190,29 @@ function BestSellersSection() {
                   disabled={isTransitioning}
                   aria-label={`View ${product.name}`}
                   aria-pressed={isActive}
-                  className={`relative flex items-center gap-3 sm:gap-4 text-left transition-all duration-300 py-1 shrink-0 ${
+                  className={`group relative flex items-center gap-4 text-left transition-all duration-300 p-4 border rounded-lg ${
                     isActive
-                      ? "opacity-100"
-                      : "opacity-50 hover:opacity-80"
+                      ? "border-orange-600 bg-orange-50/30 shadow-sm"
+                      : "border-gray-200 bg-white hover:border-gray-300"
                   } ${isTransitioning ? "cursor-wait" : "cursor-pointer"}`}
                 >
                   <span
-                    className={`text-xs font-semibold tabular-nums transition-colors duration-300 ${
-                      isActive ? "text-gray-900" : "text-gray-400"
+                    className={`text-sm font-bold tabular-nums transition-colors duration-300 ${
+                      isActive ? "text-orange-600" : "text-gray-400"
                     }`}
                   >
                     {pad(index + 1)}
                   </span>
 
-                  <span className="relative flex-1 h-px bg-gray-200 transition-all duration-300 min-w-[40px] sm:min-w-[60px]">
-                    <span
-                      className={`absolute left-0 top-0 h-full bg-gray-900 transition-all duration-500 ease-out ${
-                        isActive ? "w-full" : "w-0"
+                  <div className="flex-1 min-w-0">
+                    <p
+                      className={`text-xs sm:text-sm font-semibold transition-all duration-300 truncate ${
+                        isActive ? "text-gray-900" : "text-gray-600 group-hover:text-gray-900"
                       }`}
-                    />
-                  </span>
-
-                  <span
-                    className={`text-xs sm:text-sm font-medium transition-all duration-300 truncate max-w-[120px] sm:max-w-[200px] ${
-                      isActive
-                        ? "text-gray-900 font-semibold"
-                        : "text-gray-400"
-                    }`}
-                  >
-                    {product.name}
-                  </span>
+                    >
+                      {product.name}
+                    </p>
+                  </div>
                 </button>
               );
             })}
