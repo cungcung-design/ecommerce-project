@@ -40,7 +40,12 @@ function AdminUserPage() {
       variant: "default",
     }).then((confirmed) => {
       if (confirmed) {
-        updateStatus.mutate({ id: user.id, isActive: nextStatus });
+        updateStatus.mutate({ id: user.id, isActive: nextStatus }, {
+          onSuccess: () => {
+            notify({ variant: "success", message: `User ${nextStatus ? "activated" : "deactivated"} successfully` });
+          },
+          onError: () => notify({ variant: "error", message: "Failed to update user status" }),
+        });
       }
     });
   };
@@ -51,7 +56,12 @@ function AdminUserPage() {
       return;
     }
 
-    updateRole.mutate({ id: user.id, role });
+    updateRole.mutate({ id: user.id, role }, {
+      onSuccess: () => {
+        notify({ variant: "success", message: `User role updated to ${role}` });
+      },
+      onError: () => notify({ variant: "error", message: "Failed to update user role" }),
+    });
   };
 
   return (

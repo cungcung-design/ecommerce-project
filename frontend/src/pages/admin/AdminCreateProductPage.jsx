@@ -6,6 +6,7 @@ import {
 } from "../../hooks/useAdminProducts";
 
 import { useUploadImage } from "../../hooks/useUploadImage";
+import useNotification from "../../hooks/useNotification";
 
 import AdminProductForm
   from "../../components/admin/AdminProductForm";
@@ -14,6 +15,7 @@ function AdminCreateProduct() {
   const navigate = useNavigate();
   const createProduct = useCreateProduct();
   const uploadImage = useUploadImage();
+  const { notify } = useNotification();
 
   const [error, setError] = useState("");
 
@@ -29,9 +31,11 @@ function AdminCreateProduct() {
 
       await createProduct.mutateAsync(productData);
 
+      notify({ variant: "success", message: "Product created successfully" });
       navigate("/admin/products");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to create product");
+      notify({ variant: "error", message: error.response?.data?.message || "Failed to create product" });
     }
   };
 

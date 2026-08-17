@@ -1,6 +1,8 @@
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 
 import { useOrderPayment } from "../hooks/usePayment";
+import useNotification from "../hooks/useNotification";
 
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
 import { paymentStatusDescription } from "../validators/paymentValidator";
@@ -10,6 +12,7 @@ const terminalStatuses = ["PAID", "FAILED", "REFUNDED"];
 function PaymentResultPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const { notify } = useNotification();
 
   const orderId = searchParams.get("orderId");
 
@@ -65,6 +68,14 @@ function PaymentResultPage() {
   const { status, method } = payment;
   const isSuccess = status === "PAID";
   const isFailed = status === "FAILED" || status === "REFUNDED";
+
+  useEffect(() => {
+    if (status === "PAID") {
+      notify({ variant: "success", message: "Payment successful! Your order is confirmed." });
+    } else if (status === "FAILED" || status === "REFUNDED") {
+      notify({ variant: "error", message: "Payment failed. Please try again or choose a different payment method." });
+    }
+  }, [status, notify]);
 
   const handleBackToOrders = () => {
     navigate("/orders");

@@ -5,12 +5,14 @@ import { ShieldCheck, Lock, ArrowLeft, AlertCircle, ShoppingBag, Loader2 } from 
 import { useCart } from "../hooks/useCart";
 import { useCreateOrder } from "../hooks/useOrders";
 import { useCreatePaymentSession } from "../hooks/usePayment";
+import useNotification from "../hooks/useNotification";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
 
 function CheckoutPage() {
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const {
     data: cart,
@@ -57,6 +59,7 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
+          notify({ variant: "success", message: "Payment session created. Redirecting..." });
           window.location.href = session.paymentUrl;
           return;
         }
@@ -64,6 +67,7 @@ function CheckoutPage() {
         throw new Error("Payment session could not be created");
       }
 
+      notify({ variant: "success", message: "Order placed successfully!" });
       navigate(`/orders/${order.id}`);
     } catch (err) {
       setError(

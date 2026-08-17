@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { useUpdateOrderStatus } from "../../hooks/useUpdateOrderStatus";
+import useNotification from "../../hooks/useNotification";
 
 import {
   statusLabels,
@@ -10,6 +11,7 @@ import {
 function AdminOrderStatus({ orderId, currentStatus }) {
   const [selectedStatus, setSelectedStatus] =
     useState("");
+  const { notify } = useNotification();
 
   const updateStatus = useUpdateOrderStatus();
 
@@ -84,6 +86,13 @@ function AdminOrderStatus({ orderId, currentStatus }) {
               updateStatus.mutate({
                 id: orderId,
                 status: selectedStatus,
+              }, {
+                onSuccess: () => {
+                  notify({ variant: "success", message: "Order status updated successfully" });
+                },
+                onError: () => {
+                  notify({ variant: "error", message: updateStatus.error?.response?.data?.message || "Failed to update order status" });
+                },
               })
             }
             disabled={!canUpdate}

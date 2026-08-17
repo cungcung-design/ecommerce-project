@@ -3,12 +3,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
+import useNotification from "../hooks/useNotification";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Login() {
   const navigate = useNavigate();
-
   const { login, user } = useAuth();
+  const { notify } = useNotification();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,16 +38,15 @@ function Login() {
     try {
       const loggedInUser = await login(email, password);
 
+      notify({ variant: "success", message: `Welcome back, ${loggedInUser.name}!` });
+
       if (loggedInUser.role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate("/");
       }
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Login failed"
-      );
+      notify({ variant: "error", message: error.response?.data?.message || "Login failed" });
     } finally {
       setLoading(false);
     }

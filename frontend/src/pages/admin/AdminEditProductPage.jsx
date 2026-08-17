@@ -8,6 +8,7 @@ import {
 } from "../../hooks/useAdminProducts";
 
 import { useUploadImage } from "../../hooks/useUploadImage";
+import useNotification from "../../hooks/useNotification";
 
 import AdminProductForm
   from "../../components/admin/AdminProductForm";
@@ -15,6 +16,7 @@ import AdminProductForm
 function AdminEditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const updateProduct = useUpdateProduct();
   const uploadImage = useUploadImage();
@@ -81,12 +83,14 @@ function AdminEditProduct() {
         ...productData,
       });
 
+      notify({ variant: "success", message: "Product updated successfully" });
       navigate("/admin/products");
     } catch (error) {
       setError(
         error.response?.data?.message ||
           "Failed to update product"
       );
+      notify({ variant: "error", message: error.response?.data?.message || "Failed to update product" });
     } finally {
       setSaving(false);
     }

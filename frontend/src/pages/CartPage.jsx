@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import { useCart } from "../hooks/useCart";
+import useNotification from "../hooks/useNotification";
 
 import CartItem from "../components/cart/CartItem";
 
@@ -12,6 +13,7 @@ function CartPage() {
     isLoading,
     isError,
   } = useCart();
+  const { notify } = useNotification();
 
   if (isLoading) {
     return (
@@ -22,6 +24,7 @@ function CartPage() {
   }
 
   if (isError) {
+    notify({ variant: "error", message: "Failed to load cart." });
     return (
       <div className="p-8">
         Failed to load cart.

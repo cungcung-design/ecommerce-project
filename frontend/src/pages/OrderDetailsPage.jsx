@@ -15,6 +15,7 @@ import {
 
 import { useOrder, useCancelOrder } from "../hooks/useOrders";
 import { useOrderPayment } from "../hooks/usePayment";
+import useNotification from "../hooks/useNotification";
 
 import OrderStatus from "../components/orders/OrderStatus";
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
@@ -158,6 +159,7 @@ function OrderDetailsPage() {
   const { id } = useParams();
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
+  const { notify } = useNotification();
 
   const {
     data: order,
@@ -188,6 +190,10 @@ function OrderDetailsPage() {
     cancelOrder.mutate(Number(id), {
       onSuccess: () => {
         setShowCancelSuccess(true);
+        notify({ variant: "success", message: "Order cancelled successfully" });
+      },
+      onError: (err) => {
+        notify({ variant: "error", message: err?.response?.data?.message || "Failed to cancel order" });
       },
     });
   };

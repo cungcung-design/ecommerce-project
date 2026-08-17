@@ -1,13 +1,17 @@
 import { useRemoveFromCart, useUpdateCartItem } from "../../hooks/useCart";
+import useNotification from "../../hooks/useNotification";
 
 function CartItem({ item }) {
   const removeFromCart = useRemoveFromCart();
   const updateCartItem = useUpdateCartItem();
+  const { notify } = useNotification();
 
   const handleIncrease = () => {
     updateCartItem.mutate({
       productId: item.productId,
       quantity: item.quantity + 1,
+    }, {
+      onError: () => notify({ variant: "error", message: "Failed to update quantity" }),
     });
   };
 
@@ -16,12 +20,17 @@ function CartItem({ item }) {
       updateCartItem.mutate({
         productId: item.productId,
         quantity: item.quantity - 1,
+      }, {
+        onError: () => notify({ variant: "error", message: "Failed to update quantity" }),
       });
     }
   };
 
   const handleRemove = () => {
-    removeFromCart.mutate(item.productId);
+    removeFromCart.mutate(item.productId, {
+      onSuccess: () => notify({ variant: "success", message: "Item removed from cart" }),
+      onError: () => notify({ variant: "error", message: "Failed to remove item" }),
+    });
   };
 
   const productImage = item.product?.imageUrl || item.product?.image || "";

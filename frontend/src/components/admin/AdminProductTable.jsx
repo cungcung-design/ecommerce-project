@@ -12,7 +12,7 @@ function AdminProductTable({ products, pagination, page, setPage }) {
   const toggleStatus = useUpdateProductStatus();
   const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
-  const { confirm } = useNotification();
+  const { notify, confirm } = useNotification();
 
   const totalPages = pagination?.totalPages || 1;
 
@@ -33,12 +33,13 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
       deleteProduct.mutate(id, {
         onSuccess: () => {
-          setDeletingId(null);
+          notify({ variant: "success", message: "Product deleted successfully" });
         },
         onError: (err) => {
           setError(
             err?.response?.data?.message || "Failed to delete product. Please try again."
           );
+          notify({ variant: "error", message: "Failed to delete product" });
           setDeletingId(null);
         },
       });
@@ -49,6 +50,11 @@ function AdminProductTable({ products, pagination, page, setPage }) {
     await toggleStatus.mutate({
       id: product.id,
       isActive: !product.isActive,
+    }, {
+      onSuccess: () => {
+        notify({ variant: "success", message: `Product ${!product.isActive ? "activated" : "deactivated"} successfully` });
+      },
+      onError: () => notify({ variant: "error", message: "Failed to update product status" }),
     });
   };
 

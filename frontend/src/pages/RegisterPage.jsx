@@ -3,12 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
+import useNotification from "../hooks/useNotification";
 import ErrorMessage from "../components/ErrorMessage";
 
 function Register() {
   const navigate = useNavigate();
 
   const { register } = useAuth();
+  const { notify } = useNotification();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,9 +28,10 @@ function Register() {
     try {
       await register(name, email, password);
 
+      notify({ variant: "success", message: "Account created successfully! Welcome to NovaTrend." });
       navigate("/");
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed");
+      notify({ variant: "error", message: error.response?.data?.message || "Registration failed" });
     } finally {
       setLoading(false);
     }

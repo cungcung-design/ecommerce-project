@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import HeroSection from "../components/sections/HeroSection";
 import FeaturesSection from "../components/sections/FeaturesSection";
 import CategoriesSection from "../components/sections/CategoriesSection";
+import NewArrivalsSection from "../components/sections/NewArrivalsSection";
 import ProductGridSection from "../components/sections/ProductGridSection";
 import PromoBannerSection from "../components/sections/PromoBannerSection";
 import demoProducts from "../data/demoProducts";
@@ -30,10 +31,8 @@ function Home() {
       <FeaturesSection />
       <CategoriesSection />
 
-      <ProductGridSection
+      <NewArrivalsSection
         id="new-arrivals"
-        title="New Arrivals"
-        actionText="View All New Arrivals →"
         products={products}
         viewAllLink="/products?sort=newest"
       />
