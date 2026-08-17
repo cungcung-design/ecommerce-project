@@ -4,7 +4,7 @@ import HeroSection from "../components/sections/HeroSection";
 import FeaturesSection from "../components/sections/FeaturesSection";
 import CategoriesSection from "../components/sections/CategoriesSection";
 import NewArrivalsSection from "../components/sections/NewArrivalsSection";
-import ProductGridSection from "../components/sections/ProductGridSection";
+import BestSellersSection from "../components/sections/BestSellersSection";
 import PromoBannerSection from "../components/sections/PromoBannerSection";
 import demoProducts from "../data/demoProducts";
 
@@ -37,12 +37,7 @@ function Home() {
         viewAllLink="/products?sort=newest"
       />
 
-      <ProductGridSection
-        title="Best Sellers"
-        actionText="View All Best Sellers →"
-        products={products.slice(0, 6)}
-        viewAllLink="/products?sort=best-selling"
-      />
+      <BestSellersSection />
 
       <PromoBannerSection />
     </div>
