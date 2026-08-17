@@ -33,6 +33,10 @@ const allowedOrigins = [
   "http://localhost:5176",
   "http://localhost:4173",
   "https://ecommerce-frontend-yn2u.onrender.com",
+  ...(process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean),
 ];
 
 app.use(

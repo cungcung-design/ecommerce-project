@@ -30,16 +30,18 @@ services:
       CLOUDINARY_API_KEY: "269753217238713"
       CLOUDINARY_API_SECRET: "cdQzyEuqp-Zq2SvjNPvBMDMbQkE"
       FRONTEND_URL: "http://localhost:5173"
+      ALLOWED_ORIGINS: "http://localhost:5173,http://172.26.32.1:5175"
     depends_on:
       - postgres
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: /api
     restart: always
     ports:
       - "5175:80"
-    environment:
-      VITE_API_URL: "http://backend:5000/api"
     depends_on:
       - backend
 

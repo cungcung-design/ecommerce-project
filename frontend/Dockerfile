@@ -1,5 +1,7 @@
 FROM node:22-alpine AS build
 
+ARG VITE_API_URL=/api
+
 WORKDIR /app
 
 COPY package*.json ./
