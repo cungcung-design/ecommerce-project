@@ -16,6 +16,7 @@ function BestSellersSection() {
   const [displayedProduct, setDisplayedProduct] = useState(null);
 
   const current = products[activeIndex];
+  const productImage = current?.imageUrl || current?.image || "";
 
   useEffect(() => {
     if (current) {
@@ -125,7 +126,7 @@ function BestSellersSection() {
                   className="h-full w-full animate-image-reveal"
                 >
                   <img
-                    src={displayedProduct.image}
+                    src={productImage}
                     alt={displayedProduct.name}
                     className="h-full w-full object-cover"
                     loading="eager"

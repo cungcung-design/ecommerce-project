@@ -29,16 +29,16 @@ export const getProducts = async ({ search, category, categoryId, page, limit, i
     where.categoryId = Number(categoryId);
   }
 
-  const orderBy = { createdAt: "desc" };
+  const orderBy = [{ createdAt: "desc" }];
 
   if (sort === "newest") {
-    orderBy.createdAt = "desc";
+    orderBy[0] = { createdAt: "desc" };
   } else if (sort === "best-selling") {
-    orderBy.id = "desc";
+    orderBy[0] = { id: "desc" };
   } else if (sort === "price-asc") {
-    orderBy.price = "asc";
+    orderBy[0] = { price: "asc" };
   } else if (sort === "price-desc") {
-    orderBy.price = "desc";
+    orderBy[0] = { price: "desc" };
   }
 
   const [products, total] = await Promise.all([
