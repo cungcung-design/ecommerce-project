@@ -76,6 +76,7 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
+      notify.success("Added to cart successfully.");
     } catch (error) {
       notify.error(error.response?.data?.message || "Failed to add to cart");
     }
@@ -99,7 +100,6 @@ function ProductDetails() {
         productId: product.id,
         quantity,
       });
-      notify.success("Added to cart, redirecting to checkout...");
       navigate("/checkout");
     } catch (error) {
       notify.error(error.response?.data?.message || "Failed to add to cart");

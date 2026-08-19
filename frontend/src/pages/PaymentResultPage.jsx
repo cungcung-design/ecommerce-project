@@ -75,9 +75,7 @@ function PaymentResultPage() {
 
   useEffect(() => {
     if (!payment || terminalStatuses.includes(status)) {
-      if (status === "PAID") {
-        notify.success("Payment successful! Your order is confirmed.");
-      } else if (status === "FAILED" || status === "REFUNDED") {
+      if (status === "FAILED" || status === "REFUNDED") {
         notify.error("Payment failed. Please try again or choose a different payment method.");
       }
     }

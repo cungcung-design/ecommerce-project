@@ -11,7 +11,6 @@ function CartItem({ item }) {
       productId: item.productId,
       quantity: item.quantity + 1,
     }, {
-      onSuccess: () => notify.success("Cart updated."),
       onError: () => notify.error("Failed to update quantity"),
     });
   };
@@ -22,7 +21,6 @@ function CartItem({ item }) {
         productId: item.productId,
         quantity: item.quantity - 1,
       }, {
-        onSuccess: () => notify.success("Cart updated."),
         onError: () => notify.error("Failed to update quantity"),
       });
     }

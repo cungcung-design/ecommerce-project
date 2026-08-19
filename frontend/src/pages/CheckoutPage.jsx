@@ -63,7 +63,6 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
-          notify.success("Payment session created. Redirecting...");
           window.location.href = session.paymentUrl;
           return;
         }
@@ -76,7 +75,6 @@ function CheckoutPage() {
     } catch (err) {
       const message = err.response?.data?.message || err.message || "Checkout failed";
       setError(message);
-      notify.error(message);
     }
   };
 
