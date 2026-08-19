@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const slidesData = [
   {
@@ -6,6 +7,8 @@ const slidesData = [
     title: "Discover Products\nYou'll Love",
     description: "Shop the latest trending products curated for modern lifestyles.",
     image: "https://i.pinimg.com/736x/89/ac/78/89ac7841d71b268c291db5110f1075a7.jpg",
+    shopNowLink: "/products?sort=best-selling",
+    exploreLink: "/products?sort=best-selling",
     floatingProducts: [
       {
         name: "Air Max 270",
@@ -34,6 +37,8 @@ const slidesData = [
     title: "Step Up Your\nStyle Game",
     description: "Explore fresh drops and exclusive styles designed to turn heads.",
     image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop",
+    shopNowLink: "/products?sort=newest",
+    exploreLink: "/products?sort=newest",
     floatingProducts: [
       {
         name: "Denim Jacket",
@@ -52,6 +57,8 @@ const slidesData = [
     title: "Ready For\nThe Sunshine",
     description: "Get vacation-ready with lightweight fabrics and vibrant accessories.",
     image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&h=800&fit=crop",
+    shopNowLink: "/products",
+    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Sunglasses",
@@ -139,13 +146,21 @@ function HeroSection() {
             </p>
 
             <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
-              <button className="rounded-full bg-orange-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors cursor-pointer">
+              <Link
+                to={current.shopNowLink}
+                onClick={(e) => e.stopPropagation()}
+                className="rounded-full bg-orange-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors text-center no-underline"
+              >
                 Shop Now →
-              </button>
+              </Link>
 
-              <button className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer">
+              <Link
+                to={current.exploreLink}
+                onClick={(e) => e.stopPropagation()}
+                className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors text-center no-underline"
+              >
                 Explore Collection
-              </button>
+              </Link>
             </div>
 
             <div className="mt-8 sm:mt-10 flex items-center gap-4">
