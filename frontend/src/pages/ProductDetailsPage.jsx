@@ -119,9 +119,9 @@ function ProductDetails() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-        {/* Left Column: Image - Changed to aspect-[16/9] for a wide, horizontal e-commerce display across all screen sizes */}
+        {/* Left Column: Image - Expanded to a much wider aspect-[2/1] ratio */}
         <div className="lg:col-span-7">
-          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[16/9] relative">
+          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[2/1] relative">
             {productImage ? (
               <img
                 src={productImage}
@@ -269,7 +269,7 @@ function ProductDetails() {
             <h2 className="text-xl font-black text-slate-900 tracking-tight">Related Products</h2>
           </div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {relatedProducts.map((relatedProduct) => (
+            {relatedProducts.now?.map((relatedProduct) => (
               <ProductCard key={relatedProduct.id} product={relatedProduct} />
             ))}
           </div>
