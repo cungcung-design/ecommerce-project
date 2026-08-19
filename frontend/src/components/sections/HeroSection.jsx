@@ -92,30 +92,27 @@ function HeroSection() {
   }, []);
 
   const getFloatingPosition = (slideIndex, productIndex) => {
-    // Trending Now: Air Max, Smart Watch, Wireless Headphones (moved a bit further down), Water Bottle
     if (slideIndex === 0) {
       const trendingPositions = [
-        "top-2 left-2 sm:top-3 sm:left-3 lg:-top-4 lg:-left-6",     // Air Max 270
-        "top-16 right-2 sm:top-20 sm:right-3 lg:top-8 lg:-right-6",  // Smart Watch
-        "top-[62%] left-2 sm:left-3 lg:left-2 lg:top-[62%]",       // Wireless Headphones (nudged down more)
-        "bottom-4 right-2 sm:bottom-6 sm:right-3 lg:-right-6 lg:bottom-10", // Water Bottle
+        "top-2 left-2 sm:top-3 sm:left-3 lg:-top-4 lg:-left-6",    
+        "top-16 right-2 sm:top-20 sm:right-3 lg:top-8 lg:-right-6",  
+        "top-[62%] left-2 sm:left-3 lg:left-2 lg:top-[62%]",       
+        "bottom-4 right-2 sm:bottom-6 sm:right-3 lg:-right-6 lg:bottom-10", 
       ];
       return trendingPositions[productIndex] || "";
     }
 
-    // New Arrivals: Denim Jacket (Up), Leather Tote (Down)
     if (slideIndex === 1) {
       const newArrivalsPositions = [
-        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",     
+        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",    
         "bottom-12 left-3 sm:bottom-16 sm:left-6 lg:bottom-12 lg:-left-6" 
       ];
       return newArrivalsPositions[productIndex] || "";
     }
 
-    // Summer Collection: Sunglasses (Up), Sun Hat (Down)
     if (slideIndex === 2) {
       const summerPositions = [
-        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",     
+        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",    
         "bottom-12 left-3 sm:bottom-16 sm:left-6 lg:bottom-12 lg:-left-6" 
       ];
       return summerPositions[productIndex] || "";
@@ -126,7 +123,8 @@ function HeroSection() {
 
   return (
     <section className="relative bg-white overflow-hidden">
-      <div className="px-4 pt-4 pb-8 sm:pb-12 lg:pt-8 lg:py-20">
+      {/* Reduced padding (pt-2 pb-6 sm:pb-8 lg:py-6) to shift the whole section higher up */}
+      <div className="px-4 pt-2 pb-6 sm:pb-8 lg:py-6">
         <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           
           <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
@@ -176,7 +174,7 @@ function HeroSection() {
 
           <div 
             onClick={handleNextSlide}
-            className="relative flex justify-center items-center py-6 sm:py-8 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
+            className="relative flex justify-center items-center py-4 sm:py-6 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
             title="Click to view next slide"
           >
             <div className="relative w-full max-w-sm sm:max-w-md flex justify-center">
@@ -207,7 +205,7 @@ function HeroSection() {
 
         </div>
 
-        <div className="mt-6 sm:mt-8 flex justify-center gap-2">
+        <div className="mt-4 sm:mt-6 flex justify-center gap-2">
           {slidesData.map((_, index) => (
             <button
               key={index}
