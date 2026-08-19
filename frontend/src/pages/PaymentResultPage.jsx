@@ -14,6 +14,10 @@ function PaymentResultPage() {
   const [searchParams] = useSearchParams();
   const { notify } = useNotification();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
+
   const orderId = searchParams.get("orderId");
 
   const {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { 
   ShoppingBag, 
@@ -24,6 +24,10 @@ function ProductDetails() {
   const navigate = useNavigate();
   const { data: product, isLoading, isError } = useProduct(id);
   const addToCart = useAddToCart();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
 
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);

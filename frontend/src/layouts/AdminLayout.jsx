@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 import AdminSidebar from "../components/admin/AdminSidebar";
@@ -6,6 +6,10 @@ import AdminTopbar from "../components/admin/AdminTopbar";
 
 function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   return (
     <div className="flex min-h-screen bg-white">

@@ -35,10 +35,10 @@ function BestSellersSection() {
               </h2>
             </div>
           </div>
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            {/* Even taller aspect ratio: aspect-[1/1] (Square) or aspect-[5/4] */}
-            <div className="aspect-[5/4] w-full animate-pulse bg-gray-100 rounded-2xl" />
-            <div className="space-y-6">
+          <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            {/* Taller square aspect ratio for loading skeleton */}
+            <div className="lg:col-span-6 aspect-[1/1] w-full animate-pulse bg-gray-100 rounded-2xl" />
+            <div className="lg:col-span-6 space-y-6">
               <div className="h-5 w-32 bg-gray-100 rounded animate-pulse" />
               <div className="h-10 w-3/4 bg-gray-100 rounded animate-pulse" />
               <div className="h-4 w-40 bg-gray-100 rounded animate-pulse" />
@@ -92,19 +92,19 @@ function BestSellersSection() {
         </div>
 
         {/* Main Spotlight */}
-        <div className="grid lg:grid-cols-12 gap-8 items-stretch">
-          {/* Left: Image */}
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-20 items-stretch">
+          {/* Left: Image (Taller aspect ratio: aspect-[1/1] for square, or try aspect-[4/5] for even taller) */}
           <div className="lg:col-span-6 flex flex-col">
             <Link to={`/products/${current.id}`} className="group relative block w-full h-full overflow-hidden rounded-2xl bg-gray-50 shadow-sm border border-gray-100">
               {productImage ? (
                 <img
                   src={productImage}
                   alt={current.name}
-                  className="aspect-[5/4] w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+                  className="aspect-[1/1] w-full h-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
                   loading="eager"
                 />
               ) : (
-                <div className="flex aspect-[5/4] w-full items-center justify-center text-gray-400 text-xs">
+                <div className="flex aspect-[1/1] w-full items-center justify-center text-gray-400 text-xs">
                   No Image
                 </div>
               )}
@@ -113,7 +113,7 @@ function BestSellersSection() {
 
           {/* Right: Product Info */}
           <div className="lg:col-span-6 flex flex-col justify-center h-full py-4">
-            <span className="inline-block text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600 bg-orange-50 px-3 py-1 rounded-full">
+            <span className="inline-block text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600 bg-orange-50 px-3 py-1 rounded-full w-fit">
               Best Seller #{pad(activeIndex + 1)}
             </span>
 

@@ -11,25 +11,21 @@ const slidesData = [
         name: "Air Max 270",
         price: "$129.99",
         image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=100&h=100&fit=crop",
-        position: "top-2 left-2 lg:-top-4 lg:-left-6",
       },
       {
         name: "Smart Watch",
         price: "$199.99",
         image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=100&h=100&fit=crop",
-        position: "top-2 right-2 lg:-top-4 lg:-right-6",
       },
       {
         name: "Wireless Headphones",
         price: "$99.99",
         image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=100&h=100&fit=crop",
-        position: "top-1/2 -left-8 lg:left-2 -translate-y-1/2",
       },
       {
         name: "Water Bottle",
         price: "$24.99",
         image: "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=100&h=100&fit=crop",
-        position: "bottom-8 right-2 lg:bottom-10 lg:-right-6",
       },
     ],
   },
@@ -43,13 +39,11 @@ const slidesData = [
         name: "Denim Jacket",
         price: "$89.99",
         image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=100&h=100&fit=crop",
-        position: "top-6 left-6 lg:top-4 lg:-left-4",
       },
       {
         name: "Leather Tote",
         price: "$149.99",
         image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=100&h=100&fit=crop",
-        position: "bottom-10 right-6 lg:bottom-12 lg:-right-4",
       },
     ],
   },
@@ -62,14 +56,12 @@ const slidesData = [
       {
         name: "Sunglasses",
         price: "$49.99",
-        image: "https://images.unsplash.com/photo-1572635196237-14b3f281503f?w=100&h=100&fit=crop",
-        position: "top-8 right-6 lg:top-10 lg:-right-4",
+        image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=100&h=100&fit=crop",
       },
       {
         name: "Sun Hat",
         price: "$34.99",
         image: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=100&h=100&fit=crop",
-        position: "bottom-16 left-6 lg:bottom-20 lg:-left-4",
       },
     ],
   },
@@ -95,43 +87,76 @@ function HeroSection() {
     return () => clearInterval(interval);
   }, []);
 
+  const getFloatingPosition = (slideIndex, productIndex) => {
+    // Trending Now: Air Max, Smart Watch, Wireless Headphones (moved a bit further down), Water Bottle
+    if (slideIndex === 0) {
+      const trendingPositions = [
+        "top-2 left-2 sm:top-3 sm:left-3 lg:-top-4 lg:-left-6",     // Air Max 270
+        "top-16 right-2 sm:top-20 sm:right-3 lg:top-8 lg:-right-6",  // Smart Watch
+        "top-[62%] left-2 sm:left-3 lg:left-2 lg:top-[62%]",       // Wireless Headphones (nudged down more)
+        "bottom-4 right-2 sm:bottom-6 sm:right-3 lg:-right-6 lg:bottom-10", // Water Bottle
+      ];
+      return trendingPositions[productIndex] || "";
+    }
+
+    // New Arrivals: Denim Jacket (Up), Leather Tote (Down)
+    if (slideIndex === 1) {
+      const newArrivalsPositions = [
+        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",     
+        "bottom-12 left-3 sm:bottom-16 sm:left-6 lg:bottom-12 lg:-left-6" 
+      ];
+      return newArrivalsPositions[productIndex] || "";
+    }
+
+    // Summer Collection: Sunglasses (Up), Sun Hat (Down)
+    if (slideIndex === 2) {
+      const summerPositions = [
+        "top-4 right-3 sm:top-6 sm:right-6 lg:top-8 lg:-right-6",     
+        "bottom-12 left-3 sm:bottom-16 sm:left-6 lg:bottom-12 lg:-left-6" 
+      ];
+      return summerPositions[productIndex] || "";
+    }
+
+    return "";
+  };
+
   return (
-    <section className="relative overflow-hidden bg-white">
+    <section className="relative bg-white overflow-hidden">
       <div className="px-4 pt-4 pb-12 lg:pt-8 lg:py-20">
-        <div className="grid items-center gap-12 lg:grid-cols-12">
+        <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           
           <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
             <span className="inline-block text-xs font-bold uppercase tracking-widest text-orange-600">
               {current.category}
             </span>
 
-            <h1 className="mt-4 text-4xl font-extrabold leading-tight text-gray-900 lg:text-6xl whitespace-pre-line">
+            <h1 className="mt-4 text-3xl sm:text-4xl font-extrabold leading-tight text-gray-900 lg:text-6xl whitespace-pre-line">
               {current.title}
             </h1>
 
-            <p className="mt-4 text-base text-gray-600 lg:text-lg">
+            <p className="mt-4 text-sm sm:text-base text-gray-600 lg:text-lg">
               {current.description}
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
-              <button className="rounded-full bg-orange-600 px-8 py-3.5 text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors cursor-pointer">
+            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+              <button className="rounded-full bg-orange-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors cursor-pointer">
                 Shop Now →
               </button>
 
-              <button className="rounded-full border border-gray-200 px-8 py-3.5 text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer">
+              <button className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer">
                 Explore Collection
               </button>
             </div>
 
-            <div className="mt-10 flex items-center gap-4">
+            <div className="mt-8 sm:mt-10 flex items-center gap-4">
               <div className="flex -space-x-3">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="Customer" className="h-10 w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="Customer" className="h-10 w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=50&h=50&fit=crop" alt="Customer" className="h-10 w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop" alt="Customer" className="h-10 w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
               </div>
 
-              <div className="text-sm">
+              <div className="text-xs sm:text-sm">
                 <p className="font-bold text-gray-900">Loved by 50,000+ customers worldwide</p>
               </div>
             </div>
@@ -139,34 +164,38 @@ function HeroSection() {
 
           <div 
             onClick={handleNextSlide}
-            className="relative flex justify-center items-center py-6 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
+            className="relative flex justify-center items-center py-6 sm:py-8 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
             title="Click to view next slide"
           >
-            <div className="absolute h-[420px] w-[90%] max-w-lg rounded-[3rem] bg-gradient-to-tr from-red-500 to-orange-500 shadow-2xl rotate-3 transition-transform duration-500 group-hover:scale-105" />
+            <div className="relative w-full max-w-sm sm:max-w-md flex justify-center">
+              <div className="relative overflow-visible w-full flex justify-center">
+                <div className="absolute h-[320px] sm:h-[380px] lg:h-[420px] w-[85%] max-w-xs sm:max-w-sm rounded-[2rem] sm:rounded-[3rem] bg-gradient-to-tr from-red-500 to-orange-500 shadow-2xl rotate-3 transition-transform duration-500 group-hover:scale-105" />
 
-            <img
-              src={current.image}
-              alt="Fashion model"
-              className="relative z-10 h-[480px] w-full max-w-md rounded-[2.5rem] object-cover object-top shadow-lg transition-transform duration-500 group-hover:scale-[1.02]"
-            />
-
-            {current.floatingProducts.map((product, index) => (
-              <div
-                key={index}
-                className={`absolute z-20 flex items-center gap-3 rounded-2xl bg-white p-3 shadow-xl backdrop-blur-md bg-opacity-95 border border-gray-100 transition-all duration-300 ${product.position}`}
-              >
-                <img src={product.image} alt={product.name} className="h-12 w-12 rounded-xl object-cover bg-gray-50" />
-                <div>
-                  <p className="text-xs font-bold text-gray-900">{product.name}</p>
-                  <p className="text-xs font-medium text-gray-500">{product.price}</p>
-                </div>
+                <img
+                  src={current.image}
+                  alt="Fashion model"
+                  className="relative z-10 h-[360px] sm:h-[420px] lg:h-[480px] w-[85%] sm:w-full max-w-xs sm:max-w-md rounded-[2rem] sm:rounded-[2.5rem] object-cover object-top shadow-lg transition-transform duration-500 group-hover:scale-[1.02]"
+                />
               </div>
-            ))}
+
+              {current.floatingProducts.map((product, index) => (
+                <div
+                  key={index}
+                  className={`absolute z-20 flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-white p-2.5 sm:p-3 shadow-lg sm:shadow-xl backdrop-blur-md bg-opacity-95 border border-gray-100 transition-all duration-300 scale-90 sm:scale-100 ${getFloatingPosition(activeSlide, index)}`}
+                >
+                  <img src={product.image} alt={product.name} className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl object-cover bg-gray-50" />
+                  <div>
+                    <p className="text-[10px] sm:text-xs font-bold text-gray-900">{product.name}</p>
+                    <p className="text-[9px] sm:text-xs font-medium text-gray-500">{product.price}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
         </div>
 
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="mt-6 sm:mt-8 flex justify-center gap-2">
           {slidesData.map((_, index) => (
             <button
               key={index}

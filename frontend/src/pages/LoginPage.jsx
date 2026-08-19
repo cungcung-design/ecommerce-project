@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
@@ -17,9 +17,7 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // If user is already logged in, redirect handled via useEffect
-  // (kept as in original logic)
-  useState(() => {
+  useEffect(() => {
     if (user) {
       if (user.role === "ADMIN") {
         navigate("/admin");

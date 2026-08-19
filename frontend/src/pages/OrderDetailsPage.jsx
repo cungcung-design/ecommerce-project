@@ -161,6 +161,10 @@ function OrderDetailsPage() {
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
   const { notify } = useNotification();
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
+
   const {
     data: order,
     isLoading,

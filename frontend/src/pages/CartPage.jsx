@@ -1,5 +1,5 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import { useCart } from "../hooks/useCart";
 import useNotification from "../hooks/useNotification";
 
@@ -14,6 +14,10 @@ function CartPage() {
     isError,
   } = useCart();
   const { notify } = useNotification();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   if (isLoading) {
     return (

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useOrders } from "../hooks/useOrders";
 import { statusLabels, statusColors } from "../validators/adminOrderValidator";
@@ -72,6 +73,10 @@ function MyOrdersPage() {
     isLoading,
     isError,
   } = useOrders();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   const actionRequiredOrders = orders.filter((order) =>
     ACTION_REQUIRED.includes(order.status)

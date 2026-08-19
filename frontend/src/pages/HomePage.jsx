@@ -6,10 +6,8 @@ import CategoriesSection from "../components/sections/CategoriesSection";
 import NewArrivalsSection from "../components/sections/NewArrivalsSection";
 import BestSellersSection from "../components/sections/BestSellersSection";
 import PromoBannerSection from "../components/sections/PromoBannerSection";
-import demoProducts from "../data/demoProducts";
 
 function Home() {
-  const products = demoProducts;
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -62,13 +60,10 @@ function Home() {
 
       <NewArrivalsSection
         id="new-arrivals"
-        products={products}
         viewAllLink="/products?sort=newest"
       />
 
-      <div id="best-sellers">
-        <BestSellersSection />
-      </div>
+      <BestSellersSection />
 
       <PromoBannerSection />
     </div>

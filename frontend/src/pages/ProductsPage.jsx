@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
@@ -18,6 +18,10 @@ function Products() {
     : (categoryParam && !isNaN(Number(categoryParam)) ? Number(categoryParam) : undefined);
   const sort = searchParams.get("sort");
   const isNewArrivals = sort === "newest";
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [categoryId, sort, page]);
 
   const {
     data,

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { ShieldCheck, Lock, ArrowLeft, AlertCircle, ShoppingBag, Loader2 } from "lucide-react";
 
@@ -13,6 +13,10 @@ import CheckoutSummary from "../components/checkout/CheckoutSummary";
 function CheckoutPage() {
   const navigate = useNavigate();
   const { notify } = useNotification();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, []);
 
   const {
     data: cart,
