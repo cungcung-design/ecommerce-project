@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 
 const STATUS_FLOW = ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED"];
-const ACTION_REQUIRED = ["PENDING", "PROCESSING"];
 
 const statusIcons = {
   PENDING: Clock,
@@ -71,10 +70,6 @@ function MyOrdersPage() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
-  const actionRequiredOrders = orders.filter((order) =>
-    ACTION_REQUIRED.includes(order.status)
-  );
-
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-3">
@@ -105,36 +100,6 @@ function MyOrdersPage() {
           {orders.length} {orders.length === 1 ? "Order" : "Orders"}
         </span>
       </div>
-
-      {/* Action Required Banner */}
-      {actionRequiredOrders.length > 0 && (
-        <div className="space-y-2">
-          {actionRequiredOrders.map((order) => (
-            <div
-              key={`alert-${order.id}`}
-              className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-xl border border-amber-200 bg-amber-50/60 p-4 text-xs"
-            >
-              <div className="flex items-start gap-2.5">
-                <AlertCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
-                <div>
-                  <p className="font-bold text-amber-900">
-                    Order #{order.id.slice(-6).toUpperCase()} requires attention
-                  </p>
-                  <p className="text-amber-700 mt-0.5">
-                    Current status: <span className="font-semibold">{statusLabels[order.status]}</span>
-                  </p>
-                </div>
-              </div>
-              <Link
-                to={`/orders/${order.id}`}
-                className="inline-flex items-center justify-center gap-1 font-bold text-amber-900 bg-amber-200/80 hover:bg-amber-300 px-3.5 py-2 rounded-lg transition-colors self-end sm:self-auto"
-              >
-                View <ArrowRight className="w-3 h-3" />
-              </Link>
-            </div>
-          ))}
-        </div>
-      )}
 
       {/* Latest Order Flow Widget */}
       {orders.length > 0 && (
