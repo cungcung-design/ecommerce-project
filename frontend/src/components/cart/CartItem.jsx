@@ -36,8 +36,8 @@ function CartItem({ item }) {
   const productImage = item.product?.imageUrl || item.product?.image || "";
 
   return (
-    <div className="flex gap-4 rounded-xl border border-slate-200 p-4 sm:p-5">
-      <div className="hidden sm:block w-28 h-28 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
+    <div className="flex gap-3 sm:gap-4 rounded-xl border border-slate-200 p-3 sm:p-5">
+      <div className="block w-16 h-16 sm:w-28 sm:h-28 flex-shrink-0 overflow-hidden rounded-xl bg-gray-100">
         {productImage ? (
           <img
             src={productImage}
@@ -51,21 +51,21 @@ function CartItem({ item }) {
         )}
       </div>
 
-      <div className="flex flex-1 gap-4">
+      <div className="flex flex-col sm:flex-row flex-1 gap-3">
         <div className="flex-1">
-          <h2 className="font-semibold text-base sm:text-lg">{item.product?.name}</h2>
-          <p className="mt-1 text-base text-gray-600">${Number(item.product?.price).toFixed(2)}</p>
+          <h2 className="font-semibold text-sm sm:text-base">{item.product?.name}</h2>
+          <p className="mt-1 text-sm text-gray-600">${Number(item.product?.price).toFixed(2)}</p>
 
-          <div className="mt-4 flex items-center gap-3">
+          <div className="mt-3 flex items-center gap-2">
             <button
               onClick={handleDecrease}
               disabled={updateCartItem.isPending || removeFromCart.isPending}
-              className="rounded-lg border px-3 py-1.5 text-base disabled:opacity-40"
+              className="rounded border px-2.5 py-1 text-sm disabled:opacity-40"
             >
               -
             </button>
 
-            <span className="text-base font-medium">{item.quantity}</span>
+            <span className="text-sm font-medium">{item.quantity}</span>
 
             <button
               onClick={handleIncrease}
@@ -74,7 +74,7 @@ function CartItem({ item }) {
                 removeFromCart.isPending ||
                 item.quantity >= (item.product?.stock ?? 0)
               }
-              className="rounded-lg border px-3 py-1.5 text-base disabled:opacity-40"
+              className="rounded border px-2.5 py-1 text-sm disabled:opacity-40"
             >
               +
             </button>
@@ -82,14 +82,14 @@ function CartItem({ item }) {
         </div>
 
         <div className="text-right">
-          <p className="font-semibold text-base sm:text-lg">
+          <p className="font-semibold text-sm sm:text-base">
             ${(Number(item.product?.price) * item.quantity).toFixed(2)}
           </p>
 
           <button
             onClick={handleRemove}
             disabled={updateCartItem.isPending || removeFromCart.isPending}
-            className="mt-4 text-sm sm:text-base text-red-600 disabled:opacity-40"
+            className="mt-3 text-xs sm:text-sm text-red-600 disabled:opacity-40"
           >
             Remove
           </button>
