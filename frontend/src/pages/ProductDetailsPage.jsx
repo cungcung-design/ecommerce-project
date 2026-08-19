@@ -112,7 +112,7 @@ function ProductDetails() {
       <div>
         <Link 
           to="/products" 
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-orange-600 transition-colors bg-slate-100/80 hover:bg-orange-50 px-3.5 py-2 rounded-xl"
+          className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-orange-600 transition-colors bg-slate-100/80 hover:bg-orange-50 px-3.5 py-2 rounded-xl"
         >
           <ArrowLeft className="w-3.5 h-3.5" /> Back to products
         </Link>
@@ -145,7 +145,7 @@ function ProductDetails() {
         <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
 
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
               {product.name}
             </h1>
           </div>
@@ -153,9 +153,9 @@ function ProductDetails() {
           {/* Pricing & Reviews */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-y border-slate-100 py-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-black text-slate-900">${product.price}</span>
+              <span className="text-3xl font-bold text-slate-900">${product.price}</span>
               {hasDiscount && product.originalPrice && (
-                <span className="text-sm text-slate-400 line-through font-medium">
+                <span className="text-sm text-slate-400 line-through font-normal">
                   ${product.originalPrice}
                 </span>
               )}
@@ -167,7 +167,7 @@ function ProductDetails() {
                   <Star key={i} className="w-3.5 h-3.5 fill-current" />
                 ))}
               </div>
-              <span className="text-xs font-bold text-amber-900">({reviewCount} reviews)</span>
+              <span className="text-xs font-semibold text-amber-900">({reviewCount} reviews)</span>
             </div>
           </div>
 
@@ -177,7 +177,7 @@ function ProductDetails() {
 
           {/* Stock Availability */}
       <div className="flex items-center gap-2">
-            <span className={`inline-flex items-center text-xs font-bold ${product.stock > 0 ? "text-emerald-600" : "text-rose-600"}`}>
+            <span className={`inline-flex items-center text-xs font-semibold ${product.stock > 0 ? "text-emerald-600" : "text-rose-600"}`}>
               {product.stock > 0 ? `In Stock (${product.stock} units)` : "Out of Stock"}
             </span>
           </div>
@@ -191,15 +191,15 @@ function ProductDetails() {
                   <button
                     onClick={() => setQuantity((q) => Math.max(1, q - 1))}
                     disabled={addToCart.isPending}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm border border-slate-200/60 disabled:opacity-40 hover:bg-slate-100 transition-all font-bold"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm border border-slate-200/60 disabled:opacity-40 hover:bg-slate-100 transition-all font-semibold"
                   >
                     -
                   </button>
-                  <span className="w-10 text-center text-sm font-bold text-slate-800">{quantity}</span>
+                  <span className="w-10 text-center text-sm font-semibold text-slate-800">{quantity}</span>
                   <button
                     onClick={() => setQuantity((q) => Math.min(product.stock, q + 1))}
                     disabled={addToCart.isPending}
-                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm border border-slate-200/60 disabled:opacity-40 hover:bg-slate-100 transition-all font-bold"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg bg-white text-slate-700 shadow-sm border border-slate-200/60 disabled:opacity-40 hover:bg-slate-100 transition-all font-semibold"
                   >
                     +
                   </button>
@@ -209,7 +209,7 @@ function ProductDetails() {
                 <button
                   onClick={handleAddToCart}
                   disabled={addToCart.isPending || product.stock === 0}
-                  className={`flex-1 min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold text-white shadow-md transition-all duration-300 disabled:opacity-40 ${
+                  className={`flex-1 min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 disabled:opacity-40 ${
                     added 
                       ? "bg-emerald-600 shadow-emerald-600/25" 
                       : "bg-orange-600 hover:bg-orange-700 shadow-orange-600/25 hover:scale-[1.02]"
@@ -231,7 +231,7 @@ function ProductDetails() {
              <button
                 onClick={handleBuyNow}
                 disabled={addToCart.isPending || product.stock === 0}
-                className="w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-sm font-bold text-white shadow-md shadow-slate-900/10 transition-all duration-300 hover:scale-[1.01] disabled:opacity-40"
+                className="w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-900/10 transition-all duration-300 hover:scale-[1.01] disabled:opacity-40"
               >
                 Buy Now
               </button>
@@ -242,17 +242,17 @@ function ProductDetails() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-100">
             <div className="flex flex-col items-center text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
               <Truck className="w-4 h-4 text-orange-600 mb-1" />
-              <span className="text-[11px] font-bold text-slate-800">Free Shipping</span>
+              <span className="text-[11px] font-semibold text-slate-800">Free Shipping</span>
               <span className="text-[10px] text-slate-400">On orders $50+</span>
             </div>
             <div className="flex flex-col items-center text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
               <ShieldCheck className="w-4 h-4 text-orange-600 mb-1" />
-              <span className="text-[11px] font-bold text-slate-800">Secure Pay</span>
+              <span className="text-[11px] font-semibold text-slate-800">Secure Pay</span>
               <span className="text-[10px] text-slate-400">100% Protected</span>
             </div>
             <div className="flex flex-col items-center text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
               <RotateCcw className="w-4 h-4 text-orange-600 mb-1" />
-              <span className="text-[11px] font-bold text-slate-800">Easy Returns</span>
+              <span className="text-[11px] font-semibold text-slate-800">Easy Returns</span>
               <span className="text-[10px] text-slate-400">30-day policy</span>
             </div>
           </div>
@@ -263,7 +263,7 @@ function ProductDetails() {
       {relatedProducts.length > 0 && (
         <div className="pt-10 border-t border-slate-100 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-black text-slate-900 tracking-tight">Related Products</h2>
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Related Products</h2>
           </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {relatedProducts.map((relatedProduct) => (
