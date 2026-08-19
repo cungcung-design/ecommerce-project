@@ -41,7 +41,7 @@ function CountdownTimer() {
   const pad = (num) => String(num).padStart(2, "0");
 
   return (
-    <div className="flex gap-3">
+    <div className="flex gap-2 sm:gap-3">
       {[
         { label: "Days", value: timeLeft.days },
         { label: "Hours", value: timeLeft.hours },
@@ -49,10 +49,10 @@ function CountdownTimer() {
         { label: "Secs", value: timeLeft.seconds },
       ].map((item) => (
         <div key={item.label} className="text-center">
-          <div className="rounded-lg bg-white/25 px-3 py-2 backdrop-blur-md border border-white/20 shadow-inner">
-            <span className="text-xl font-bold text-white">{pad(item.value)}</span>
+          <div className="rounded-lg bg-white/25 px-2 py-1.5 sm:px-3 sm:py-2 backdrop-blur-md border border-white/20 shadow-inner">
+            <span className="text-base sm:text-xl font-bold text-white">{pad(item.value)}</span>
           </div>
-          <span className="mt-1 block text-xs font-medium text-white/90">{item.label}</span>
+          <span className="mt-0.5 sm:mt-1 block text-[10px] sm:text-xs font-medium text-white/90">{item.label}</span>
         </div>
       ))}
     </div>
@@ -62,29 +62,29 @@ function CountdownTimer() {
 function PromoBannerSection() {
   return (
     <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
+        <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2">
           
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-8 lg:p-12 shadow-xl shadow-orange-500/10 group">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-6 sm:p-8 lg:p-12 shadow-xl shadow-orange-500/10 group">
             {/* Subtle background glow effect */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none" />
 
             <div className="relative z-10">
-              <span className="text-sm font-semibold uppercase tracking-wider text-white/90">
+              <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-white/90">
                 {promoData.flashSale.tag}
               </span>
 
-              <h3 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
+              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white lg:text-4xl">
                 {promoData.flashSale.title}
               </h3>
 
-              <div className="mt-6">
+              <div className="mt-4 sm:mt-6">
                 <CountdownTimer />
               </div>
 
               <Link
                 to={promoData.flashSale.ctaLink}
-                className="mt-8 inline-block rounded-full bg-white px-8 py-3 text-sm font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-100"
+                className="mt-6 sm:mt-8 inline-block rounded-full bg-white px-6 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-900 shadow-sm transition-colors hover:bg-gray-100"
               >
                 {promoData.flashSale.cta}
               </Link>
@@ -99,7 +99,7 @@ function PromoBannerSection() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden rounded-3xl bg-gray-900 shadow-xl group">
+          <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gray-900 shadow-xl group">
             <div className="absolute inset-0">
               <img
                 src={promoData.collection.backgroundImage}
@@ -109,22 +109,22 @@ function PromoBannerSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
             </div>
 
-            <div className="relative z-10 p-8 lg:p-12">
-              <span className="text-sm font-semibold uppercase tracking-wider text-orange-400">
+            <div className="relative z-10 p-6 sm:p-8 lg:p-12">
+              <span className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-orange-400">
                 {promoData.collection.tag}
               </span>
 
-              <h3 className="mt-3 text-3xl font-bold text-white lg:text-4xl">
+              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white lg:text-4xl">
                 {promoData.collection.title}
               </h3>
 
-              <p className="mt-3 text-gray-300">
+              <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-300">
                 {promoData.collection.description}
               </p>
 
               <Link
                 to={promoData.collection.ctaLink}
-                className="mt-8 inline-block rounded-full border-2 border-white px-8 py-3 text-sm font-semibold text-white transition-colors hover:bg-white hover:text-gray-900"
+                className="mt-6 sm:mt-8 inline-block rounded-full border-2 border-white px-6 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white transition-colors hover:bg-white hover:text-gray-900"
               >
                 {promoData.collection.cta}
               </Link>

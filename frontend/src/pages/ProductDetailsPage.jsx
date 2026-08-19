@@ -178,10 +178,9 @@ function ProductDetails() {
           </p>
 
           {/* Stock Availability */}
-          <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Availability:</span>
-            <span className={`inline-flex items-center gap-1.5 text-xs font-bold px-2.5 py-1 rounded-md ${product.stock > 0 ? "bg-emerald-50 text-emerald-700 border border-emerald-100" : "bg-rose-50 text-rose-700 border border-rose-100"}`}>
-              <span className={`w-1.5 h-1.5 rounded-full ${product.stock > 0 ? "bg-emerald-500 animate-pulse" : "bg-rose-500"}`} />
+            <span className={`inline-flex items-center text-xs font-bold ${product.stock > 0 ? "text-emerald-600" : "text-rose-600"}`}>
               {product.stock > 0 ? `In Stock (${product.stock} units)` : "Out of Stock"}
             </span>
           </div>

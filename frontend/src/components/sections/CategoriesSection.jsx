@@ -32,16 +32,16 @@ function CategoriesSection() {
   const { data: dbCategories = [], isError } = useCategories();
 
   return (
-    <section id="categories" className="bg-white py-16">
+    <section id="categories" className="bg-white py-12 sm:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Shop by Categories
           </h2>
 
           <Link
             to="/products"
-            className="text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
           >
             View All Categories →
           </Link>
@@ -53,7 +53,7 @@ function CategoriesSection() {
           </p>
         )}
 
-        <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+        <div className="mt-8 sm:mt-10 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
           {categories.map((category) => {
             const matched = dbCategories.find((c) => c.name === category.name);
             const to = matched
@@ -64,7 +64,7 @@ function CategoriesSection() {
               <Link
                 key={category.name}
                 to={to}
-                className="group relative overflow-hidden rounded-2xl bg-gray-100 shadow-sm transition-shadow hover:shadow-md"
+                className="group relative overflow-hidden rounded-xl sm:rounded-2xl bg-gray-100 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="aspect-[3/4] overflow-hidden">
                   <img
@@ -74,14 +74,14 @@ function CategoriesSection() {
                   />
                 </div>
 
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4">
-                  <h3 className="text-sm font-semibold text-white">
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-3 sm:p-4">
+                  <h3 className="text-xs sm:text-sm font-semibold text-white">
                     {category.name}
                   </h3>
 
-                  <span className="mt-1 flex items-center text-xs text-gray-200 transition-colors group-hover:text-white">
+                  <span className="mt-0.5 sm:mt-1 flex items-center text-[11px] sm:text-xs text-gray-200 transition-colors group-hover:text-white">
                     Shop Now
-                    <span className="ml-1 transition-transform group-hover:translate-x-0.5">→</span>
+                    <span className="ml-0.5 sm:ml-1 transition-transform group-hover:translate-x-0.5">→</span>
                   </span>
                 </div>
               </Link>

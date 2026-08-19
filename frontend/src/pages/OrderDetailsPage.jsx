@@ -357,7 +357,7 @@ function OrderDetailsPage() {
               {order.items.map((item) => {
                 const imageUrl = item.product?.imageUrl || item.product?.image;
                 return (
-                  <div key={item.id} className="flex items-center gap-4 px-6 py-4">
+                  <div key={item.id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 px-4 sm:px-6 py-3 sm:py-4">
                     {imageUrl ? (
                       <img
                         src={imageUrl}

@@ -126,27 +126,27 @@ function HeroSection() {
 
   return (
     <section className="relative bg-white overflow-hidden">
-      <div className="px-4 pt-4 pb-12 lg:pt-8 lg:py-20">
+      <div className="px-4 pt-4 pb-8 sm:pb-12 lg:pt-8 lg:py-20">
         <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           
           <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
-            <span className="inline-block text-xs font-bold uppercase tracking-widest text-orange-600">
+            <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-orange-600">
               {current.category}
             </span>
 
-            <h1 className="mt-4 text-3xl sm:text-4xl font-extrabold leading-tight text-gray-900 lg:text-6xl whitespace-pre-line">
+            <h1 className="mt-3 text-2xl sm:text-3xl lg:text-5xl font-extrabold leading-tight text-gray-900 whitespace-pre-line">
               {current.title}
             </h1>
 
-            <p className="mt-4 text-sm sm:text-base text-gray-600 lg:text-lg">
+            <p className="mt-3 text-sm sm:text-base text-gray-600 lg:text-lg">
               {current.description}
             </p>
 
-            <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3 sm:gap-4">
+            <div className="mt-5 sm:mt-8 flex flex-wrap items-center gap-2.5 sm:gap-4">
               <Link
                 to={current.shopNowLink}
                 onClick={(e) => e.stopPropagation()}
-                className="rounded-full bg-orange-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors text-center no-underline"
+                className="rounded-full bg-orange-600 px-5 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors text-center no-underline"
               >
                 Shop Now →
               </Link>
@@ -154,21 +154,21 @@ function HeroSection() {
               <button
                 type="button"
                 onClick={(e) => e.stopPropagation()}
-                className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer"
+                className="rounded-full border border-gray-200 px-5 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer"
               >
                 Explore Collection
               </button>
             </div>
 
-            <div className="mt-8 sm:mt-10 flex items-center gap-4">
-              <div className="flex -space-x-3">
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
-                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop" alt="Customer" className="h-9 w-9 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+            <div className="mt-6 sm:mt-10 flex items-center gap-3 sm:gap-4">
+              <div className="flex -space-x-2 sm:-space-x-3">
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=50&h=50&fit=crop" alt="Customer" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop" alt="Customer" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=50&h=50&fit=crop" alt="Customer" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=50&h=50&fit=crop" alt="Customer" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border-2 border-white object-cover" />
               </div>
 
-              <div className="text-xs sm:text-sm">
+              <div className="text-[11px] sm:text-sm">
                 <p className="font-bold text-gray-900">Loved by 50,000+ customers worldwide</p>
               </div>
             </div>
@@ -181,24 +181,24 @@ function HeroSection() {
           >
             <div className="relative w-full max-w-sm sm:max-w-md flex justify-center">
               <div className="relative overflow-visible w-full flex justify-center">
-                <div className="absolute h-[320px] sm:h-[380px] lg:h-[420px] w-[85%] max-w-xs sm:max-w-sm rounded-[2rem] sm:rounded-[3rem] bg-gradient-to-tr from-red-500 to-orange-500 shadow-2xl rotate-3 transition-transform duration-500 group-hover:scale-105" />
+                <div className="absolute h-[280px] sm:h-[360px] lg:h-[420px] w-[85%] max-w-xs sm:max-w-sm rounded-[2rem] sm:rounded-[3rem] bg-gradient-to-tr from-red-500 to-orange-500 shadow-2xl rotate-3 transition-transform duration-500 group-hover:scale-105" />
 
                 <img
                   src={current.image}
                   alt="Fashion model"
-                  className="relative z-10 h-[360px] sm:h-[420px] lg:h-[480px] w-[85%] sm:w-full max-w-xs sm:max-w-md rounded-[2rem] sm:rounded-[2.5rem] object-cover object-top shadow-lg transition-transform duration-500 group-hover:scale-[1.02]"
+                  className="relative z-10 h-[320px] sm:h-[400px] lg:h-[480px] w-[85%] sm:w-full max-w-xs sm:max-w-md rounded-[2rem] sm:rounded-[2.5rem] object-cover object-top shadow-lg transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
 
               {current.floatingProducts.map((product, index) => (
                 <div
                   key={index}
-                  className={`absolute z-20 flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-white p-2.5 sm:p-3 shadow-lg sm:shadow-xl backdrop-blur-md bg-opacity-95 border border-gray-100 transition-all duration-300 scale-90 sm:scale-100 ${getFloatingPosition(activeSlide, index)}`}
+                  className={`absolute z-20 flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-white p-2 sm:p-3 shadow-lg sm:shadow-xl backdrop-blur-md bg-opacity-95 border border-gray-100 transition-all duration-300 scale-95 sm:scale-100 ${getFloatingPosition(activeSlide, index)}`}
                 >
-                  <img src={product.image} alt={product.name} className="h-9 w-9 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl object-cover bg-gray-50" />
+                  <img src={product.image} alt={product.name} className="h-8 w-8 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl object-cover bg-gray-50" />
                   <div>
-                    <p className="text-[10px] sm:text-xs font-bold text-gray-900">{product.name}</p>
-                    <p className="text-[9px] sm:text-xs font-medium text-gray-500">{product.price}</p>
+                    <p className="text-[11px] sm:text-xs font-bold text-gray-900">{product.name}</p>
+                    <p className="text-[10px] sm:text-xs font-medium text-gray-500">{product.price}</p>
                   </div>
                 </div>
               ))}
