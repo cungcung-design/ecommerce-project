@@ -150,6 +150,14 @@ function HeroSection() {
               >
                 Shop Now →
               </Link>
+
+              <Link
+                to={current.shopNowLink}
+                onClick={(e) => e.stopPropagation()}
+                className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors text-center no-underline"
+              >
+                Explore Collection
+              </Link>
             </div>
 
             <div className="mt-8 sm:mt-10 flex items-center gap-4">
