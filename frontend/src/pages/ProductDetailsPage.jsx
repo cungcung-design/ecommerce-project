@@ -265,7 +265,7 @@ function ProductDetails() {
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-black text-slate-900 tracking-tight">Related Products</h2>
           </div>
-           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {relatedProducts.map((relatedProduct) => (
               <ProductCard key={relatedProduct.id} product={relatedProduct} />
             ))}
