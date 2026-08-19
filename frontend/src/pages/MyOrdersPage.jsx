@@ -106,7 +106,7 @@ function MyOrdersPage() {
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-2">
           <div className="flex items-center justify-between text-xs">
             <span className="font-bold text-slate-400 uppercase tracking-wider">Latest Status Tracker</span>
-            <span className="font-semibold text-slate-600">#{orders[0]?.id.slice(-6).toUpperCase()}</span>
+            <span className="font-semibold text-slate-600">{String(orders[0]?.id).slice(-6).toUpperCase()}</span>
           </div>
           <StatusFlowIndicator currentStatus={orders[0]?.status ?? "PENDING"} />
         </div>
