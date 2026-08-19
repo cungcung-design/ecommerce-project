@@ -231,12 +231,12 @@ function ProductDetails() {
               </div>
 
               {/* Buy Now Button */}
-              <button
+             <button
                 onClick={handleBuyNow}
                 disabled={addToCart.isPending || product.stock === 0}
                 className="w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-sm font-bold text-white shadow-md shadow-slate-900/10 transition-all duration-300 hover:scale-[1.01] disabled:opacity-40"
               >
-                <Zap className="w-4 h-4 text-orange-400 fill-orange-400" /> Buy Now
+                Buy Now
               </button>
             </div>
           )}
