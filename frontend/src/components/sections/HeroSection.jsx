@@ -7,8 +7,8 @@ const slidesData = [
     title: "Discover Products\nYou'll Love",
     description: "Shop the latest trending products curated for modern lifestyles.",
     image: "https://i.pinimg.com/736x/89/ac/78/89ac7841d71b268c291db5110f1075a7.jpg",
-    shopNowLink: "/products?sort=best-selling",
-    exploreLink: "/products?sort=best-selling",
+    shopNowLink: "/products",
+    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Air Max 270",
@@ -37,8 +37,8 @@ const slidesData = [
     title: "Step Up Your\nStyle Game",
     description: "Explore fresh drops and exclusive styles designed to turn heads.",
     image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop",
-    shopNowLink: "/products?sort=newest",
-    exploreLink: "/products?sort=newest",
+    shopNowLink: "/products",
+    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Denim Jacket",
