@@ -21,17 +21,31 @@ function CartPage() {
 
   if (isLoading) {
     return (
-      <div className="p-8">
-        Loading cart...
+      <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-4">
+        <div className="relative">
+          <div className="w-12 h-12 rounded-full border-4 border-orange-100 border-t-orange-600 animate-spin" />
+        </div>
+        <p className="text-slate-500 font-medium animate-pulse">Loading your cart...</p>
       </div>
     );
   }
 
   if (isError) {
-    notify.error("Failed to load cart.");
     return (
-      <div className="p-8">
-        Failed to load cart.
+      <div className="max-w-md mx-auto mt-12 p-6 rounded-2xl bg-rose-50 border border-rose-100 text-center space-y-3 shadow-sm">
+        <div className="w-12 h-12 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center mx-auto">
+          <AlertCircle className="w-6 h-6" />
+        </div>
+        <h3 className="font-semibold text-rose-900">Unable to load cart</h3>
+        <p className="text-sm text-rose-600">
+          Something went wrong while fetching your cart. Please try again later.
+        </p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-2 rounded-lg bg-rose-600 px-4 py-2 text-sm font-medium text-white hover:bg-rose-700"
+        >
+          Try Again
+        </button>
       </div>
     );
   }

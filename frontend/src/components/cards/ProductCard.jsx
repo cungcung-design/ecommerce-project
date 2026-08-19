@@ -21,9 +21,7 @@ function ProductCard({ product }) {
     e.stopPropagation();
 
     if (!isLoggedIn) {
-      notify({
-        variant: "error",
-        message: "Please log in to add items to your cart.",
+      notify.error("Please log in to add items to your cart.", {
         action: {
           text: "Log In",
           onClick: () => {
