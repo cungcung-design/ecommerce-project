@@ -8,7 +8,6 @@ const slidesData = [
     description: "Shop the latest trending products curated for modern lifestyles.",
     image: "https://i.pinimg.com/736x/89/ac/78/89ac7841d71b268c291db5110f1075a7.jpg",
     shopNowLink: "/products",
-    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Air Max 270",
@@ -38,7 +37,6 @@ const slidesData = [
     description: "Explore fresh drops and exclusive styles designed to turn heads.",
     image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&h=800&fit=crop",
     shopNowLink: "/products",
-    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Denim Jacket",
@@ -58,7 +56,6 @@ const slidesData = [
     description: "Get vacation-ready with lightweight fabrics and vibrant accessories.",
     image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=600&h=800&fit=crop",
     shopNowLink: "/products",
-    exploreLink: "/products",
     floatingProducts: [
       {
         name: "Sunglasses",
@@ -152,14 +149,6 @@ function HeroSection() {
                 className="rounded-full bg-orange-600 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-white shadow-md hover:bg-orange-700 transition-colors text-center no-underline"
               >
                 Shop Now →
-              </Link>
-
-              <Link
-                to={current.exploreLink}
-                onClick={(e) => e.stopPropagation()}
-                className="rounded-full border border-gray-200 px-6 sm:px-8 py-3 sm:py-3.5 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors text-center no-underline"
-              >
-                Explore Collection
               </Link>
             </div>
 
