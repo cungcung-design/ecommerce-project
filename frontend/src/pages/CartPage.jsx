@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
+import { AlertCircle } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import useNotification from "../hooks/useNotification";
 
@@ -54,10 +55,10 @@ function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="py-16 text-center">
-        <h1 className="text-3xl font-bold">Your Cart is Empty</h1>
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16 text-center">
+        <h1 className="text-2xl font-bold text-slate-900">Your Cart is Empty</h1>
         <p className="mt-3 text-gray-600">Add some products to your cart.</p>
-        <Link to="/products" className="mt-6 inline-block rounded-lg bg-black px-6 py-3 text-white">
+        <Link to="/products" className="mt-6 inline-block rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-sm font-semibold text-white transition-colors">
           Continue Shopping
         </Link>
       </div>
@@ -74,11 +75,14 @@ function CartPage() {
   const itemCount = items.reduce((count, item) => count + item.quantity, 0);
 
   return (
-    <div>
-      <h1 className="text-3xl font-bold">Shopping Cart</h1>
+    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-6 sm:py-10 space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">Shopping Cart</h1>
+        <span className="text-sm text-slate-500">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
+      </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-3">
-        <div className="space-y-4 lg:col-span-2">
+      <div className="grid gap-6 lg:grid-cols-3 lg:items-start">
+        <div className="space-y-3 lg:col-span-2">
           {items.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}
