@@ -56,45 +56,46 @@ function ProductCard({ product }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
       <Link to={`/products/${product.id}`} className="block">
-      <div className="relative aspect-[3/4] overflow-hidden bg-gray-100">
-          {productImage ? (
-            <img
-              src={productImage}
-              alt={product.name}
-              className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
-            />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-gray-400">
-              No Image
-            </div>
-          )}
+{/* Product Image Card - Wider horizontally & shorter/smaller on mobile */}
+      <div className="relative aspect-[4/3] sm:aspect-[4/3] overflow-hidden bg-gray-100">
+        {productImage ? (
+          <img
+            src={productImage}
+            alt={product.name}
+            className="h-full w-full object-contain p-2 transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full w-full items-center justify-center text-gray-400">
+            No Image
+          </div>
+        )}
 
-          {hasDiscount && (
-            <span className="absolute left-2.5 top-2.5 rounded-full bg-red-500 px-2 py-1 text-[11px] sm:text-xs font-semibold text-white">
-              {discount}
-            </span>
-          )}
+        {hasDiscount && (
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-red-500 px-2 py-1 text-[11px] sm:text-xs font-semibold text-white">
+            {discount}
+          </span>
+        )}
 
-          {!hasDiscount && product.isActive !== false && (
-            <span className="absolute left-2.5 top-2.5 rounded-full bg-gray-900 px-2 py-1 text-[11px] sm:text-xs font-semibold text-white">
-              New
-            </span>
-          )}
+        {!hasDiscount && product.isActive !== false && (
+          <span className="absolute left-2.5 top-2.5 rounded-full bg-gray-900 px-2 py-1 text-[11px] sm:text-xs font-semibold text-white">
+            New
+          </span>
+        )}
 
-          <button
-            type="button"
-            aria-label="Add to wishlist"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            className="absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-            </svg>
-          </button>
-        </div>
+        <button
+          type="button"
+          aria-label="Add to wishlist"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+          }}
+          className="absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
+        </button>
+      </div>
       </Link>
 
       <div className="p-3 sm:p-4">
