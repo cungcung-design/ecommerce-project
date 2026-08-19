@@ -56,13 +56,13 @@ function ProductCard({ product }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
       <Link to={`/products/${product.id}`} className="block">
-{/* Real-world e-commerce wider horizontal aspect ratio (16/10 on mobile, standard 3/4 on desktop) */}
-<div className="relative aspect-[16/10] sm:aspect-[3/4] overflow-hidden bg-gray-100 w-full">
+{/* Universal wide horizontal layout for all screen sizes */}
+<div className="relative aspect-[16/9] overflow-hidden bg-gray-100">
   {productImage ? (
     <img
       src={productImage}
       alt={product.name}
-      className="h-full w-full object-contain object-center transition-transform duration-300 group-hover:scale-105"
+      className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105"
     />
   ) : (
     <div className="flex h-full w-full items-center justify-center text-gray-400">
