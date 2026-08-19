@@ -118,11 +118,10 @@ function ProductDetails() {
         </Link>
       </div>
 
-      {/* Balanced Grid: Equal 6-col split for left image and right details */}
-      <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
-        {/* Left Column: Image Container (6 columns) */}
-        <div className="lg:col-span-6">
-          <div className="overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[2/1] relative">
+      <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
+        {/* Left Column: Image - Changed to aspect-[16/9] for a wide, horizontal e-commerce display across all screen sizes */}
+        <div className="lg:col-span-7">
+          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[16/9] relative">
             {productImage ? (
               <img
                 src={productImage}
@@ -142,8 +141,8 @@ function ProductDetails() {
           </div>
         </div>
 
-        {/* Right Column: Product Details & Actions (6 columns) */}
-        <div className="lg:col-span-6 space-y-6">
+        {/* Right Column: Product Details & Actions */}
+        <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
             <span className="text-xs font-bold uppercase tracking-wider text-orange-600 bg-orange-50 px-3 py-1 rounded-full border border-orange-100">
               {product.category?.name || "Category"}
