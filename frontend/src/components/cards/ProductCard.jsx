@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
 import { useAuth } from "../../context/AuthContext";
+import useNotification from "../../hooks/useNotification";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(null);
   const { user } = useAuth();
+  const { notify } = useNotification();
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
@@ -19,7 +21,7 @@ function ProductCard({ product }) {
     e.stopPropagation();
 
     if (!isLoggedIn) {
-      setError("Please log in to add products to your cart.");
+      notify({ variant: "error", message: "Please log in to add products to your cart." });
       return;
     }
 
@@ -139,17 +141,12 @@ function ProductCard({ product }) {
         </button>
 
         {!isLoggedIn && (
-          <div className="mt-2 rounded-md border border-orange-100 bg-orange-50 p-2">
-            <p className="text-[11px] text-orange-700">
-              Please log in to add products to your cart.
-            </p>
-            <Link
-              to="/login"
-              className="mt-1 inline-block text-[11px] font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
-            >
-              Log In
-            </Link>
-          </div>
+          <Link
+            to="/login"
+            className="mt-2 inline-flex items-center justify-center rounded-md border border-orange-200 bg-orange-50 px-3 py-1.5 text-[11px] font-semibold text-orange-700 hover:bg-orange-100 transition-colors"
+          >
+            Log In
+          </Link>
         )}
 
         {error && isLoggedIn && (
