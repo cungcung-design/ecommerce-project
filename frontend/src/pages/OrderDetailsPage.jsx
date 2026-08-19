@@ -508,10 +508,9 @@ function OrderDetailsPage() {
         </div>
       </div>
 
-      {/* Footer Actions */}
-    {/* Footer Actions */}
-      <div className="flex items-center justify-end rounded-xl border border-gray-200 bg-white px-6 py-4">
-        <div className="text-xs text-gray-500">
+{/* Footer Actions */}
+      <div className="flex items-center justify-center rounded-xl bg-white px-6 py-4 text-center">
+        <div className="text-xs sm:text-sm text-gray-500 font-medium">
           {isCancelled && cancelledDate
             ? `Cancelled on ${cancelledDate}`
             : `Order placed on ${formattedDate}`}
