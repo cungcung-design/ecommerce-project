@@ -58,8 +58,16 @@ function ProductDetails() {
 
   const handleAddToCart = async () => {
     if (!isLoggedIn) {
-      notify({ variant: "error", message: "Please log in to add products to your cart." });
-      navigate("/login");
+      notify({
+        variant: "error",
+        message: "Please log in to add items to your cart.",
+        action: {
+          text: "Log In",
+          onClick: () => {
+            navigate("/login");
+          },
+        },
+      });
       return;
     }
 
@@ -70,7 +78,7 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
-      notify({ variant: "success", message: "Added to cart successfully" });
+      notify({ variant: "success", message: "Added to cart successfully." });
     } catch (error) {
       notify({ variant: "error", message: error.response?.data?.message || "Failed to add to cart" });
     }
@@ -78,8 +86,16 @@ function ProductDetails() {
 
   const handleBuyNow = async () => {
     if (!isLoggedIn) {
-      notify({ variant: "error", message: "Please log in to add products to your cart." });
-      navigate("/login");
+      notify({
+        variant: "error",
+        message: "Please log in to add items to your cart.",
+        action: {
+          text: "Log In",
+          onClick: () => {
+            navigate("/login");
+          },
+        },
+      });
       return;
     }
 

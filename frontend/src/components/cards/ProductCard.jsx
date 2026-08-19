@@ -21,7 +21,16 @@ function ProductCard({ product }) {
     e.stopPropagation();
 
     if (!isLoggedIn) {
-      notify({ variant: "error", message: "Please log in to add products to your cart." });
+      notify({
+        variant: "error",
+        message: "Please log in to add items to your cart.",
+        action: {
+          text: "Log In",
+          onClick: () => {
+            window.location.href = "/login";
+          },
+        },
+      });
       return;
     }
 
@@ -35,6 +44,7 @@ function ProductCard({ product }) {
         onSuccess: () => {
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
+          notify({ variant: "success", message: "Added to cart successfully." });
         },
         onError: (err) => {
           const message = err.response?.data?.message || "Failed to add to cart";
@@ -139,15 +149,6 @@ function ProductCard({ product }) {
                 ? "Out of Stock"
                 : "Quick Add"}
         </button>
-
-        {!isLoggedIn && (
-          <Link
-            to="/login"
-            className="mt-2 inline-flex items-center justify-center rounded-md border border-orange-200 bg-orange-50 px-3 py-1.5 text-[11px] font-semibold text-orange-700 hover:bg-orange-100 transition-colors"
-          >
-            Log In
-          </Link>
-        )}
 
         {error && isLoggedIn && (
           <p className="mt-2 text-xs text-red-500">{error}</p>
