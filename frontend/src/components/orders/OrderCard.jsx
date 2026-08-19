@@ -39,7 +39,7 @@ function OrderCard({ order }) {
           <div>
             <div className="flex items-center gap-3">
               <h2 className="font-semibold">
-                Order #{order.id}
+                 Order {order.id}
               </h2>
               <OrderStatus status={order.status} />
             </div>

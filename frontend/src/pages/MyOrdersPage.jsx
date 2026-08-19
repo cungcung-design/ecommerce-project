@@ -141,7 +141,7 @@ function MyOrdersPage() {
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="text-sm font-bold text-amber-900">
-                      Order #{order.id}
+                       Order {order.id}
                     </p>
                     <span className="px-2 py-0.5 rounded-md text-[10px] font-bold tracking-wider uppercase bg-amber-200/60 text-amber-800">
                       {statusLabels[order.status]}
@@ -172,7 +172,7 @@ function MyOrdersPage() {
             <p className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1.5">
               <RefreshCw className="w-3.5 h-3.5 text-indigo-500" /> Latest Order Status Flow
             </p>
-            <span className="text-[11px] font-medium text-slate-400">Order #{orders[0]?.id}</span>
+            <span className="text-[11px] font-medium text-slate-400">Order {orders[0]?.id}</span>
           </div>
           <StatusFlowIndicator currentStatus={orders[0]?.status ?? "PENDING"} />
         </div>

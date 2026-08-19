@@ -288,7 +288,7 @@ function OrderDetailsPage() {
                 Order Details
               </h1>
               <p className="mt-0.5 text-sm text-gray-500">
-                Order #{order.id} · {formattedDate}
+                Order {order.id} · {formattedDate}
               </p>
             </div>
           </div>
