@@ -46,7 +46,7 @@ function AdminCategoryPage() {
         {
           onSuccess: () => {
             setEditingCategory(null);
-            notify({ variant: "success", message: "Category updated successfully" });
+            notify.success("Category updated successfully");
           },
           onError: (err) =>
             setError(err.response?.data?.message || "Failed to update category"),
@@ -54,9 +54,9 @@ function AdminCategoryPage() {
       );
     } else {
       createCategory.mutate(payload.name, {
-        onSuccess: () => {
-          notify({ variant: "success", message: "Category created successfully" });
-        },
+          onSuccess: () => {
+            notify.success("Category created successfully");
+          },
         onError: (err) =>
           setError(err.response?.data?.message || "Failed to create category"),
       });
@@ -75,7 +75,7 @@ function AdminCategoryPage() {
       if (confirmed) {
         updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
           onSuccess: () => {
-            notify({ variant: "success", message: `Category ${nextStatus ? "activated" : "deactivated"} successfully` });
+            notify.success(`Category ${nextStatus ? "activated" : "deactivated"} successfully`);
           },
           onError: (err) => setError(err.response?.data?.message || "Failed to update status"),
         });
@@ -95,7 +95,7 @@ function AdminCategoryPage() {
       if (confirmed) {
         deleteCategory.mutate(category.id, {
           onSuccess: () => {
-            notify({ variant: "success", message: `Category "${category.name}" deleted successfully` });
+            notify.success(`Category "${category.name}" deleted successfully`);
           },
           onError: (err) => setError(err.response?.data?.message || "Failed to delete category"),
         });

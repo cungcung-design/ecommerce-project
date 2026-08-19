@@ -44,7 +44,7 @@ function ProductCard({ product }) {
         onSuccess: () => {
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
-          notify({ variant: "success", message: "Added to cart successfully." });
+          notify.success("Added to cart successfully.");
         },
         onError: (err) => {
           const message = err.response?.data?.message || "Failed to add to cart";

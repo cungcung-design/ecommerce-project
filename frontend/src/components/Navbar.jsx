@@ -16,6 +16,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../hooks/useCart";
 import { useOrders } from "../hooks/useOrders";
+import useNotification from "../hooks/useNotification";
 
 const ACTION_REQUIRED_STATUSES = ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED"];
 
@@ -28,6 +29,7 @@ function Navbar() {
   const { user, logout } = useAuth();
   const { data: cart } = useCart({ enabled: !!user });
   const { data: orders } = useOrders();
+  const { notify } = useNotification();
 
   // Add scroll effect for glassmorphism styling
   useEffect(() => {
@@ -53,6 +55,7 @@ function Navbar() {
 
   const handleLogout = async () => {
     await logout();
+    notify.success("Logged out successfully");
     setIsAccountOpen(false);
     setIsMenuOpen(false);
   };

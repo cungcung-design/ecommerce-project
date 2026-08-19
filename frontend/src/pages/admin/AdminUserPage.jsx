@@ -26,7 +26,7 @@ function AdminUserPage() {
 
   const handleStatusToggle = (user) => {
     if (user.id === currentUser?.id) {
-      notify({ variant: "warning", message: "You cannot deactivate your own account." });
+      notify.warning("You cannot deactivate your own account.");
       return;
     }
 
@@ -42,9 +42,9 @@ function AdminUserPage() {
       if (confirmed) {
         updateStatus.mutate({ id: user.id, isActive: nextStatus }, {
           onSuccess: () => {
-            notify({ variant: "success", message: `User ${nextStatus ? "activated" : "deactivated"} successfully` });
+            notify.success(`User ${nextStatus ? "activated" : "deactivated"} successfully`);
           },
-          onError: () => notify({ variant: "error", message: "Failed to update user status" }),
+          onError: () => notify.error("Failed to update user status"),
         });
       }
     });
@@ -52,15 +52,15 @@ function AdminUserPage() {
 
   const handleRoleChange = (user, role) => {
     if (user.id === currentUser?.id && role !== "ADMIN") {
-      notify({ variant: "warning", message: "You cannot change your own role to Customer." });
+      notify.warning("You cannot change your own role to Customer.");
       return;
     }
 
     updateRole.mutate({ id: user.id, role }, {
       onSuccess: () => {
-        notify({ variant: "success", message: `User role updated to ${role}` });
+        notify.success(`User role updated to ${role}`);
       },
-      onError: () => notify({ variant: "error", message: "Failed to update user role" }),
+      onError: () => notify.error("Failed to update user role"),
     });
   };
 

@@ -63,7 +63,7 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
-          notify({ variant: "success", message: "Payment session created. Redirecting..." });
+          notify.success("Payment session created. Redirecting...");
           window.location.href = session.paymentUrl;
           return;
         }
@@ -71,14 +71,12 @@ function CheckoutPage() {
         throw new Error("Payment session could not be created");
       }
 
-      notify({ variant: "success", message: "Order placed successfully!" });
+      notify.success("Order placed successfully!");
       navigate(`/orders/${order.id}`);
     } catch (err) {
-      setError(
-        err.response?.data?.message ||
-          err.message ||
-          "Checkout failed"
-      );
+      const message = err.response?.data?.message || err.message || "Checkout failed";
+      setError(message);
+      notify.error(message);
     }
   };
 

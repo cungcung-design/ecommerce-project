@@ -11,7 +11,8 @@ function CartItem({ item }) {
       productId: item.productId,
       quantity: item.quantity + 1,
     }, {
-      onError: () => notify({ variant: "error", message: "Failed to update quantity" }),
+      onSuccess: () => notify.success("Cart updated."),
+      onError: () => notify.error("Failed to update quantity"),
     });
   };
 
@@ -21,15 +22,16 @@ function CartItem({ item }) {
         productId: item.productId,
         quantity: item.quantity - 1,
       }, {
-        onError: () => notify({ variant: "error", message: "Failed to update quantity" }),
+        onSuccess: () => notify.success("Cart updated."),
+        onError: () => notify.error("Failed to update quantity"),
       });
     }
   };
 
   const handleRemove = () => {
     removeFromCart.mutate(item.productId, {
-      onSuccess: () => notify({ variant: "success", message: "Item removed from cart" }),
-      onError: () => notify({ variant: "error", message: "Failed to remove item" }),
+      onSuccess: () => notify.success("Item removed from cart"),
+      onError: () => notify.error("Failed to remove item"),
     });
   };
 

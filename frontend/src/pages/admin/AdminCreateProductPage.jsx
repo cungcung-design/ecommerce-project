@@ -31,11 +31,11 @@ function AdminCreateProduct() {
 
       await createProduct.mutateAsync(productData);
 
-      notify({ variant: "success", message: "Product created successfully" });
+      notify.success("Product created successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(error.response?.data?.message || "Failed to create product");
-      notify({ variant: "error", message: error.response?.data?.message || "Failed to create product" });
+      notify.error(error.response?.data?.message || "Failed to create product");
     }
   };
 

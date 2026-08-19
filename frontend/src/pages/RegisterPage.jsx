@@ -28,10 +28,10 @@ function Register() {
     try {
       await register(name, email, password);
 
-      notify({ variant: "success", message: "Account created successfully! Welcome to NovaTrend." });
+      notify.success("Account created successfully! Welcome to NovaTrend.");
       navigate("/");
     } catch (error) {
-      notify({ variant: "error", message: error.response?.data?.message || "Registration failed" });
+      notify.error(error.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }

@@ -28,7 +28,7 @@ function CartPage() {
   }
 
   if (isError) {
-    notify({ variant: "error", message: "Failed to load cart." });
+    notify.error("Failed to load cart.");
     return (
       <div className="p-8">
         Failed to load cart.

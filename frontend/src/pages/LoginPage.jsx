@@ -36,7 +36,7 @@ function Login() {
     try {
       const loggedInUser = await login(email, password);
 
-      notify({ variant: "success", message: `Welcome back, ${loggedInUser.name}!` });
+      notify.success(`Welcome back, ${loggedInUser.name}!`);
 
       if (loggedInUser.role === "ADMIN") {
         navigate("/admin");
@@ -44,7 +44,7 @@ function Login() {
         navigate("/");
       }
     } catch (error) {
-      notify({ variant: "error", message: error.response?.data?.message || "Login failed" });
+      notify.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }

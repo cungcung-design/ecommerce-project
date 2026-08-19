@@ -74,12 +74,14 @@ function PaymentResultPage() {
   const isFailed = status === "FAILED" || status === "REFUNDED";
 
   useEffect(() => {
-    if (status === "PAID") {
-      notify({ variant: "success", message: "Payment successful! Your order is confirmed." });
-    } else if (status === "FAILED" || status === "REFUNDED") {
-      notify({ variant: "error", message: "Payment failed. Please try again or choose a different payment method." });
+    if (!payment || terminalStatuses.includes(status)) {
+      if (status === "PAID") {
+        notify.success("Payment successful! Your order is confirmed.");
+      } else if (status === "FAILED" || status === "REFUNDED") {
+        notify.error("Payment failed. Please try again or choose a different payment method.");
+      }
     }
-  }, [status, notify]);
+  }, [status, payment, notify]);
 
   const handleBackToOrders = () => {
     navigate("/orders");

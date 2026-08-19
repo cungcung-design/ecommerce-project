@@ -41,6 +41,7 @@ function Toast({ toast, onDismiss }) {
   const config = variantConfig[variant] || variantConfig.info;
   const Icon = config.icon;
   const [progress, setProgress] = useState(100);
+  const [isExiting, setIsExiting] = useState(false);
   const startTimeRef = useRef(0);
   const intervalRef = useRef(null);
 
@@ -61,19 +62,27 @@ function Toast({ toast, onDismiss }) {
 
   useEffect(() => {
     if (duration > 0) {
-      const timer = setTimeout(onDismiss, duration);
+      const timer = setTimeout(() => {
+        setIsExiting(true);
+        setTimeout(onDismiss, 200);
+      }, duration);
       return () => clearTimeout(timer);
     }
   }, [duration, onDismiss]);
 
+  const handleDismiss = () => {
+    setIsExiting(true);
+    setTimeout(onDismiss, 200);
+  };
+
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl border ${config.border} ${config.bg} shadow-lg toast-enter hover:shadow-xl transition-shadow`}
+      className={`group relative overflow-hidden rounded-xl border ${config.border} ${config.bg} shadow-lg toast-enter ${isExiting ? "toast-exit" : ""}`}
     >
-      <div className="flex items-start gap-3 p-4">
-        <Icon className={`h-5 w-5 shrink-0 mt-0.5 ${config.iconColor}`} />
+      <div className="flex items-start gap-3 p-3 sm:p-4">
+        <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 mt-0.5 ${config.iconColor}`} />
         <div className="flex-1 min-w-0">
-          <p className={`text-sm font-semibold ${config.textColor}`}>{message}</p>
+          <p className={`text-xs sm:text-sm font-semibold ${config.textColor} break-words`}>{message}</p>
           {action && (
             <button
               onClick={action.onClick}
@@ -84,7 +93,7 @@ function Toast({ toast, onDismiss }) {
           )}
         </div>
         <button
-          onClick={onDismiss}
+          onClick={handleDismiss}
           className="shrink-0 rounded-lg p-1 text-slate-400 hover:text-orange-600 hover:bg-orange-50 transition-colors"
           aria-label="Dismiss notification"
         >

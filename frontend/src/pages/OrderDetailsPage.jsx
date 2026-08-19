@@ -194,10 +194,10 @@ function OrderDetailsPage() {
     cancelOrder.mutate(Number(id), {
       onSuccess: () => {
         setShowCancelSuccess(true);
-        notify({ variant: "success", message: "Order cancelled successfully" });
+        notify.success("Order cancelled successfully");
       },
       onError: (err) => {
-        notify({ variant: "error", message: err?.response?.data?.message || "Failed to cancel order" });
+        notify.error(err?.response?.data?.message || "Failed to cancel order");
       },
     });
   };

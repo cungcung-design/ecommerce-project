@@ -83,14 +83,14 @@ function AdminEditProduct() {
         ...productData,
       });
 
-      notify({ variant: "success", message: "Product updated successfully" });
+      notify.success("Product updated successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(
         error.response?.data?.message ||
           "Failed to update product"
       );
-      notify({ variant: "error", message: error.response?.data?.message || "Failed to update product" });
+      notify.error(error.response?.data?.message || "Failed to update product");
     } finally {
       setSaving(false);
     }

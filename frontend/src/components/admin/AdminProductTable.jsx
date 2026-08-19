@@ -32,16 +32,16 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       setDeletingId(id);
 
       deleteProduct.mutate(id, {
-        onSuccess: () => {
-          notify({ variant: "success", message: "Product deleted successfully" });
-        },
-        onError: (err) => {
-          setError(
-            err?.response?.data?.message || "Failed to delete product. Please try again."
-          );
-          notify({ variant: "error", message: "Failed to delete product" });
-          setDeletingId(null);
-        },
+      onSuccess: () => {
+        notify.success("Product deleted successfully");
+      },
+      onError: (err) => {
+        setError(
+          err?.response?.data?.message || "Failed to delete product. Please try again."
+        );
+        notify.error("Failed to delete product");
+        setDeletingId(null);
+      },
       });
     });
   };
@@ -52,9 +52,9 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       isActive: !product.isActive,
     }, {
       onSuccess: () => {
-        notify({ variant: "success", message: `Product ${!product.isActive ? "activated" : "deactivated"} successfully` });
+        notify.success(`Product ${!product.isActive ? "activated" : "deactivated"} successfully`);
       },
-      onError: () => notify({ variant: "error", message: "Failed to update product status" }),
+      onError: () => notify.error("Failed to update product status"),
     });
   };
 

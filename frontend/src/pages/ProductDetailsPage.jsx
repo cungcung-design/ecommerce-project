@@ -78,9 +78,8 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
-      notify({ variant: "success", message: "Added to cart successfully." });
     } catch (error) {
-      notify({ variant: "error", message: error.response?.data?.message || "Failed to add to cart" });
+      notify.error(error.response?.data?.message || "Failed to add to cart");
     }
   };
 
@@ -104,10 +103,10 @@ function ProductDetails() {
         productId: product.id,
         quantity,
       });
-      notify({ variant: "success", message: "Added to cart, redirecting to checkout..." });
+      notify.success("Added to cart, redirecting to checkout...");
       navigate("/checkout");
     } catch (error) {
-      notify({ variant: "error", message: error.response?.data?.message || "Failed to add to cart" });
+      notify.error(error.response?.data?.message || "Failed to add to cart");
     }
   };
 

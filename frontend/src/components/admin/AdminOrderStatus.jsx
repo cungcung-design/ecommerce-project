@@ -88,10 +88,10 @@ function AdminOrderStatus({ orderId, currentStatus }) {
                 status: selectedStatus,
               }, {
                 onSuccess: () => {
-                  notify({ variant: "success", message: "Order status updated successfully" });
+                  notify.success("Order status updated successfully");
                 },
                 onError: () => {
-                  notify({ variant: "error", message: updateStatus.error?.response?.data?.message || "Failed to update order status" });
+                  notify.error(updateStatus.error?.response?.data?.message || "Failed to update order status");
                 },
               })
             }
