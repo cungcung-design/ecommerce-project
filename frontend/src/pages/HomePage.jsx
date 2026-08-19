@@ -63,7 +63,7 @@ function Home() {
         viewAllLink="/products?sort=newest"
       />
 
-      <BestSellersSection />
+      <BestSellersSection id="best-sellers" />
 
       <PromoBannerSection />
     </div>

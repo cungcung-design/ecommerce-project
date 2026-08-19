@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { 
   Search, 
   Plus, 
-  SlidersHorizontal, 
   Package, 
   AlertCircle, 
   Loader2 

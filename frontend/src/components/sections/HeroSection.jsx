@@ -79,10 +79,6 @@ function HeroSection() {
     setActiveSlide((prev) => (prev + 1) % slidesData.length);
   };
 
-  const handlePrevSlide = () => {
-    setActiveSlide((prev) => (prev - 1 + slidesData.length) % slidesData.length);
-  };
-
   useEffect(() => {
     const interval = setInterval(() => {
       handleNextSlide();
@@ -149,13 +145,13 @@ function HeroSection() {
                 Shop Now →
               </Link>
 
-              <button
-                type="button"
+              <Link
+                to="/products"
                 onClick={(e) => e.stopPropagation()}
-                className="rounded-full border border-gray-200 px-5 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors cursor-pointer"
+                className="rounded-full border border-gray-200 px-5 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors text-center no-underline"
               >
                 Explore Collection
-              </button>
+              </Link>
             </div>
 
             <div className="mt-6 sm:mt-10 flex items-center gap-3 sm:gap-4">
@@ -174,6 +170,14 @@ function HeroSection() {
 
           <div 
             onClick={handleNextSlide}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                handleNextSlide();
+              }
+            }}
+            role="button"
+            tabIndex={0}
             className="relative flex justify-center items-center py-4 sm:py-6 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
             title="Click to view next slide"
           >

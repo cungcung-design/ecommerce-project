@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import {
   Search,
@@ -17,6 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../hooks/useCart";
 import { useOrders } from "../hooks/useOrders";
 import useNotification from "../hooks/useNotification";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 const ACTION_REQUIRED_STATUSES = ["PENDING", "PROCESSING", "SHIPPED", "DELIVERED"];
 
@@ -41,11 +42,12 @@ function Navbar() {
   }, []);
 
   // Close menus on route change
-  useEffect(() => {
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useLayoutEffect(() => {
     setIsMenuOpen(false);
     setIsAccountOpen(false);
-    // eslint-disable-next-line
   }, [location.pathname]);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const cartCount = cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
 
@@ -65,6 +67,8 @@ function Navbar() {
   const sort = searchParams.get("sort");
   const category = searchParams.get("category");
   const hash = location.hash;
+
+  const { requireAuth } = useRequireAuth("wishlist");
 
   const isHomeActive = pathname === "/" && hash !== "#new-arrivals";
   const isShopActive = pathname === "/products" && !sort && !category;
@@ -123,13 +127,14 @@ function Navbar() {
             <Search className="h-5 w-5" />
           </Link>
 
-          <Link
-            to="/wishlist"
+          <button
+            type="button"
+            onClick={() => requireAuth("/products")}
             className="hidden sm:flex p-2 rounded-xl text-slate-600 hover:text-orange-600 hover:bg-slate-100/80 transition-all"
             aria-label="Wishlist"
           >
             <Heart className="h-5 w-5" />
-          </Link>
+          </button>
 
           {user && (
             <Link
@@ -250,10 +255,17 @@ function Navbar() {
               <Search className="h-4 w-4 text-slate-400" />
               Search
             </NavLink>
-            <NavLink to="/wishlist" className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-slate-200/80 text-sm font-medium text-slate-700 hover:bg-slate-50" onClick={() => setIsMenuOpen(false)}>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  requireAuth("/products");
+                }}
+                className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl border border-slate-200/80 text-sm font-medium text-slate-700 hover:bg-slate-50"
+              >
               <Heart className="h-4 w-4 text-slate-400" />
               Wishlist
-            </NavLink>
+            </button>
           </div>
 
           <div className="h-px bg-slate-100 my-2" />

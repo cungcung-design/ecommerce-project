@@ -1,36 +1,25 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
-import { useAuth } from "../../context/AuthContext";
 import useNotification from "../../hooks/useNotification";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(null);
-  const { user } = useAuth();
   const { notify } = useNotification();
+  const { isLoggedIn, requireAuth } = useRequireAuth("quickAdd");
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
   const productImage = product.imageUrl || product.image || "";
-  const isLoggedIn = Boolean(user);
 
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!isLoggedIn) {
-      notify.error("Please log in to add items to your cart.", {
-        action: {
-          text: "Log In",
-          onClick: () => {
-            window.location.href = "/login";
-          },
-        },
-      });
-      return;
-    }
+    if (!requireAuth()) return;
 
     if (addToCartMutation.isPending) return;
     if (product.stock === 0) return;
@@ -51,6 +40,12 @@ function ProductCard({ product }) {
         },
       }
     );
+  };
+
+  const handleWishlistClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    requireAuth();
   };
 
   return (
@@ -85,10 +80,7 @@ function ProductCard({ product }) {
           <button
             type="button"
             aria-label="Add to wishlist"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onClick={handleWishlistClick}
             className="absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>

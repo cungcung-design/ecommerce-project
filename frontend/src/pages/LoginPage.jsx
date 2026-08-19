@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
@@ -8,6 +8,7 @@ import ErrorMessage from "../components/ErrorMessage";
 
 function Login() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { login, user } = useAuth();
   const { notify } = useNotification();
 
@@ -17,15 +18,17 @@ function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const redirectTo = searchParams.get("redirectTo") || "/";
+
   useEffect(() => {
     if (user) {
       if (user.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate(redirectTo);
       }
     }
-  }, [user, navigate]);
+  }, [user, navigate, redirectTo]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -41,7 +44,7 @@ function Login() {
       if (loggedInUser.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate(redirectTo);
       }
     } catch (error) {
       notify.error(error.response?.data?.message || "Login failed");

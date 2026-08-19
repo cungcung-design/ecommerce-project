@@ -1,110 +1,90 @@
 import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { 
-  ShoppingBag, 
-  Zap, 
-  ArrowLeft, 
-  Star, 
-  ShieldCheck, 
-  Truck, 
-  RotateCcw, 
-  Check 
+  ShoppingBag, 
+  Zap, 
+  ArrowLeft, 
+  Star, 
+  ShieldCheck, 
+  Truck, 
+  RotateCcw, 
+  Check 
 } from "lucide-react";
 
 import { useProduct } from "../hooks/useProduct";
 import { useProducts } from "../hooks/useProducts";
 import { useAddToCart } from "../hooks/useCart";
 import useNotification from "../hooks/useNotification";
-import { useAuth } from "../context/AuthContext";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import ProductCard from "../components/cards/ProductCard";
 
 function ProductDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { data: product, isLoading, isError } = useProduct(id);
-  const addToCart = useAddToCart();
-  const { user } = useAuth();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { data: product, isLoading, isError } = useProduct(id);
+  const addToCart = useAddToCart();
+  const { notify } = useNotification();
+  const { isLoggedIn: isLoggedInAdd, requireAuth: requireAddToCart } = useRequireAuth("addToCart");
+  const { isLoggedIn: isLoggedInBuy, requireAuth: requireBuyNow } = useRequireAuth("buyNow");
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
-  }, [id]);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [id]);
 
-  const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [added, setAdded] = useState(false);
 
-  const { data: relatedData } = useProducts({
-    categoryId: product?.category?.id,
-    limit: 4,
-  });
+  const { data: relatedData } = useProducts({
+    categoryId: product?.category?.id,
+    limit: 4,
+  });
 
-  const relatedProducts = relatedData?.products?.filter((p) => p.id !== product?.id) || [];
-  const { notify } = useNotification();
-  const isLoggedIn = Boolean(user);
+  const relatedProducts = relatedData?.products?.filter((p) => p.id !== product?.id) || [];
 
-  if (isLoading) {
-    return <Loading />;
-  }
+  if (isLoading) {
+    return <Loading />;
+  }
 
-  if (isError || !product) {
-    return <ErrorMessage message="Product not found." />;
-  }
+  if (isError || !product) {
+    return <ErrorMessage message="Product not found." />;
+  }
 
-  const discount = product.discount || product.badge || null;
-  const hasDiscount = Boolean(discount);
-  const productImage = product.imageUrl || product.image || "";
-  const reviewCount = product.reviews || 0;
+  const discount = product.discount || product.badge || null;
+  const hasDiscount = Boolean(discount);
+  const productImage = product.imageUrl || product.image || "";
+  const reviewCount = product.reviews || 0;
 
-  const handleAddToCart = async () => {
-    if (!isLoggedIn) {
-      notify.error("Please log in to add items to your cart.", {
-        action: {
-          text: "Log In",
-          onClick: () => {
-            navigate("/login");
-          },
-        },
-      });
-      return;
-    }
+  const handleAddToCart = async () => {
+    if (!requireAddToCart()) return;
 
-    try {
-      await addToCart.mutateAsync({
-        productId: product.id,
-        quantity,
-      });
-      setAdded(true);
-      setTimeout(() => setAdded(false), 1500);
-      notify.success("Added to cart successfully.");
-    } catch (error) {
-      notify.error(error.response?.data?.message || "Failed to add to cart");
-    }
-  };
+    try {
+      await addToCart.mutateAsync({
+        productId: product.id,
+        quantity,
+      });
+      setAdded(true);
+      setTimeout(() => setAdded(false), 1500);
+      notify.success("Added to cart successfully.");
+    } catch (error) {
+      notify.error(error.response?.data?.message || "Failed to add to cart");
+    }
+  };
 
-  const handleBuyNow = async () => {
-    if (!isLoggedIn) {
-      notify.error("Please log in to add items to your cart.", {
-        action: {
-          text: "Log In",
-          onClick: () => {
-            navigate("/login");
-          },
-        },
-      });
-      return;
-    }
+  const handleBuyNow = async () => {
+    if (!requireBuyNow()) return;
 
-    try {
-      await addToCart.mutateAsync({
-        productId: product.id,
-        quantity,
-      });
-      navigate("/checkout");
-    } catch (error) {
-      notify.error(error.response?.data?.message || "Failed to add to cart");
-    }
-  };
+    try {
+      await addToCart.mutateAsync({
+        productId: product.id,
+        quantity,
+      });
+      navigate("/checkout");
+    } catch (error) {
+      notify.error(error.response?.data?.message || "Failed to add to cart");
+    }
+  };
 
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-10 space-y-12">

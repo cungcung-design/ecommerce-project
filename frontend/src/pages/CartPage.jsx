@@ -2,19 +2,20 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
 import { useCart } from "../hooks/useCart";
-import useNotification from "../hooks/useNotification";
+import { useQueryClient } from "@tanstack/react-query";
 
 import CartItem from "../components/cart/CartItem";
 
 import CartSummary from "../components/cart/CartSummary";
 
 function CartPage() {
+  const queryClient = useQueryClient();
   const {
     data: cart,
     isLoading,
     isError,
+    refetch,
   } = useCart();
-  const { notify } = useNotification();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -42,7 +43,10 @@ function CartPage() {
           Something went wrong while fetching your cart. Please try again later.
         </p>
         <button
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            queryClient.invalidateQueries({ queryKey: ["cart"] });
+            refetch();
+          }}
           className="mt-2 rounded-lg bg-rose-600 px-4 py-2 text-base font-medium text-white hover:bg-rose-700"
         >
           Try Again

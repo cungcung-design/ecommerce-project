@@ -16,6 +16,7 @@ import {
 import { useOrder, useCancelOrder } from "../hooks/useOrders";
 import { useOrderPayment } from "../hooks/usePayment";
 import useNotification from "../hooks/useNotification";
+import { useRequireAuth } from "../hooks/useRequireAuth";
 
 import OrderStatus from "../components/orders/OrderStatus";
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
@@ -160,6 +161,7 @@ function OrderDetailsPage() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
   const { notify } = useNotification();
+  const { requireAuth } = useRequireAuth("orders");
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -186,6 +188,7 @@ function OrderDetailsPage() {
   const cancelOrder = useCancelOrder();
 
   const handleCancelClick = () => {
+    if (!requireAuth("/orders")) return;
     setShowConfirmDialog(true);
   };
 

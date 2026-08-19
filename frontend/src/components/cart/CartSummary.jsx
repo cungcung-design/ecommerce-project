@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 function CartSummary({ subtotal, shipping, total, itemCount }) {
+  const navigate = useNavigate();
+  const { requireAuth } = useRequireAuth("checkout");
+
+  const handleProceedToCheckout = () => {
+    if (!requireAuth("/checkout")) return;
+    navigate("/checkout");
+  };
   return (
     <div className="h-fit rounded-xl border border-slate-200 p-5 sm:p-6">
       <h2 className="text-xl font-semibold text-slate-900">Order Summary</h2>
@@ -24,12 +32,13 @@ function CartSummary({ subtotal, shipping, total, itemCount }) {
         </div>
       </div>
 
-      <Link
-        to="/checkout"
+      <button
+        type="button"
+        onClick={handleProceedToCheckout}
         className="mt-6 block w-full rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-center text-base font-semibold text-white transition-colors"
       >
         Proceed to Checkout
-      </Link>
+      </button>
     </div>
   );
 }
