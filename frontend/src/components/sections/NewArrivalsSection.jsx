@@ -13,7 +13,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
 
   if (isLoading) {
     return (
-      <section id={id} className="bg-white py-12 sm:py-16 lg:py-20">
+      <section id={id} className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8">
             <div>
@@ -51,7 +51,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
 
   if (isError || !featured) {
     return (
-      <section id={id} className="bg-white py-12 sm:py-16 lg:py-20">
+      <section id={id} className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
             New Arrivals
@@ -73,7 +73,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
   const featuredImage = featured.imageUrl || featured.image || "";
 
   return (
-    <section id={id} className="bg-white py-12 sm:py-16 lg:py-20 overflow-hidden">
+    <section id={id} className="bg-white py-8 sm:py-12 lg:py-16 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8 lg:mb-10">

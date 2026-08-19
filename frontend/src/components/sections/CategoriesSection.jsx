@@ -32,7 +32,7 @@ function CategoriesSection() {
   const { data: dbCategories = [], isError } = useCategories();
 
   return (
-    <section id="categories" className="bg-white py-12 sm:py-16">
+    <section id="categories" className="bg-white py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">

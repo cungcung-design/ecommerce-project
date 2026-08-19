@@ -23,7 +23,7 @@ function BestSellersSection() {
 
   if (isLoading) {
     return (
-      <section className="bg-white py-12 sm:py-16 lg:py-20">
+      <section className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8 sm:mb-12 lg:mb-16">
             <div>
@@ -52,7 +52,7 @@ function BestSellersSection() {
 
   if (isError || products.length === 0) {
     return (
-      <section className="bg-white py-12 sm:py-16 lg:py-20">
+      <section className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
             Best Sellers
@@ -69,7 +69,7 @@ function BestSellersSection() {
   }
 
   return (
-    <section className="bg-white py-12 sm:py-16 lg:py-20">
+    <section className="bg-white py-8 sm:py-12 lg:py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-end justify-between mb-8 sm:mb-12 lg:mb-16">
