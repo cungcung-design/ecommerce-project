@@ -119,9 +119,9 @@ function ProductDetails() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-        {/* Left Column: Image */}
+        {/* Left Column: Image - Changed to aspect-[16/9] for a wide, horizontal e-commerce display across all screen sizes */}
         <div className="lg:col-span-7">
-          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[4/3]">
+          <div className="sticky top-24 overflow-hidden rounded-3xl border border-slate-200/80 bg-gradient-to-br from-slate-50 to-slate-100/50 p-6 shadow-sm flex items-center justify-center aspect-[16/9] relative">
             {productImage ? (
               <img
                 src={productImage}
@@ -178,7 +178,7 @@ function ProductDetails() {
           </p>
 
           {/* Stock Availability */}
-      <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Availability:</span>
             <span className={`inline-flex items-center text-xs font-bold ${product.stock > 0 ? "text-emerald-600" : "text-rose-600"}`}>
               {product.stock > 0 ? `In Stock (${product.stock} units)` : "Out of Stock"}
