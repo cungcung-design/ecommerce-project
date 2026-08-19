@@ -144,7 +144,7 @@ function ProductDetails() {
         {/* Right Column: Product Details & Actions */}
         <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
->
+
             <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight leading-tight">
               {product.name}
             </h1>
