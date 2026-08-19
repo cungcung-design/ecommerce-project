@@ -13,18 +13,40 @@ function Home() {
   const { hash } = useLocation();
 
   useEffect(() => {
-    if (hash === "#new-arrivals") {
+    if (hash === "#categories") {
+      const el = document.getElementById("categories");
+      if (el) {
+        setTimeout(() => {
+          const navHeight = 80;
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: elementPosition - navHeight,
+            behavior: "smooth",
+          });
+        }, 0);
+      }
+    } else if (hash === "#new-arrivals") {
       const el = document.getElementById("new-arrivals");
       if (el) {
         setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          const navHeight = 80;
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: elementPosition - navHeight,
+            behavior: "smooth",
+          });
         }, 0);
       }
     } else if (hash === "#best-sellers") {
       const el = document.getElementById("best-sellers");
       if (el) {
         setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
+          const navHeight = 80;
+          const elementPosition = el.getBoundingClientRect().top + window.pageYOffset;
+          window.scrollTo({
+            top: elementPosition - navHeight,
+            behavior: "smooth",
+          });
         }, 0);
       }
     } else {

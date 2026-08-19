@@ -67,7 +67,7 @@ function Navbar() {
   const isShopActive = pathname === "/products" && !sort && !category;
   const isNewArrivalsActive = hash === "#new-arrivals" || sort === "newest";
   const isBestSellersActive = hash === "#best-sellers" || sort === "best-selling";
-  const isCategoriesActive = Boolean(category) || pathname === "/categories";
+  const isCategoriesActive = hash === "#categories" || Boolean(category);
 
   const getNavLinkClass = (isActive) =>
     `text-sm font-medium transition-colors relative py-1 ${
@@ -105,7 +105,7 @@ function Navbar() {
           <NavLink to="/#best-sellers" className={`${getNavLinkClass(isBestSellersActive)} ${isBestSellersActive ? underlineClass : ""}`}>
             Best Sellers
           </NavLink>
-          <NavLink to="/categories" className={`${getNavLinkClass(isCategoriesActive)} ${isCategoriesActive ? underlineClass : ""}`}>
+          <NavLink to="/#categories" className={`${getNavLinkClass(isCategoriesActive)} ${isCategoriesActive ? underlineClass : ""}`}>
             Categories
           </NavLink>
         </div>
@@ -237,7 +237,7 @@ function Navbar() {
             <NavLink to="/products" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isShopActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Shop</NavLink>
             <NavLink to="/#new-arrivals" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isNewArrivalsActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>New Arrivals</NavLink>
             <NavLink to="/#best-sellers" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isBestSellersActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Best Sellers</NavLink>
-            <NavLink to="/categories" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isCategoriesActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Categories</NavLink>
+            <NavLink to="/#categories" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isCategoriesActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Categories</NavLink>
           </div>
 
           <div className="h-px bg-slate-100 my-2" />
