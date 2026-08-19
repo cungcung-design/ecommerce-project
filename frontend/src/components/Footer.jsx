@@ -54,7 +54,7 @@ function Footer() {
             <p className="mt-4 text-sm text-gray-400">
               Subscribe to get special offers, free giveaways, and deals.
             </p>
-            <form className="mt-4 flex gap-2" onSubmit={(e) => e.preventDefault()}>
+            <form className="mt-4 flex flex-col sm:flex-row gap-2" onSubmit={(e) => e.preventDefault()}>
               <input
                 type="email"
                 placeholder="Enter your email"

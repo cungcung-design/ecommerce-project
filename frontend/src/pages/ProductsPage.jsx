@@ -74,7 +74,7 @@ function Products() {
   const products = data?.products || [];
 
   return (
-    <div className="w-full px-6 lg:px-10 xl:px-12">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between mt-8">
         <h1 className="text-3xl font-bold">
           {selectedCategory ? selectedCategory.name : "Products"}
@@ -112,7 +112,7 @@ function Products() {
             const value = event.target.value;
             handleCategoryChange(value ? Number(value) : undefined);
           }}
-          className="rounded-lg border p-3"
+          className="rounded-lg border p-3 w-full"
         >
           <option value="">
             All Categories

@@ -17,7 +17,7 @@ function CheckoutSummary({ items, subtotal, shipping, total, paymentMethod }) {
       </div>
 
       {/* Items List */}
-      <div className="max-h-80 overflow-y-auto space-y-3 pr-1 divide-y divide-slate-100">
+      <div className="max-h-80 overflow-y-auto pr-1 divide-y divide-slate-100">
         {items.map((item) => (
           <div
             key={item.productId}

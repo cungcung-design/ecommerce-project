@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import {
@@ -55,14 +55,14 @@ function StatusTimeline({ currentStatus }) {
   }
 
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-between overflow-x-auto">
       {steps.map((step, index) => {
         const isActive = index <= currentIndex;
         const isCurrent = step === currentStatus;
         const Icon = STATUS_ICONS[step] || Package;
 
         return (
-          <div key={step} className="flex flex-1 items-center">
+          <div key={step} className="flex flex-1 items-center shrink-0">
             <div className="flex flex-col items-center">
               <div
                 className={`flex h-10 w-10 items-center justify-center rounded-full border-2 transition-all ${
@@ -271,7 +271,7 @@ function OrderDetailsPage() {
   const description = STATUS_DESCRIPTIONS[order.status] || "";
 
   return (
-    <div className="mx-auto max-w-5xl space-y-6">
+    <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 space-y-6">
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>

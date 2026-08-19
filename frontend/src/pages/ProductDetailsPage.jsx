@@ -243,7 +243,7 @@ function ProductDetails() {
           )}
 
           {/* Value Props Mini Grid */}
-          <div className="grid grid-cols-3 gap-3 pt-6 border-t border-slate-100">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-100">
             <div className="flex flex-col items-center text-center p-3 rounded-2xl bg-slate-50 border border-slate-100">
               <Truck className="w-4 h-4 text-orange-600 mb-1" />
               <span className="text-[11px] font-bold text-slate-800">Free Shipping</span>
