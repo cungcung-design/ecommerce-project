@@ -112,9 +112,6 @@ function MyOrdersPage() {
       {/* Header Section */}
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between border-b border-slate-100 pb-6">
         <div className="space-y-1">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 text-indigo-700 text-xs font-semibold tracking-wide uppercase">
-            <Sparkles className="w-3.5 h-3.5" /> Dashboard
-          </div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             My Orders
           </h1>
