@@ -56,8 +56,7 @@ function ProductCard({ product }) {
   return (
     <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md">
       <Link to={`/products/${product.id}`} className="block">
-{/* Adjusted to aspect-[5/4] on mobile to give a wider horizontal feel without distortion */}
-<div className="relative aspect-[5/4] sm:aspect-[3/4] overflow-hidden bg-gray-100 w-full">
+<div className="relative aspect-[4/3] sm:aspect-[3/4] overflow-hidden bg-gray-100 w-full">
   {productImage ? (
     <img
       src={productImage}
