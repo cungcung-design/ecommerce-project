@@ -1,19 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
+import { useAuth } from "../../context/AuthContext";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
   const [error, setError] = useState(null);
+  const { user } = useAuth();
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
   const productImage = product.imageUrl || product.image || "";
+  const isLoggedIn = Boolean(user);
 
   const handleQuickAdd = (e) => {
     e.preventDefault();
     e.stopPropagation();
+
+    if (!isLoggedIn) {
+      setError("Please log in to add products to your cart.");
+      return;
+    }
 
     if (addToCartMutation.isPending) return;
     if (product.stock === 0) return;
@@ -130,7 +138,21 @@ function ProductCard({ product }) {
                 : "Quick Add"}
         </button>
 
-        {error && (
+        {!isLoggedIn && (
+          <div className="mt-2 rounded-md border border-orange-100 bg-orange-50 p-2">
+            <p className="text-[11px] text-orange-700">
+              Please log in to add products to your cart.
+            </p>
+            <Link
+              to="/login"
+              className="mt-1 inline-block text-[11px] font-semibold text-orange-700 underline underline-offset-2 hover:text-orange-800"
+            >
+              Log In
+            </Link>
+          </div>
+        )}
+
+        {error && isLoggedIn && (
           <p className="mt-2 text-xs text-red-500">{error}</p>
         )}
       </div>

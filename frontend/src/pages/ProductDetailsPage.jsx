@@ -15,6 +15,7 @@ import { useProduct } from "../hooks/useProduct";
 import { useProducts } from "../hooks/useProducts";
 import { useAddToCart } from "../hooks/useCart";
 import useNotification from "../hooks/useNotification";
+import { useAuth } from "../context/AuthContext";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import ProductCard from "../components/cards/ProductCard";
@@ -24,6 +25,7 @@ function ProductDetails() {
   const navigate = useNavigate();
   const { data: product, isLoading, isError } = useProduct(id);
   const addToCart = useAddToCart();
+  const { user } = useAuth();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -39,6 +41,7 @@ function ProductDetails() {
 
   const relatedProducts = relatedData?.products?.filter((p) => p.id !== product?.id) || [];
   const { notify } = useNotification();
+  const isLoggedIn = Boolean(user);
 
   if (isLoading) {
     return <Loading />;
@@ -54,6 +57,12 @@ function ProductDetails() {
   const reviewCount = product.reviews || 0;
 
   const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      notify({ variant: "error", message: "Please log in to add products to your cart." });
+      navigate("/login");
+      return;
+    }
+
     try {
       await addToCart.mutateAsync({
         productId: product.id,
@@ -68,6 +77,12 @@ function ProductDetails() {
   };
 
   const handleBuyNow = async () => {
+    if (!isLoggedIn) {
+      notify({ variant: "error", message: "Please log in to add products to your cart." });
+      navigate("/login");
+      return;
+    }
+
     try {
       await addToCart.mutateAsync({
         productId: product.id,
