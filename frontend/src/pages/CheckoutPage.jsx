@@ -121,9 +121,9 @@ function CheckoutPage() {
           >
             <ArrowLeft className="w-4 h-4" /> Back to Cart
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Checkout</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Checkout</h1>
         </div>
-        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-700 shadow-sm">
+        <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-700 shadow-sm">
           <Lock className="w-4 h-4 text-orange-600" /> Secure 256-Bit Encryption
         </div>
       </div>
@@ -147,10 +147,10 @@ function CheckoutPage() {
         </div>
       )}
 
-      {/* Main Grid Layout - Widened columns (8 for form, 4 for summary) */}
+      {/* Main Grid Layout */}
       <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
-        <div className="lg:col-span-7 xl:col-span-8">
-          <div className="rounded-3xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-md">
+        <div className="lg:col-span-7">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-5 sm:p-6 shadow-sm">
             <CheckoutForm
               onSubmit={handleSubmit}
               onPaymentMethodChange={setPaymentMethod}
@@ -159,8 +159,8 @@ function CheckoutPage() {
           </div>
         </div>
 
-        <div className="lg:col-span-5 xl:col-span-4">
-          <div className="sticky top-28 rounded-3xl border border-slate-200/80 bg-slate-50/60 p-6 sm:p-8 shadow-md backdrop-blur-sm">
+        <div className="lg:col-span-5">
+          <div className="sticky top-24 rounded-2xl border border-slate-200/80 bg-slate-50/60 p-5 sm:p-6 shadow-sm backdrop-blur-sm">
             <CheckoutSummary
               items={items}
               subtotal={subtotal}
