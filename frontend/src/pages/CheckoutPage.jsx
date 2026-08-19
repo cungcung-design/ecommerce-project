@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ShieldCheck, Lock, ArrowLeft, AlertCircle, ShoppingBag, Loader2 } from "lucide-react";
+import { ShieldCheck, Lock, ArrowLeft, AlertCircle, ShoppingBag, Loader2, CheckCircle2, Package, CreditCard } from "lucide-react";
 
 import { useCart } from "../hooks/useCart";
 import { useCreateOrder } from "../hooks/useOrders";
@@ -9,6 +9,13 @@ import useNotification from "../hooks/useNotification";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
+
+const CHECKOUT_STEPS = [
+  { id: "cart", label: "Cart", icon: Package },
+  { id: "shipping", label: "Shipping", icon: ShoppingBag },
+  { id: "payment", label: "Payment", icon: CreditCard },
+  { id: "confirmation", label: "Confirmation", icon: CheckCircle2 },
+];
 
 function CheckoutPage() {
   const navigate = useNavigate();
@@ -39,6 +46,8 @@ function CheckoutPage() {
 
   const shipping = subtotal > 100 ? 0 : 10;
   const total = subtotal + shipping;
+
+  const currentStepIndex = cart?.items?.length ? 1 : 0;
 
   const handleSubmit = async (shippingData) => {
     setError("");
@@ -82,7 +91,7 @@ function CheckoutPage() {
 
   if (cartLoading) {
     return (
-      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-3">
+      <div className="min-h-[60vh] flex flex-col items-center justify-center space-y-4">
         <Loader2 className="w-10 h-10 text-orange-600 animate-spin" />
         <p className="text-base font-medium text-slate-500">Preparing your checkout...</p>
       </div>
@@ -99,25 +108,33 @@ function CheckoutPage() {
           <h1 className="text-3xl font-black text-slate-900 tracking-tight">Your cart is empty</h1>
           <p className="text-base text-slate-500">Add some items to your cart before proceeding to checkout.</p>
         </div>
-        <Link
-          to="/products"
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 px-8 py-4 text-base font-bold text-white shadow-xl transition-all duration-300"
-        >
-          Continue Shopping
-        </Link>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <Link
+            to="/cart"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-6 py-3 text-base font-bold text-slate-900 hover:border-orange-300 hover:text-orange-600 transition-all"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            View Cart
+          </Link>
+          <Link
+            to="/products"
+            className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 px-6 py-4 text-base font-bold text-white shadow-xl transition-all duration-300"
+          >
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     );
   }
 
   return (
-    // Expanded max-w-5xl for a larger, wider container layout
     <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-slate-200 pb-6">
         <div className="space-y-1">
           <Link
             to="/cart"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-orange-600 transition-colors mb-2"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-orange-600 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" /> Back to Cart
           </Link>
@@ -126,6 +143,47 @@ function CheckoutPage() {
         <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-bold text-slate-700 shadow-sm">
           <Lock className="w-4 h-4 text-orange-600" /> Secure 256-Bit Encryption
         </div>
+      </div>
+
+      {/* Checkout Progress */}
+      <div className="flex items-center justify-between">
+        {CHECKOUT_STEPS.map((step, index) => {
+          const isCompleted = index < currentStepIndex;
+          const isCurrent = index === currentStepIndex;
+          const StepIcon = step.icon;
+
+          return (
+            <div key={step.id} className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all ${
+                    isCompleted
+                      ? "border-orange-600 bg-orange-600 text-white"
+                      : isCurrent
+                        ? "border-orange-600 bg-orange-50 text-orange-600"
+                        : "border-slate-200 bg-slate-50 text-slate-400"
+                  }`}
+                >
+                  {isCompleted ? (
+                    <CheckCircle2 className="w-4 h-4" />
+                  ) : (
+                    <StepIcon className="w-4 h-4" />
+                  )}
+                </div>
+                <span
+                  className={`text-xs sm:text-sm font-bold ${
+                    isCurrent ? "text-orange-600" : isCompleted ? "text-slate-900" : "text-slate-400"
+                  }`}
+                >
+                  {step.label}
+                </span>
+              </div>
+              {index < CHECKOUT_STEPS.length - 1 && (
+                <div className={`mx-2 h-0.5 w-6 sm:w-10 transition-colors ${isCompleted ? "bg-orange-600" : "bg-slate-200"}`} />
+              )}
+            </div>
+          );
+        })}
       </div>
 
       {/* Error Banners */}
