@@ -73,7 +73,10 @@ function CheckoutPage() {
       notify.success("Order placed successfully!");
       navigate(`/orders/${order.id}`);
     } catch (err) {
-      const message = err.response?.data?.message || err.message || "Checkout failed";
+      const message =
+        (err && typeof err === "object" && err.response && typeof err.response === "object" && err.response.data && typeof err.response.data === "object" && err.response.data.message) ||
+        (err && typeof err === "object" && err.message) ||
+        "Checkout failed";
       setError(message);
     }
   };
