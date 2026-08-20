@@ -27,12 +27,13 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
                 Discover our latest collection
               </p>
             </div>
-            <Link
-              to={viewAllLink}
-              className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
+            <button
+              type="button"
+              tabIndex={-1}
+              className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors self-end sm:self-auto"
             >
               VIEW ALL →
-            </Link>
+            </button>
           </div>
           <div className="grid lg:grid-cols-12 gap-6 lg:gap-8 items-center">
             <div className="lg:col-span-6">
@@ -88,12 +89,13 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
               Discover our latest curated styles and trending drops.
             </p>
           </div>
-          <Link
-            to={viewAllLink}
-            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1"
+          <button
+            type="button"
+            tabIndex={-1}
+            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1 self-end sm:self-auto"
           >
             VIEW ALL →
-          </Link>
+          </button>
         </div>
 
         {/* Main Balanced Grid Layout */}
