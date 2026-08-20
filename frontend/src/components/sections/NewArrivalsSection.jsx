@@ -103,7 +103,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
             tabIndex={-1}
             className="hidden sm:inline-flex text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors items-center gap-1"
           >
-            VIEW ALL →
+            View All →
           </button>
         </div>
 
