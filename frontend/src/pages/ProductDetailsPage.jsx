@@ -200,10 +200,10 @@ function ProductDetails() {
                       Adding...
                     </>
                   ) : added ? (
-                    <>
-                      <Check className="w-4 h-4 stroke-[3]" /> Added to Cart
-                    </>
-                  ) : (
+                    <>
+                      <Check className="w-4 h-4 stroke-[3]" /> Added ✓
+                    </>
+                  ) : (
                     <>
                       <ShoppingBag className="w-4 h-4" /> Add to Cart
                     </>

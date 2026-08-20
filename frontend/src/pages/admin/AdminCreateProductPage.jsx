@@ -6,7 +6,6 @@ import {
 } from "../../hooks/useAdminProducts";
 
 import { useUploadImage } from "../../hooks/useUploadImage";
-import useNotification from "../../hooks/useNotification";
 import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import AdminProductForm
@@ -16,7 +15,6 @@ function AdminCreateProduct() {
   const navigate = useNavigate();
   const createProduct = useCreateProduct();
   const uploadImage = useUploadImage();
-  const { notify } = useNotification();
 
   const [error, setError] = useState("");
 
@@ -31,8 +29,6 @@ function AdminCreateProduct() {
       }
 
       await createProduct.mutateAsync(productData);
-
-      notify.success("Product created successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(getFriendlyError(error, "Couldn't create this product."));

@@ -8,7 +8,6 @@ import {
 } from "../../hooks/useAdminProducts";
 
 import { useUploadImage } from "../../hooks/useUploadImage";
-import useNotification from "../../hooks/useNotification";
 import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import AdminProductForm
@@ -17,7 +16,6 @@ import AdminProductForm
 function AdminEditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { notify } = useNotification();
 
   const updateProduct = useUpdateProduct();
   const uploadImage = useUploadImage();
@@ -83,7 +81,6 @@ function AdminEditProduct() {
         ...productData,
       });
 
-      notify.success("Product updated successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(getFriendlyError(error, "Couldn't update this product."));
