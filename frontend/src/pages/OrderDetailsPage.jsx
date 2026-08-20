@@ -164,7 +164,7 @@ function OrderDetailsPage() {
   const { requireAuth } = useRequireAuth("orders");
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [id]);
 
   const {

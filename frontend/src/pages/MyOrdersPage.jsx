@@ -67,7 +67,7 @@ function MyOrdersPage() {
   const { data: orders = [], isLoading, isError } = useOrders();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   if (isLoading) {

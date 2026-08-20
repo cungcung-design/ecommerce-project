@@ -15,7 +15,7 @@ function PaymentResultPage() {
   const { notify } = useNotification();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const orderId = searchParams.get("orderId");
