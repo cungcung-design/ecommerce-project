@@ -57,6 +57,7 @@ export default function AdminProductForm({
       zodResolver(
         adminProductSchema
       ),
+    shouldFocusError: true,
 
     defaultValues:
       defaultValues ?? {
@@ -75,6 +76,7 @@ export default function AdminProductForm({
 
   return (
     <form
+      noValidate
       onSubmit={handleSubmit(handleFormSubmit)}
       className="space-y-6 rounded-xl border border-slate-200 bg-white p-6"
     >

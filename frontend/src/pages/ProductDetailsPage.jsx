@@ -58,6 +58,7 @@ function ProductDetails() {
   const reviewCount = product.reviews || 0;
 
   const handleAddToCart = async () => {
+    if (addToCart.isPending) return;
     if (!requireAddToCart()) return;
 
     try {
@@ -73,6 +74,7 @@ function ProductDetails() {
   };
 
   const handleBuyNow = async () => {
+    if (addToCart.isPending) return;
     if (!requireBuyNow()) return;
 
     try {

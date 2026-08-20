@@ -5,14 +5,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag, CheckCircle2 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
-import useNotification from "../hooks/useNotification";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 import { registerSchema } from "../validators/authValidator";
 
 function Register() {
   const navigate = useNavigate();
   const { register: registerAccount } = useAuth();
-  const { notify } = useNotification();
   const [success, setSuccess] = useState(false);
 
   const {
@@ -31,13 +29,11 @@ function Register() {
       await registerAccount(name, email, password);
       setSuccess(true);
     } catch (error) {
-      if (isNetworkError(error)) {
-        notify.error("Unable to connect. Please try again.");
-      } else {
-        setError("root", {
-          message: getFriendlyError(error, "We couldn't create your account. Please try again."),
-        });
-      }
+      setError("root", {
+        message: isNetworkError(error)
+          ? "Unable to connect. Please try again."
+          : getFriendlyError(error, "We couldn't create your account. Please try again."),
+      });
     }
   };
 

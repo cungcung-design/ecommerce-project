@@ -145,18 +145,6 @@ function CheckoutPage() {
         </div>
       )}
 
-      {createPaymentSession.isError && (
-        <div className="flex items-start gap-3 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
-          <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
-          <p className="text-sm sm:text-base font-medium">
-            {getFriendlyError(
-              createPaymentSession.error,
-              "We couldn't start online payment. Please try again."
-            )}
-          </p>
-        </div>
-      )}
-
       {/* Main Grid Layout */}
       <div className="grid gap-8 lg:grid-cols-12 lg:items-start">
         <div className="lg:col-span-7">

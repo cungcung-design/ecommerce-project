@@ -8,6 +8,7 @@ function CartItem({ item }) {
   const { notify } = useNotification();
 
   const handleIncrease = () => {
+    if (updateCartItem.isPending || removeFromCart.isPending) return;
     updateCartItem.mutate({
       productId: item.productId,
       quantity: item.quantity + 1,
@@ -17,6 +18,7 @@ function CartItem({ item }) {
   };
 
   const handleDecrease = () => {
+    if (updateCartItem.isPending || removeFromCart.isPending) return;
     if (item.quantity > 1) {
       updateCartItem.mutate({
         productId: item.productId,
@@ -28,6 +30,7 @@ function CartItem({ item }) {
   };
 
   const handleRemove = () => {
+    if (updateCartItem.isPending || removeFromCart.isPending) return;
     removeFromCart.mutate(item.productId, {
       onError: (err) => notify.error(getFriendlyError(err, "Couldn't remove this item.")),
     });

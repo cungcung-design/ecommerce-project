@@ -33,7 +33,6 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       deleteProduct.mutate(id, {
         onSuccess: () => {
           setDeletingId(null);
-          notify.success("Product deleted successfully");
         },
         onError: (err) => {
           notify.error(getFriendlyError(err, "Couldn't delete this product."));
@@ -58,9 +57,6 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       id: product.id,
       isActive: nextStatus,
     }, {
-      onSuccess: () => {
-        notify.success(`Product ${nextStatus ? "activated" : "deactivated"}`);
-      },
       onError: (err) => notify.error(getFriendlyError(err, "Couldn't update product status")),
     });
   };

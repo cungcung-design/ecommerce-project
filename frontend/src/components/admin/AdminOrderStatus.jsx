@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 
 import { useUpdateOrderStatus } from "../../hooks/useUpdateOrderStatus";
-import useNotification from "../../hooks/useNotification";
 import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import {
@@ -12,11 +11,12 @@ import {
 function AdminOrderStatus({ orderId, currentStatus }) {
   const [selectedStatus, setSelectedStatus] =
     useState("");
-  const { notify } = useNotification();
+  const [error, setError] = useState("");
 
   const updateStatus = useUpdateOrderStatus();
 
   useEffect(() => {
+    setError("");
     if (updateStatus.isSuccess) {
       const timer = setTimeout(() => {
         setSelectedStatus("");
@@ -83,19 +83,17 @@ function AdminOrderStatus({ orderId, currentStatus }) {
 
           <button
             type="button"
-            onClick={() =>
+            onClick={() => {
+              setError("");
               updateStatus.mutate({
                 id: orderId,
                 status: selectedStatus,
               }, {
-                onSuccess: () => {
-                  notify.success("Order status updated");
-                },
                 onError: (err) => {
-                  notify.error(getFriendlyError(err, "Couldn't update order status"));
+                  setError(getFriendlyError(err, "Couldn't update order status"));
                 },
-              })
-            }
+              });
+            }}
             disabled={!canUpdate}
             className="mt-4 w-full rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50"
           >
@@ -103,6 +101,10 @@ function AdminOrderStatus({ orderId, currentStatus }) {
               ? "Updating..."
               : "Update Status"}
           </button>
+
+          {error && (
+            <p className="mt-2 text-sm font-medium text-red-600">{error}</p>
+          )}
         </>
       )}
     </div>

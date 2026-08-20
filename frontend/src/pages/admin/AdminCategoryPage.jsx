@@ -21,8 +21,9 @@ import { getFriendlyError } from "../../lib/getFriendlyError";
 function AdminCategoryPage() {
   const [search, setSearch] = useState("");
   const [editingCategory, setEditingCategory] = useState(null);
+  const [formKey, setFormKey] = useState(0);
   const [error, setError] = useState("");
-  const { notify, confirm } = useNotification();
+  const { confirm } = useNotification();
 
   const { data: categories = [], isLoading, isError } = useAdminCategories();
   const createCategory = useCreateAdminCategory();
@@ -47,7 +48,7 @@ function AdminCategoryPage() {
         {
           onSuccess: () => {
             setEditingCategory(null);
-            notify.success("Category updated successfully");
+            setFormKey((key) => key + 1);
           },
           onError: (err) =>
             setError(getFriendlyError(err, "Couldn't update this category.")),
@@ -55,9 +56,9 @@ function AdminCategoryPage() {
       );
     } else {
       createCategory.mutate(payload.name, {
-          onSuccess: () => {
-            notify.success("Category created successfully");
-          },
+        onSuccess: () => {
+          setFormKey((key) => key + 1);
+        },
         onError: (err) =>
           setError(getFriendlyError(err, "Couldn't create this category.")),
       });
@@ -75,9 +76,6 @@ function AdminCategoryPage() {
     }).then((confirmed) => {
       if (confirmed) {
         updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
-          onSuccess: () => {
-            notify.success(`Category ${nextStatus ? "activated" : "deactivated"}`);
-          },
           onError: (err) => setError(getFriendlyError(err, "Couldn't update category status")),
         });
       }
@@ -95,9 +93,6 @@ function AdminCategoryPage() {
     }).then((confirmed) => {
       if (confirmed) {
         deleteCategory.mutate(category.id, {
-          onSuccess: () => {
-            notify.success(`Category "${category.name}" deleted`);
-          },
           onError: (err) => setError(getFriendlyError(err, "Couldn't delete this category.")),
         });
       }
@@ -141,6 +136,7 @@ function AdminCategoryPage() {
       {/* Form Container Card */}
       <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <AdminCategoryForm
+          key={editingCategory?.id ?? `new-${formKey}`}
           initialData={editingCategory || {}}
           onSubmit={handleSubmit}
           isLoading={createCategory.isPending || updateCategory.isPending}

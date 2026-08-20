@@ -5,7 +5,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
-import useNotification from "../hooks/useNotification";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 import { loginSchema } from "../validators/authValidator";
 
@@ -13,7 +12,6 @@ function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login, user } = useAuth();
-  const { notify } = useNotification();
 
   const redirectTo = searchParams.get("redirectTo") || "/";
 
@@ -48,14 +46,10 @@ function Login() {
         navigate(redirectTo);
       }
     } catch (error) {
-      if (isNetworkError(error)) {
-        notify.error("Unable to connect. Please try again.");
-        return;
-      }
-
       setError("root", {
-        message:
-          error.response?.status === 401 || error.response?.status === 400
+        message: isNetworkError(error)
+          ? "Unable to connect. Please try again."
+          : error.response?.status === 401 || error.response?.status === 400
             ? "Invalid email or password."
             : getFriendlyError(error, "Invalid email or password."),
       });
