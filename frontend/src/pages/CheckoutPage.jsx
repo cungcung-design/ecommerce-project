@@ -8,7 +8,7 @@ import { useCreatePaymentSession } from "../hooks/usePayment";
 import useNotification from "../hooks/useNotification";
 import {
   disableBrowserScrollRestoration,
-  focusPageTop,
+  resetPageScroll,
 } from "../lib/scrollToTop";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
@@ -49,7 +49,7 @@ function CheckoutPage() {
     setError("");
 
     disableBrowserScrollRestoration();
-    focusPageTop();
+    resetPageScroll();
 
     try {
       const order = await createOrder.mutateAsync({
@@ -73,7 +73,7 @@ function CheckoutPage() {
         if (session?.paymentUrl) {
           setOrderSucceeded(true);
           disableBrowserScrollRestoration();
-          focusPageTop();
+          resetPageScroll();
           window.location.href = session.paymentUrl;
           return;
         }
@@ -83,7 +83,7 @@ function CheckoutPage() {
 
       setOrderSucceeded(true);
       disableBrowserScrollRestoration();
-      focusPageTop();
+      resetPageScroll();
       notify.success("Order placed successfully!");
       navigate(`/orders/${order.id}`);
     } catch (err) {
