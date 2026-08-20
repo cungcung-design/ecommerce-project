@@ -7,9 +7,9 @@ function Footer() {
 
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          <div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+        <div className="grid grid-cols-1 gap-6 sm:gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="min-w-0">
             <h3 className="text-xl font-semibold">NovaTrend</h3>
             <p className="mt-4 text-sm text-gray-400">
               Your one-stop shop for the latest trends and modern lifestyle products.
@@ -33,7 +33,7 @@ function Footer() {
             </div>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Shop</h4>
             <ul className="mt-4 space-y-2">
               <li><Link to="/products" className="text-sm text-gray-400 hover:text-white transition-colors">All Products</Link></li>
@@ -43,7 +43,7 @@ function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Support</h4>
             <ul className="mt-4 space-y-2">
               <li><button type="button" onClick={handleSocialClick} className="text-sm text-gray-400 hover:text-white transition-colors">Contact Us</button></li>
@@ -53,7 +53,7 @@ function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div className="min-w-0">
             <h4 className="text-sm font-semibold uppercase tracking-wider">Stay Updated</h4>
             <p className="mt-4 text-sm text-gray-400">
               Subscribe to get special offers, free giveaways, and deals.
@@ -62,11 +62,11 @@ function Footer() {
               <input
                 type="email"
                 placeholder="Enter your email"
-                className="flex-1 rounded-lg bg-gray-800 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                className="w-full rounded-lg bg-gray-800 px-4 py-2.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
               />
               <button
                 type="submit"
-                className="rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 transition-colors"
+                className="rounded-lg bg-orange-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-orange-700 transition-colors shrink-0 whitespace-nowrap"
               >
                 Subscribe
               </button>
@@ -79,7 +79,7 @@ function Footer() {
             <p className="text-sm text-gray-400">
               © 2025 NovaTrend. All rights reserved.
             </p>
-            <div className="flex gap-6">
+            <div className="flex flex-wrap gap-4 sm:gap-6">
               <button type="button" onClick={handleSocialClick} className="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</button>
               <button type="button" onClick={handleSocialClick} className="text-sm text-gray-400 hover:text-white transition-colors">Terms of Service</button>
             </div>
