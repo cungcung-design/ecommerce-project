@@ -11,6 +11,15 @@
     font-family: var(--font-sans);
     font-weight: 400;
   }
+
+  h1,
+  h2,
+  h3,
+  .hero-title,
+  .section-title {
+    font-family: var(--font-serif);
+    font-weight: 500;
+  }
 }
 
 @keyframes slideInRight {

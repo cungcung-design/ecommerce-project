@@ -91,7 +91,7 @@ function ProductCard({ product }) {
       </Link>
 
       <div className="p-3 sm:p-4">
-        <p className="text-[11px] sm:text-xs text-gray-500">
+        <p className="text-[11px] sm:text-xs text-gray-500 font-medium">
           {product.category?.name}
         </p>
 

@@ -6,7 +6,7 @@ function ProductGridSection({ title, actionText, products, viewAllLink = "/produ
     <section id={id} className="bg-white">
       <div className="px-4 py-16">
         <div className="flex items-center justify-between">
-          <h2 className="text-3xl font-semibold text-gray-900 font-serif">
+          <h2 className="text-3xl font-medium text-gray-900 font-serif">
             {title}
           </h2>
 

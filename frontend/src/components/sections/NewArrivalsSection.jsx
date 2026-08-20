@@ -20,7 +20,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
           <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-orange-600">
             New Arrivals
           </span>
-          <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
+          <h2 className="mt-1 text-2xl sm:text-3xl font-medium text-gray-900 tracking-tight font-serif">
             New Arrivals
           </h2>
               <p className="mt-1 text-xs sm:text-sm text-gray-500">
@@ -57,7 +57,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
           <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-orange-600">
             New Arrivals
           </span>
-              <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
+              <h2 className="mt-1 text-2xl sm:text-3xl font-medium text-gray-900 tracking-tight font-serif">
                 New Arrivals
               </h2>
           <p className="mt-2 text-xs sm:text-sm text-gray-500">
@@ -83,7 +83,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
               Our Collection
             </span>
             <div className="flex items-center justify-between sm:block">
-              <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
+              <h2 className="mt-1 text-2xl sm:text-3xl font-medium text-gray-900 tracking-tight font-serif">
                 New Arrivals
               </h2>
 <button

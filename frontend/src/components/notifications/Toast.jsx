@@ -86,7 +86,7 @@ function Toast({ toast, onDismiss }) {
           {action && (
             <button
               onClick={action.onClick}
-              className="mt-2 inline-flex items-center rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-bold text-white hover:bg-orange-700 transition-colors"
+               className="mt-2 inline-flex items-center rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-700 transition-colors"
             >
               {action.text}
             </button>

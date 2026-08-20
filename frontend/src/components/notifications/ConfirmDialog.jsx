@@ -34,7 +34,7 @@ export function ConfirmDialog({
           <X className="h-4 w-4" />
         </button>
 
-        <h2 id="confirm-dialog-title" className="text-lg font-bold text-slate-900">
+        <h2 id="confirm-dialog-title" className="text-lg font-semibold text-slate-900">
           {title}
         </h2>
         <p className="mt-2 text-sm text-slate-600">{message}</p>
@@ -49,7 +49,7 @@ export function ConfirmDialog({
           <button
             ref={confirmButtonRef}
             onClick={() => onClose(true)}
-            className={`rounded-xl px-4 py-2 text-sm font-bold text-white transition-colors ${
+            className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition-colors ${
               isDanger
                 ? "bg-red-600 hover:bg-red-700 shadow-md shadow-red-600/25"
                 : "bg-orange-600 hover:bg-orange-700 shadow-md shadow-orange-600/25"

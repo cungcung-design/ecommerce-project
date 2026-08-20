@@ -94,7 +94,7 @@ function MyOrdersPage() {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-4">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 font-serif">My Orders</h1>
+           <h1 className="text-2xl font-medium tracking-tight text-slate-900 font-serif">My Orders</h1>
         </div>
         <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
           {orders.length} {orders.length === 1 ? "Order" : "Orders"}

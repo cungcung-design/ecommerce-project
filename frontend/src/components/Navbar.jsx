@@ -91,7 +91,7 @@ function Navbar() {
     }`}>
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
         {/* Brand Logo */}
-        <Link to="/" className="group flex items-center gap-2 text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">
+        <Link to="/" className="group flex items-center gap-2 text-xl sm:text-2xl font-medium tracking-tight text-slate-900">
           <div className="w-8 h-8 rounded-xl bg-orange-600 flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform sm:w-9 sm:h-9">
             <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>

@@ -287,7 +287,7 @@ function OrderDetailsPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="text-2xl font-semibold text-gray-900 sm:text-3xl font-serif">
+               <h1 className="text-2xl font-medium text-gray-900 sm:text-3xl font-serif">
                 Order Details
               </h1>
               <p className="mt-0.5 text-sm text-gray-500">

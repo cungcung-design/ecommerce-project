@@ -40,13 +40,13 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 pb-16 lg:pb-0">
-      <h2 className="text-lg font-semibold text-slate-900 tracking-tight pb-2 border-b border-slate-100">
+      <h2 className="text-lg font-medium text-slate-900 tracking-tight pb-2 border-b border-slate-100">
         Shipping Information
       </h2>
 
       {/* Full Name */}
       <div className="space-y-1.5 sm:space-y-2">
-        <label className="block text-sm font-semibold text-slate-700">
+        <label className="block text-sm font-medium text-slate-700">
           Full Name
         </label>
         <input
@@ -140,7 +140,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
       {/* Payment Method Fieldset */}
       <fieldset className="space-y-3 pt-4 border-t border-slate-100">
-        <legend className="text-lg font-semibold text-slate-900 tracking-tight mb-2">
+        <legend className="text-lg font-medium text-slate-900 tracking-tight mb-2">
           Payment Method
         </legend>
 
@@ -159,7 +159,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
                   onChange={handleMethodChange(onChange)}
                   className="h-5 w-5 accent-orange-600"
                 />
-                <span className="text-sm font-semibold text-slate-900">
+                <span className="text-sm font-medium text-slate-900">
                   {option.label}
                 </span>
               </label>

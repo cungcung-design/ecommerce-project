@@ -200,7 +200,7 @@ function HeroSection() {
                   <img src={product.image} alt={product.name} className="h-8 w-8 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl object-cover bg-gray-50" />
                   <div>
                     <p className="text-[11px] sm:text-xs font-semibold text-gray-900">{product.name}</p>
-                    <p className="text-[10px] sm:text-xs font-medium text-gray-500">{product.price}</p>
+                     <p className="text-[11px] sm:text-xs font-medium text-gray-500">{product.price}</p>
                   </div>
                 </div>
               ))}

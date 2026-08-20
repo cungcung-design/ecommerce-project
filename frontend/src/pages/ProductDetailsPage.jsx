@@ -243,7 +243,7 @@ function ProductDetails() {
       {relatedProducts.length > 0 && (
         <div className="pt-10 border-t border-slate-100 space-y-6">
           <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-slate-900 tracking-tight font-serif">Related Products</h2>
+          <h2 className="text-xl font-medium text-slate-900 tracking-tight font-serif">Related Products</h2>
           </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {relatedProducts.map((relatedProduct) => (

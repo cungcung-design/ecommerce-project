@@ -8,10 +8,10 @@ function CheckoutSummary({ items, subtotal, shipping, total, paymentMethod }) {
   return (
     <div className="h-fit space-y-5">
       <div>
-        <h2 className="text-lg font-semibold text-slate-900 tracking-tight">Order Summary</h2>
+        <h2 className="text-lg font-medium text-slate-900 tracking-tight">Order Summary</h2>
         {methodLabel && (
           <p className="mt-1 text-sm text-slate-500">
-            Payment: <span className="font-semibold text-slate-800">{methodLabel}</span>
+            Payment: <span className="font-medium text-slate-800">{methodLabel}</span>
           </p>
         )}
       </div>

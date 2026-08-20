@@ -76,7 +76,7 @@ function Products() {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between mt-8">
-          <h1 className="text-3xl font-semibold font-serif">
+          <h1 className="text-3xl font-medium font-serif">
           {selectedCategory ? selectedCategory.name : "Products"}
         </h1>
 

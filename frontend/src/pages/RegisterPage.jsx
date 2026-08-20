@@ -47,7 +47,7 @@ function Register() {
             <ShoppingBag className="w-6 h-6" />
           </div>
           <div className="space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight font-serif">
+             <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight font-serif">
               Create Account
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">

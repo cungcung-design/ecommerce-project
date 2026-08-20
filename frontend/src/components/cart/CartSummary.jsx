@@ -11,7 +11,7 @@ function CartSummary({ subtotal, shipping, total, itemCount }) {
   };
   return (
     <div className="h-fit rounded-xl border border-slate-200 p-5 sm:p-6">
-      <h2 className="text-xl font-semibold text-slate-900">Order Summary</h2>
+      <h2 className="text-xl font-medium text-slate-900">Order Summary</h2>
 
       <div className="mt-6 space-y-3">
         <div className="flex justify-between text-base">

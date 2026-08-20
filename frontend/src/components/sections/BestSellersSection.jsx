@@ -30,7 +30,7 @@ function BestSellersSection({ id }) {
               <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
                 Best Sellers
               </span>
-              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
+              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 tracking-tight font-serif">
                 The pieces everyone loves
               </h2>
             </div>
@@ -57,7 +57,7 @@ function BestSellersSection({ id }) {
               <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
             Best Sellers
           </span>
-              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
+              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 tracking-tight font-serif">
             The pieces everyone loves
           </h2>
           <p className="mt-3 text-xs sm:text-sm text-gray-500">
@@ -77,7 +77,7 @@ function BestSellersSection({ id }) {
                 <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
               Best Sellers
             </span>
-                <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
+                <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 tracking-tight font-serif">
               The pieces everyone loves
             </h2>
           </div>

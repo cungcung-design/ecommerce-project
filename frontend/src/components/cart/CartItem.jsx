@@ -57,7 +57,7 @@ function CartItem({ item }) {
         {/* Left Side Details: Title, Price, Quantity controls */}
         <div className="flex-1 min-w-0">
           <h2 className="font-medium text-xs sm:text-base truncate">{item.product?.name}</h2>
-          <p className="mt-0.5 text-xs sm:text-sm text-gray-600">${Number(item.product?.price).toFixed(2)}</p>
+          <p className="mt-0.5 text-xs sm:text-sm text-gray-600 font-medium">${Number(item.product?.price).toFixed(2)}</p>
 
           <div className="mt-2.5 flex items-center gap-2">
             <button
@@ -86,7 +86,7 @@ function CartItem({ item }) {
 
         {/* Right Side Details: Total Price & Remove Option */}
         <div className="text-right flex flex-col items-end justify-between self-stretch py-0.5">
-          <p className="font-medium text-xs sm:text-base">
+          <p className="font-semibold text-xs sm:text-base">
             ${(Number(item.product?.price) * item.quantity).toFixed(2)}
           </p>
 
