@@ -145,13 +145,13 @@ function HeroSection() {
                 Shop Now →
               </Link>
 
-              <Link
-                to="/products"
-                onClick={(e) => e.stopPropagation()}
+              <button
+                type="button"
+                tabIndex={-1}
                 className="rounded-full border border-gray-200 px-5 sm:px-8 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-gray-800 hover:border-gray-900 transition-colors text-center no-underline"
               >
                 Explore Collection
-              </Link>
+              </button>
             </div>
 
             <div className="mt-6 sm:mt-10 flex items-center gap-3 sm:gap-4">

@@ -70,11 +70,11 @@ function Navbar() {
 
   const { requireAuth } = useRequireAuth("wishlist");
 
-  const isHomeActive = pathname === "/" && hash !== "#new-arrivals";
+  const isHomeActive = pathname === "/" && hash === "";
   const isShopActive = pathname === "/products" && !sort && !category;
-  const isNewArrivalsActive = hash === "#new-arrivals" || sort === "newest";
-  const isBestSellersActive = hash === "#best-sellers" || sort === "best-selling";
-  const isCategoriesActive = hash === "#categories" || Boolean(category);
+  const isNewArrivalsActive = (pathname === "/" && hash === "#new-arrivals") || (pathname === "/products" && sort === "newest");
+  const isBestSellersActive = (pathname === "/" && hash === "#best-sellers") || (pathname === "/products" && sort === "best-selling");
+  const isCategoriesActive = (pathname === "/" && hash === "#categories") || (pathname === "/products" && Boolean(category));
 
   const getNavLinkClass = (isActive) =>
     `text-sm font-medium transition-colors relative py-1 ${

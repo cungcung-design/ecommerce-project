@@ -43,7 +43,7 @@ function CategoriesSection() {
             to="/products"
             className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
           >
-            View All Categories →
+            View All →
           </Link>
         </div>
 

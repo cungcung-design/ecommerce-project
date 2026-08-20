@@ -29,7 +29,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
             </div>
             <Link
               to={viewAllLink}
-              className="text-[11px] sm:text-xs font-semibold text-gray-900 hover:text-orange-600 transition-colors"
+              className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
             >
               VIEW ALL →
             </Link>
@@ -90,7 +90,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
           </div>
           <Link
             to={viewAllLink}
-            className="text-[11px] sm:text-xs font-semibold text-gray-900 hover:text-orange-600 transition-colors inline-flex items-center gap-1"
+            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1"
           >
             VIEW ALL →
           </Link>
