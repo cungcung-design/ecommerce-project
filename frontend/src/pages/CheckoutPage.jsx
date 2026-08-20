@@ -5,18 +5,17 @@ import { ShieldCheck, Lock, ArrowLeft, AlertCircle, ShoppingBag, Loader2 } from 
 import { useCart } from "../hooks/useCart";
 import { useCreateOrder } from "../hooks/useOrders";
 import { useCreatePaymentSession } from "../hooks/usePayment";
-import useNotification from "../hooks/useNotification";
 import {
   disableBrowserScrollRestoration,
   resetPageScroll,
 } from "../lib/scrollToTop";
+import { getFriendlyError } from "../lib/getFriendlyError";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
 
 function CheckoutPage() {
   const navigate = useNavigate();
-  const { notify } = useNotification();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -84,14 +83,9 @@ function CheckoutPage() {
       setOrderSucceeded(true);
       disableBrowserScrollRestoration();
       resetPageScroll();
-      notify.success("Order placed successfully!");
-      navigate(`/orders/${order.id}`);
+      navigate(`/orders/${order.id}`, { state: { fromCheckout: true } });
     } catch (err) {
-      const message =
-        (err && typeof err === "object" && err.response && typeof err.response === "object" && err.response.data && typeof err.response.data === "object" && err.response.data.message) ||
-        (err && typeof err === "object" && err.message) ||
-        "Checkout failed";
-      setError(message);
+      setError(getFriendlyError(err, "We couldn't place your order. Please try again."));
     }
   };
 
@@ -157,9 +151,10 @@ function CheckoutPage() {
         <div className="flex items-start gap-3 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
           <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
           <p className="text-sm sm:text-base font-medium">
-            {createPaymentSession.error?.response?.data?.message ||
-              createPaymentSession.error?.message ||
-              "Failed to start online payment"}
+            {getFriendlyError(
+              createPaymentSession.error,
+              "We couldn't start online payment. Please try again."
+            )}
           </p>
         </div>
       )}

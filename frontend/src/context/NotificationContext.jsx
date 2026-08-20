@@ -1,18 +1,29 @@
-import { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, useRef, useMemo } from "react";
 
 import { ToastContainer } from "../components/notifications/ToastContainer";
 import { ConfirmDialog } from "../components/notifications/ConfirmDialog";
+import { isTechnicalMessage } from "../lib/getFriendlyError";
 
 const NotificationContext = createContext(null);
 
 let toastId = 0;
 const RECENT_TOAST_WINDOW = 2000;
-const recentToasts = new Map();
+
+const DEFAULT_DURATION = {
+  success: 3000,
+  info: 3000,
+  warning: 4000,
+  error: 5000,
+};
 
 const sanitizeMessage = (message) => {
-  if (typeof message !== "string") return "Something went wrong. Please try again.";
-  if (!message.trim()) return "Something went wrong. Please try again.";
-  return message;
+  if (typeof message !== "string" || !message.trim()) {
+    return "Something went wrong. Please try again.";
+  }
+  if (isTechnicalMessage(message)) {
+    return "Something went wrong. Please try again.";
+  }
+  return message.trim();
 };
 
 export function NotificationProvider({ children }) {
@@ -30,12 +41,12 @@ export function NotificationProvider({ children }) {
     if (typeof messageOrOptions === "string") {
       message = sanitizeMessage(messageOrOptions);
       variant = options?.variant || "info";
-      duration = options?.duration ?? 4000;
+      duration = options?.duration ?? DEFAULT_DURATION[variant] ?? 3000;
       action = options?.action;
     } else {
-      message = sanitizeMessage(messageOrOptions?.message);
       variant = messageOrOptions?.variant || "info";
-      duration = messageOrOptions?.duration ?? 4000;
+      message = sanitizeMessage(messageOrOptions?.message);
+      duration = messageOrOptions?.duration ?? DEFAULT_DURATION[variant] ?? 3000;
       action = messageOrOptions?.action;
     }
 
@@ -52,36 +63,25 @@ export function NotificationProvider({ children }) {
     setToasts((prev) => [...prev, { id, message, variant, duration, action }]);
     if (duration > 0) {
       setTimeout(() => {
-        removeToast(id);
         recentRef.current.delete(key);
       }, duration);
     }
     return id;
-  }, [removeToast]);
+  }, []);
 
-  const toast = useCallback((messageOrOptions, options) => {
-    return showToast(messageOrOptions, options);
+  const notify = useMemo(() => {
+    const fn = (messageOrOptions, options) => showToast(messageOrOptions, options);
+    fn.success = (message, options) => showToast({ message, variant: "success", ...options });
+    fn.error = (message, options) => showToast({ message, variant: "error", ...options });
+    fn.warning = (message, options) => showToast({ message, variant: "warning", ...options });
+    fn.info = (message, options) => showToast({ message, variant: "info", ...options });
+    return fn;
   }, [showToast]);
 
-  const notify = useCallback((messageOrOptions, options) => {
-    return toast(messageOrOptions, options);
-  }, [toast]);
-
-  const success = useCallback((message, options) => {
-    return showToast({ message, variant: "success", ...options });
-  }, [showToast]);
-
-  const error = useCallback((message, options) => {
-    return showToast({ message, variant: "error", ...options });
-  }, [showToast]);
-
-  const warning = useCallback((message, options) => {
-    return showToast({ message, variant: "warning", ...options });
-  }, [showToast]);
-
-  const info = useCallback((message, options) => {
-    return showToast({ message, variant: "info", ...options });
-  }, [showToast]);
+  const success = notify.success;
+  const error = notify.error;
+  const warning = notify.warning;
+  const info = notify.info;
 
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve) => {

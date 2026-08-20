@@ -77,7 +77,9 @@ function Toast({ toast, onDismiss }) {
 
   return (
     <div
-      className={`group relative overflow-hidden rounded-xl border ${config.border} ${config.bg} shadow-lg toast-enter ${isExiting ? "toast-exit" : ""}`}
+      className={`pointer-events-auto group relative overflow-hidden rounded-xl border ${config.border} ${config.bg} shadow-lg toast-enter ${isExiting ? "toast-exit" : ""}`}
+      role={variant === "error" || variant === "warning" ? "alert" : "status"}
+      aria-live={variant === "error" || variant === "warning" ? "assertive" : "polite"}
     >
       <div className="flex items-start gap-3 p-3 sm:p-4">
         <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 mt-0.5 ${config.iconColor}`} />

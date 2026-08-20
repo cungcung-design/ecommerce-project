@@ -25,7 +25,7 @@ export function useRequireAuth(action = "default") {
     const message = ACTION_MESSAGES[action] || "Please log in to continue.";
     const targetPath = redirectTo || window.location.pathname + window.location.search;
 
-    notify.error(message, {
+    notify.info(message, {
       duration: 5000,
       action: {
         text: "Log In",

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 import {
   Package,
@@ -17,6 +17,7 @@ import { useOrder, useCancelOrder } from "../hooks/useOrders";
 import { useOrderPayment } from "../hooks/usePayment";
 import useNotification from "../hooks/useNotification";
 import { useRequireAuth } from "../hooks/useRequireAuth";
+import { getFriendlyError } from "../lib/getFriendlyError";
 
 import OrderStatus from "../components/orders/OrderStatus";
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
@@ -159,6 +160,8 @@ function CancelConfirmationDialog({ onConfirm, onCancel, isPending }) {
 
 function OrderDetailsPage() {
   const { id } = useParams();
+  const location = useLocation();
+  const justPlaced = Boolean(location.state?.fromCheckout);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
   const { notify } = useNotification();
@@ -196,10 +199,10 @@ function OrderDetailsPage() {
     cancelOrder.mutate(Number(id), {
       onSuccess: () => {
         setShowCancelSuccess(true);
-        notify.success("Order cancelled successfully");
+        notify.success("Order cancelled");
       },
       onError: (err) => {
-        notify.error(err?.response?.data?.message || "Failed to cancel order");
+        notify.error(getFriendlyError(err, "Couldn't cancel this order."));
       },
     });
   };
@@ -298,6 +301,26 @@ function OrderDetailsPage() {
 
         <OrderStatus status={order.status} className="text-sm" />
       </div>
+
+      {justPlaced && (
+        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+          <div className="flex gap-3">
+            <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
+            <div className="space-y-2">
+              <p className="text-sm font-medium text-emerald-800">Your order has been placed</p>
+              <p className="text-sm text-emerald-700">
+                Order {order.id} is confirmed. You can track its status below.
+              </p>
+              <Link
+                to="/products"
+                className="inline-flex text-sm font-semibold text-emerald-800 underline underline-offset-2 hover:text-emerald-900"
+              >
+                Continue shopping
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cancel success message */}
       {showCancelSuccess && (

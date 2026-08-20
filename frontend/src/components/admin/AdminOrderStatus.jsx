@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import { useUpdateOrderStatus } from "../../hooks/useUpdateOrderStatus";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import {
   statusLabels,
@@ -88,10 +89,10 @@ function AdminOrderStatus({ orderId, currentStatus }) {
                 status: selectedStatus,
               }, {
                 onSuccess: () => {
-                  notify.success("Order status updated successfully");
+                  notify.success("Order status updated");
                 },
-                onError: () => {
-                  notify.error(updateStatus.error?.response?.data?.message || "Failed to update order status");
+                onError: (err) => {
+                  notify.error(getFriendlyError(err, "Couldn't update order status"));
                 },
               })
             }
@@ -103,26 +104,6 @@ function AdminOrderStatus({ orderId, currentStatus }) {
               : "Update Status"}
           </button>
         </>
-      )}
-
-      {updateStatus.isPending && (
-        <p className="mt-3 text-sm text-slate-500">
-          Updating status...
-        </p>
-      )}
-
-      {updateStatus.isError && (
-        <p className="mt-3 text-sm text-red-600">
-          {updateStatus.error?.response?.data?.message ||
-            updateStatus.error?.message ||
-            "Failed to update status"}
-        </p>
-      )}
-
-      {updateStatus.isSuccess && (
-        <p className="mt-3 text-sm text-green-600">
-          Status updated successfully
-        </p>
       )}
     </div>
   );

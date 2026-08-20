@@ -7,6 +7,7 @@ import {
 
 import { useUploadImage } from "../../hooks/useUploadImage";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import AdminProductForm
   from "../../components/admin/AdminProductForm";
@@ -31,11 +32,10 @@ function AdminCreateProduct() {
 
       await createProduct.mutateAsync(productData);
 
-      notify.success("Product created successfully");
+      notify.success("Product created");
       navigate("/admin/products");
     } catch (error) {
-      setError(error.response?.data?.message || "Failed to create product");
-      notify.error(error.response?.data?.message || "Failed to create product");
+      setError(getFriendlyError(error, "Couldn't create this product."));
     }
   };
 

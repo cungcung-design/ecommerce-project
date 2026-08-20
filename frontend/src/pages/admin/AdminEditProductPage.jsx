@@ -9,6 +9,7 @@ import {
 
 import { useUploadImage } from "../../hooks/useUploadImage";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 import AdminProductForm
   from "../../components/admin/AdminProductForm";
@@ -56,8 +57,7 @@ function AdminEditProduct() {
         setInitialImageUrl(product.imageUrl || "");
       } catch (error) {
         setError(
-          error.response?.data?.message ||
-            "Failed to load product"
+          getFriendlyError(error, "Couldn't load this product.")
         );
       } finally {
         setLoading(false);
@@ -83,14 +83,10 @@ function AdminEditProduct() {
         ...productData,
       });
 
-      notify.success("Product updated successfully");
+      notify.success("Product updated");
       navigate("/admin/products");
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Failed to update product"
-      );
-      notify.error(error.response?.data?.message || "Failed to update product");
+      setError(getFriendlyError(error, "Couldn't update this product."));
     } finally {
       setSaving(false);
     }

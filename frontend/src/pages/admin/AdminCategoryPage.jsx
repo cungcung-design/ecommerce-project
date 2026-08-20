@@ -16,6 +16,7 @@ import {
   useUpdateAdminCategoryStatus,
 } from "../../hooks/useAdminCategories";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function AdminCategoryPage() {
   const [search, setSearch] = useState("");
@@ -46,19 +47,19 @@ function AdminCategoryPage() {
         {
           onSuccess: () => {
             setEditingCategory(null);
-            notify.success("Category updated successfully");
+            notify.success("Category updated");
           },
           onError: (err) =>
-            setError(err.response?.data?.message || "Failed to update category"),
+            setError(getFriendlyError(err, "Couldn't update this category.")),
         }
       );
     } else {
       createCategory.mutate(payload.name, {
           onSuccess: () => {
-            notify.success("Category created successfully");
+            notify.success("Category created");
           },
         onError: (err) =>
-          setError(err.response?.data?.message || "Failed to create category"),
+          setError(getFriendlyError(err, "Couldn't create this category.")),
       });
     }
   };
@@ -75,9 +76,9 @@ function AdminCategoryPage() {
       if (confirmed) {
         updateStatus.mutate({ id: category.id, isActive: nextStatus }, {
           onSuccess: () => {
-            notify.success(`Category ${nextStatus ? "activated" : "deactivated"} successfully`);
+            notify.success(`Category ${nextStatus ? "activated" : "deactivated"}`);
           },
-          onError: (err) => setError(err.response?.data?.message || "Failed to update status"),
+          onError: (err) => setError(getFriendlyError(err, "Couldn't update category status")),
         });
       }
     });
@@ -95,9 +96,9 @@ function AdminCategoryPage() {
       if (confirmed) {
         deleteCategory.mutate(category.id, {
           onSuccess: () => {
-            notify.success(`Category "${category.name}" deleted successfully`);
+            notify.success(`Category "${category.name}" deleted`);
           },
-          onError: (err) => setError(err.response?.data?.message || "Failed to delete category"),
+          onError: (err) => setError(getFriendlyError(err, "Couldn't delete this category.")),
         });
       }
     });

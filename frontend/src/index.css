@@ -50,6 +50,16 @@
   animation: slideOutRight 0.2s ease-in forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .toast-enter,
+  .toast-exit,
+  .dialog-backdrop,
+  .animate-fade-in-up,
+  .animate-image-reveal {
+    animation: none;
+  }
+}
+
 .dialog-backdrop {
   animation: fadeIn 0.2s ease-out forwards;
 }

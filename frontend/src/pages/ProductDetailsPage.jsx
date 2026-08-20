@@ -19,6 +19,7 @@ import { useRequireAuth } from "../hooks/useRequireAuth";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import ProductCard from "../components/cards/ProductCard";
+import { getFriendlyError } from "../lib/getFriendlyError";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -66,9 +67,9 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
-      notify.success("Added to cart successfully.");
+      notify.success(`${product.name} added to cart`);
     } catch (error) {
-      notify.error(error.response?.data?.message || "Failed to add to cart");
+      notify.error(getFriendlyError(error, "Couldn't add this item to your cart."));
     }
   };
 
@@ -82,7 +83,7 @@ function ProductDetails() {
       });
       navigate("/checkout");
     } catch (error) {
-      notify.error(error.response?.data?.message || "Failed to add to cart");
+      notify.error(getFriendlyError(error, "Couldn't add this item to your cart."));
     }
   };
 
@@ -195,7 +196,11 @@ function ProductDetails() {
                       : "bg-orange-600 hover:bg-orange-700 shadow-orange-600/25 hover:scale-[1.02]"
                   }`}
                 >
-                  {added ? (
+                  {addToCart.isPending ? (
+                    <>
+                      Adding...
+                    </>
+                  ) : added ? (
                     <>
                       <Check className="w-4 h-4 stroke-[3]" /> Added to Cart
                     </>
@@ -213,7 +218,7 @@ function ProductDetails() {
                 disabled={addToCart.isPending || product.stock === 0}
                 className="w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-900/10 transition-all duration-300 hover:scale-[1.01] disabled:opacity-40"
               >
-                Buy Now
+                {addToCart.isPending ? "Please wait..." : "Buy Now"}
               </button>
             </div>
           )}

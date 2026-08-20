@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
+import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag, CheckCircle2 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
 import useNotification from "../hooks/useNotification";
 import ErrorMessage from "../components/ErrorMessage";
+import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 
 function Register() {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ function Register() {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,15 +29,50 @@ function Register() {
 
     try {
       await register(name, email, password);
-
-      notify.success("Account created successfully! Welcome to NovaTrend.");
-      navigate("/");
+      setSuccess(true);
     } catch (error) {
-      notify.error(error.response?.data?.message || "Registration failed");
+      if (isNetworkError(error)) {
+        notify.error("Unable to connect to the server. Please try again.");
+      } else {
+        setError(getFriendlyError(error, "We couldn't create your account. Please try again."));
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  if (success) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-md space-y-6 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-900/5 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
+            <CheckCircle2 className="w-6 h-6" />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight font-serif">
+              Account created successfully
+            </h1>
+            <p className="text-sm text-slate-500 font-medium">
+              You can start shopping right away.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate("/products")}
+            className="w-full rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-colors"
+          >
+            Continue shopping
+          </button>
+          <Link
+            to="/"
+            className="inline-block text-sm font-semibold text-orange-600 hover:text-orange-700"
+          >
+            Go to homepage
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">

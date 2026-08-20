@@ -9,6 +9,7 @@ import {
   useUpdateAdminUserStatus,
 } from "../../hooks/useAdminUsers";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function AdminUserPage() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -42,9 +43,9 @@ function AdminUserPage() {
       if (confirmed) {
         updateStatus.mutate({ id: user.id, isActive: nextStatus }, {
           onSuccess: () => {
-            notify.success(`User ${nextStatus ? "activated" : "deactivated"} successfully`);
+            notify.success(`User ${nextStatus ? "activated" : "deactivated"}`);
           },
-          onError: () => notify.error("Failed to update user status"),
+          onError: (err) => notify.error(getFriendlyError(err, "Couldn't update user status")),
         });
       }
     });
@@ -60,7 +61,7 @@ function AdminUserPage() {
       onSuccess: () => {
         notify.success(`User role updated to ${role}`);
       },
-      onError: () => notify.error("Failed to update user role"),
+      onError: (err) => notify.error(getFriendlyError(err, "Couldn't update user role")),
     });
   };
 

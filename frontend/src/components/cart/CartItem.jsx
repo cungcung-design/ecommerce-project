@@ -1,5 +1,6 @@
 import { useRemoveFromCart, useUpdateCartItem } from "../../hooks/useCart";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function CartItem({ item }) {
   const removeFromCart = useRemoveFromCart();
@@ -11,7 +12,7 @@ function CartItem({ item }) {
       productId: item.productId,
       quantity: item.quantity + 1,
     }, {
-      onError: () => notify.error("Failed to update quantity"),
+      onError: (err) => notify.error(getFriendlyError(err, "Couldn't update quantity.")),
     });
   };
 
@@ -21,15 +22,15 @@ function CartItem({ item }) {
         productId: item.productId,
         quantity: item.quantity - 1,
       }, {
-        onError: () => notify.error("Failed to update quantity"),
+        onError: (err) => notify.error(getFriendlyError(err, "Couldn't update quantity.")),
       });
     }
   };
 
   const handleRemove = () => {
     removeFromCart.mutate(item.productId, {
-      onSuccess: () => notify.success("Item removed from cart"),
-      onError: () => notify.error("Failed to remove item"),
+      onSuccess: () => notify.success("Removed from cart"),
+      onError: (err) => notify.error(getFriendlyError(err, "Couldn't remove this item.")),
     });
   };
 
@@ -95,7 +96,7 @@ function CartItem({ item }) {
             disabled={updateCartItem.isPending || removeFromCart.isPending}
             className="text-[11px] sm:text-sm text-red-600 hover:text-red-700 disabled:opacity-40 cursor-pointer"
           >
-            Remove
+            {removeFromCart.isPending ? "Removing..." : "Remove"}
           </button>
         </div>
       </div>

@@ -23,6 +23,7 @@ export function ConfirmDialog({
       role="dialog"
       aria-modal="true"
       aria-labelledby="confirm-dialog-title"
+      aria-describedby="confirm-dialog-message"
     >
       <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => onClose(false)} />
       <div className="relative w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl">
@@ -37,7 +38,7 @@ export function ConfirmDialog({
         <h2 id="confirm-dialog-title" className="text-lg font-semibold text-slate-900">
           {title}
         </h2>
-        <p className="mt-2 text-sm text-slate-600">{message}</p>
+        <p id="confirm-dialog-message" className="mt-2 text-sm text-slate-600">{message}</p>
 
         <div className="mt-6 flex items-center justify-end gap-3">
           <button

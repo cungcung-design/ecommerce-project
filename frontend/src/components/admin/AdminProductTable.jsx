@@ -6,11 +6,11 @@ import AdminStockStatus
 
 import { useDeleteProduct, useUpdateProductStatus } from "../../hooks/useAdminProducts";
 import useNotification from "../../hooks/useNotification";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function AdminProductTable({ products, pagination, page, setPage }) {
   const deleteProduct = useDeleteProduct();
   const toggleStatus = useUpdateProductStatus();
-  const [error, setError] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
   const { notify, confirm } = useNotification();
 
@@ -28,18 +28,14 @@ function AdminProductTable({ products, pagination, page, setPage }) {
         return;
       }
 
-      setError(null);
       setDeletingId(id);
 
       deleteProduct.mutate(id, {
       onSuccess: () => {
-        notify.success("Product deleted successfully");
+        notify.success("Product deleted");
       },
       onError: (err) => {
-        setError(
-          err?.response?.data?.message || "Failed to delete product. Please try again."
-        );
-        notify.error("Failed to delete product");
+        notify.error(getFriendlyError(err, "Couldn't delete this product."));
         setDeletingId(null);
       },
       });
@@ -52,9 +48,9 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       isActive: !product.isActive,
     }, {
       onSuccess: () => {
-        notify.success(`Product ${!product.isActive ? "activated" : "deactivated"} successfully`);
+        notify.success(`Product ${!product.isActive ? "activated" : "deactivated"}`);
       },
-      onError: () => notify.error("Failed to update product status"),
+      onError: (err) => notify.error(getFriendlyError(err, "Couldn't update product status")),
     });
   };
 
@@ -70,19 +66,6 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
   return (
     <>
-      {error && (
-        <div className="mb-4 flex items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
-          <span>{error}</span>
-          <button
-            onClick={() => setError(null)}
-            className="shrink-0 text-red-500 hover:text-red-400"
-            aria-label="Dismiss error"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
       <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white">
         <table className="w-full min-w-[700px]">
           <thead className="border-b border-slate-200 bg-slate-50">

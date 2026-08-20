@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
 import useNotification from "../../hooks/useNotification";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
-  const [error, setError] = useState(null);
   const { notify } = useNotification();
-  const { isLoggedIn, requireAuth } = useRequireAuth("quickAdd");
+  const { requireAuth } = useRequireAuth("quickAdd");
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
@@ -24,19 +24,16 @@ function ProductCard({ product }) {
     if (addToCartMutation.isPending) return;
     if (product.stock === 0) return;
 
-    setError(null);
     addToCartMutation.mutate(
       { productId: product.id, quantity: 1 },
       {
         onSuccess: () => {
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
-          notify.success("Added to cart successfully.");
+          notify.success("Added to cart");
         },
         onError: (err) => {
-          const message = err.response?.data?.message || "Failed to add to cart";
-          setError(message);
-          setTimeout(() => setError(null), 3000);
+          notify.error(getFriendlyError(err, "Couldn't add this item to your cart."));
         },
       }
     );
@@ -140,10 +137,6 @@ function ProductCard({ product }) {
                 ? "Out of Stock"
                 : "Quick Add"}
         </button>
-
-        {error && isLoggedIn && (
-          <p className="mt-2 text-[11px] sm:text-xs text-red-500">{error}</p>
-        )}
       </div>
     </div>
   );

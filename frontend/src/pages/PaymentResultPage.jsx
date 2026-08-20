@@ -1,29 +1,16 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useSearchParams, useNavigate } from "react-router-dom";
 
 import { useOrderPayment } from "../hooks/usePayment";
-import useNotification from "../hooks/useNotification";
-
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
 import { paymentStatusDescription } from "../validators/paymentValidator";
+import { getFriendlyError } from "../lib/getFriendlyError";
 
 const terminalStatuses = ["PAID", "FAILED", "REFUNDED"];
 
 function PaymentResultPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const { notify } = useNotification();
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    if (payment && terminalStatuses.includes(status)) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-  }, [payment, status]);
-
   const orderId = searchParams.get("orderId");
 
   const {
@@ -38,6 +25,17 @@ function PaymentResultPage() {
     },
     retry: 3,
   });
+
+  const status = payment?.status;
+  const method = payment?.method;
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+  }, [orderId, status]);
+
+  const handleBackToOrders = () => {
+    navigate("/orders");
+  };
 
   if (isLoading) {
     return (
@@ -59,9 +57,7 @@ function PaymentResultPage() {
           </h1>
 
           <p className="mt-3 text-sm text-red-600">
-            {error?.response?.data?.message ||
-              error?.message ||
-              "Payment information could not be retrieved."}
+            {getFriendlyError(error, "Payment information could not be retrieved.")}
           </p>
 
           <Link
@@ -75,21 +71,8 @@ function PaymentResultPage() {
     );
   }
 
-  const { status, method } = payment;
   const isSuccess = status === "PAID";
   const isFailed = status === "FAILED" || status === "REFUNDED";
-
-  useEffect(() => {
-    if (!payment || terminalStatuses.includes(status)) {
-      if (status === "FAILED" || status === "REFUNDED") {
-        notify.error("Payment failed. Please try again or choose a different payment method.");
-      }
-    }
-  }, [status, payment, notify]);
-
-  const handleBackToOrders = () => {
-    navigate("/orders");
-  };
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-12">
@@ -128,13 +111,19 @@ function PaymentResultPage() {
           </div>
         )}
 
-          <h1 className="mt-4 text-2xl font-medium font-serif">
+        <h1 className="mt-4 text-2xl font-medium font-serif">
           {isSuccess
             ? "Payment Successful"
             : isFailed
               ? "Payment Failed"
               : "Verifying Payment..."}
         </h1>
+
+        {isFailed && (
+          <p className="mt-3 text-sm text-gray-600">
+            We couldn&apos;t complete your payment. Please try again or choose another payment method.
+          </p>
+        )}
 
         <div className="mt-4 mb-6 flex justify-center">
           <PaymentStatusBadge method={method} status={status} />

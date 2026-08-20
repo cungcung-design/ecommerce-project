@@ -5,6 +5,7 @@ import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-rea
 import { useAuth } from "../context/AuthContext";
 import useNotification from "../hooks/useNotification";
 import ErrorMessage from "../components/ErrorMessage";
+import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 
 function Login() {
   const navigate = useNavigate();
@@ -39,15 +40,19 @@ function Login() {
     try {
       const loggedInUser = await login(email, password);
 
-      notify.success(`Welcome back, ${loggedInUser.name}!`);
-
       if (loggedInUser.role === "ADMIN") {
         navigate("/admin");
       } else {
         navigate(redirectTo);
       }
     } catch (error) {
-      notify.error(error.response?.data?.message || "Login failed");
+      if (isNetworkError(error)) {
+        notify.error("Unable to connect to the server. Please try again.");
+      } else if (error.response?.status === 401 || error.response?.status === 400) {
+        setError("Invalid email or password.");
+      } else {
+        setError(getFriendlyError(error, "Invalid email or password."));
+      }
     } finally {
       setLoading(false);
     }
