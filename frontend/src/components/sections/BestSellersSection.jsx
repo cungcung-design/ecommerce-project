@@ -148,12 +148,12 @@ function BestSellersSection({ id }) {
           <span className="text-xs font-medium text-gray-500 tabular-nums">
             {pad(activeIndex + 1)} / {pad(products.length)}
           </span>
-          <Link
-            to="/products?sort=best-selling"
-            className="text-xs font-semibold text-orange-600 hover:text-orange-700 transition-colors"
-          >
-            VIEW ALL →
-          </Link>
+<Link
+  to="/products?sort=best-selling"
+  className="text-xs font-semibold hover:text-orange-600 transition-colors"
+>
+  View All →
+</Link>
         </div>
 
         {/* Product Navigation Grid Cards */}
