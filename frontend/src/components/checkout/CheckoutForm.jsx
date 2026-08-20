@@ -178,6 +178,11 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
       <button
         type="submit"
         disabled={isSubmitting}
+        onClick={(e) => {
+          if (e.currentTarget instanceof HTMLElement) {
+            e.currentTarget.blur();
+          }
+        }}
         className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 disabled:opacity-50 disabled:hover:bg-slate-900 mt-6 cursor-pointer"
       >
         {isSubmitting ? (

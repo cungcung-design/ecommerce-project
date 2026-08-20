@@ -43,6 +43,10 @@ function CheckoutPage() {
   const handleSubmit = async (shippingData) => {
     setError("");
 
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+
     try {
       const order = await createOrder.mutateAsync({
         items: items.map((item) => ({
@@ -64,7 +68,9 @@ function CheckoutPage() {
 
         if (session?.paymentUrl) {
           window.scrollTo({ top: 0, behavior: "smooth" });
-          window.location.href = session.paymentUrl;
+          setTimeout(() => {
+            window.location.href = session.paymentUrl;
+          }, 400);
           return;
         }
 
@@ -73,7 +79,9 @@ function CheckoutPage() {
 
       notify.success("Order placed successfully!");
       window.scrollTo({ top: 0, behavior: "smooth" });
-      navigate(`/orders/${order.id}`);
+      setTimeout(() => {
+        navigate(`/orders/${order.id}`);
+      }, 400);
     } catch (err) {
       const message =
         (err && typeof err === "object" && err.response && typeof err.response === "object" && err.response.data && typeof err.response.data === "object" && err.response.data.message) ||
