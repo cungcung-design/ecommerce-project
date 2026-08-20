@@ -38,7 +38,6 @@ function CategoriesSection() {
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
             Shop by Categories
           </h2>
-
           <Link
             to="/products"
             className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors"
