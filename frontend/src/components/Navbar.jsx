@@ -91,7 +91,7 @@ function Navbar() {
     }`}>
       <nav className="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
         {/* Brand Logo */}
-        <Link to="/" className="group flex items-center gap-2 text-xl sm:text-2xl font-extrabold tracking-tight text-slate-900">
+        <Link to="/" className="group flex items-center gap-2 text-xl sm:text-2xl font-semibold tracking-tight text-slate-900">
           <div className="w-8 h-8 rounded-xl bg-orange-600 flex items-center justify-center text-white shadow-md shadow-orange-500/20 group-hover:scale-105 transition-transform sm:w-9 sm:h-9">
             <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
           </div>
@@ -157,7 +157,7 @@ function Navbar() {
           >
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[11px] font-bold text-white shadow-sm">
+              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[11px] font-semibold text-white shadow-sm">
                 {cartCount}
               </span>
             )}
@@ -171,7 +171,7 @@ function Navbar() {
                 className="flex items-center gap-1.5 p-1.5 pl-2.5 rounded-xl border border-slate-200/80 hover:border-orange-200 hover:bg-orange-50/50 transition-all text-slate-700"
                 aria-label="Account"
               >
-                <div className="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs">
+                <div className="w-6 h-6 rounded-lg bg-orange-100 text-orange-700 flex items-center justify-center font-medium text-xs">
                   {user.name?.[0] || user.email?.[0] || "U"}
                 </div>
                 <ChevronDown className={`h-3.5 w-3.5 text-slate-400 transition-transform ${isAccountOpen ? "rotate-180 text-orange-600" : ""}`} />
@@ -181,7 +181,7 @@ function Navbar() {
                 <div className="absolute right-0 top-full mt-2 w-56 rounded-2xl border border-slate-100 bg-white p-1.5 shadow-xl shadow-slate-900/10 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <div className="px-3 py-2.5 border-b border-slate-100 mb-1">
                     <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Signed in as</p>
-                    <p className="text-sm font-bold text-slate-800 truncate">{user.email || user.name}</p>
+                    <p className="text-sm font-semibold text-slate-800 truncate">{user.email || user.name}</p>
                   </div>
                   
                   <Link

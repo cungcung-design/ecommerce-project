@@ -124,11 +124,11 @@ function HeroSection() {
         <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           
           <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
-            <span className="inline-block text-[10px] sm:text-xs font-bold uppercase tracking-widest text-orange-600">
+            <span className="inline-block text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-orange-600">
               {current.category}
             </span>
 
-            <h1 className="mt-3 text-2xl sm:text-3xl lg:text-5xl font-extrabold leading-tight text-gray-900 whitespace-pre-line">
+            <h1 className="mt-3 text-2xl sm:text-3xl lg:text-5xl font-semibold leading-tight text-gray-900 whitespace-pre-line font-serif">
               {current.title}
             </h1>
 
@@ -163,7 +163,7 @@ function HeroSection() {
               </div>
 
               <div className="text-[11px] sm:text-sm">
-                <p className="font-bold text-gray-900">Loved by 50,000+ customers worldwide</p>
+                <p className="font-semibold text-gray-900">Loved by 50,000+ customers worldwide</p>
               </div>
             </div>
           </div>
@@ -199,7 +199,7 @@ function HeroSection() {
                 >
                   <img src={product.image} alt={product.name} className="h-8 w-8 sm:h-12 sm:w-12 rounded-lg sm:rounded-xl object-cover bg-gray-50" />
                   <div>
-                    <p className="text-[11px] sm:text-xs font-bold text-gray-900">{product.name}</p>
+                    <p className="text-[11px] sm:text-xs font-semibold text-gray-900">{product.name}</p>
                     <p className="text-[10px] sm:text-xs font-medium text-gray-500">{product.price}</p>
                   </div>
                 </div>

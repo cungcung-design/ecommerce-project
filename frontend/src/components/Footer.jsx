@@ -10,7 +10,7 @@ function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <h3 className="text-xl font-bold">NovaTrend</h3>
+            <h3 className="text-xl font-semibold">NovaTrend</h3>
             <p className="mt-4 text-sm text-gray-400">
               Your one-stop shop for the latest trends and modern lifestyle products.
             </p>

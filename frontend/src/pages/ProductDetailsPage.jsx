@@ -114,7 +114,7 @@ function ProductDetails() {
               </div>
             )}
             {hasDiscount && (
-              <span className="absolute top-4 left-4 rounded-full bg-rose-500 px-3 py-1 text-[11px] font-bold text-white shadow-sm">
+          <span className="absolute top-4 left-4 rounded-full bg-rose-500 px-3 py-1 text-[11px] font-semibold text-white shadow-sm">
                 {discount}
               </span>
             )}
@@ -125,7 +125,7 @@ function ProductDetails() {
         <div className="lg:col-span-5 space-y-6">
           <div className="space-y-2">
 
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight leading-tight">
+          <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight leading-tight">
               {product.name}
             </h1>
           </div>
@@ -133,7 +133,7 @@ function ProductDetails() {
           {/* Pricing & Reviews */}
           <div className="flex flex-wrap items-center justify-between gap-4 border-y border-slate-100 py-4">
             <div className="flex items-baseline gap-3">
-              <span className="text-3xl font-bold text-slate-900">${product.price}</span>
+        <span className="text-3xl font-semibold text-slate-900">${product.price}</span>
               {hasDiscount && product.originalPrice && (
                 <span className="text-sm text-slate-400 line-through font-normal">
                   ${product.originalPrice}
@@ -243,7 +243,7 @@ function ProductDetails() {
       {relatedProducts.length > 0 && (
         <div className="pt-10 border-t border-slate-100 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Related Products</h2>
+          <h2 className="text-xl font-semibold text-slate-900 tracking-tight font-serif">Related Products</h2>
           </div>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
             {relatedProducts.map((relatedProduct) => (

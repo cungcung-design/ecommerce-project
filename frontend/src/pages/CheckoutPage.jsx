@@ -99,12 +99,12 @@ function CheckoutPage() {
           <ShoppingBag className="w-10 h-10" />
         </div>
         <div className="space-y-2">
-          <h1 className="text-3xl font-black text-slate-900 tracking-tight">Your cart is empty</h1>
+          <h1 className="text-3xl font-semibold text-slate-900 tracking-tight font-serif">Your cart is empty</h1>
           <p className="text-base text-slate-500">Add some items to your cart before proceeding to checkout.</p>
         </div>
         <Link
           to="/products"
-          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 px-8 py-4 text-base font-bold text-white shadow-xl transition-all duration-300"
+          className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 px-8 py-4 text-base font-semibold text-white shadow-xl transition-all duration-300"
         >
           Continue Shopping
         </Link>
@@ -124,7 +124,7 @@ function CheckoutPage() {
           >
             <ArrowLeft className="w-4 h-4" /> Back to Cart
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Checkout</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight font-serif">Checkout</h1>
         </div>
         <div className="flex items-center gap-2.5 px-4 py-2 rounded-xl bg-slate-50 border border-slate-200 text-sm font-semibold text-slate-700 shadow-sm">
           <Lock className="w-4 h-4 text-orange-600" /> Secure 256-Bit Encryption

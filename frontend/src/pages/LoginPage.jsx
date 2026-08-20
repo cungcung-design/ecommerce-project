@@ -63,7 +63,7 @@ function Login() {
             <ShoppingBag className="w-6 h-6" />
           </div>
           <div className="space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight font-serif">
               Welcome back
             </h1>
             <p className="text-xs sm:text-sm text-slate-500 font-medium">
@@ -85,7 +85,7 @@ function Login() {
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-1.5">
-            <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Email Address
             </label>
             <div className="relative">
@@ -105,7 +105,7 @@ function Login() {
 
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                 Password
               </label>
             </div>
@@ -127,7 +127,7 @@ function Login() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-bold text-white shadow-lg shadow-orange-600/25 transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
           >
             {loading ? (
               <>
@@ -149,7 +149,7 @@ function Login() {
             Don't have an account?{" "}
             <Link
               to="/register"
-              className="font-bold text-orange-600 hover:text-orange-700 underline underline-offset-2 transition-colors"
+              className="font-semibold text-orange-600 hover:text-orange-700 underline underline-offset-2 transition-colors"
             >
               Register
             </Link>

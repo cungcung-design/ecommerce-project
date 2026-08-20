@@ -17,12 +17,12 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8">
             <div>
-              <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
-                New Arrivals
-              </span>
-              <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-                New Arrivals
-              </h2>
+          <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-orange-600">
+            New Arrivals
+          </span>
+          <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
+            New Arrivals
+          </h2>
               <p className="mt-1 text-xs sm:text-sm text-gray-500">
                 Discover our latest collection
               </p>
@@ -54,12 +54,12 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
     return (
       <section id={id} className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
+          <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-orange-600">
             New Arrivals
           </span>
-          <h2 className="mt-1 text-2xl sm:text-3xl font-bold text-gray-900 tracking-tight">
-            New Arrivals
-          </h2>
+              <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
+                New Arrivals
+              </h2>
           <p className="mt-2 text-xs sm:text-sm text-gray-500">
             Discover our latest collection
           </p>
@@ -79,11 +79,11 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 mb-6 sm:mb-8 lg:mb-10">
           <div>
-            <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
+            <span className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.15em] text-orange-600">
               Our Collection
             </span>
             <div className="flex items-center justify-between sm:block">
-              <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+              <h2 className="mt-1 text-2xl sm:text-3xl font-semibold text-gray-900 tracking-tight font-serif">
                 New Arrivals
               </h2>
 <button
@@ -131,10 +131,10 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
               {/* Floating Info Box */}
               <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6 p-4 sm:p-6 rounded-2xl bg-white/65 backdrop-blur-3xl shadow-2xl border border-white/50 transition-all duration-300 group-hover:translate-y-[-3px] group-hover:bg-white/75">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-base sm:text-xl font-black text-gray-900 tracking-tight line-clamp-1">
+                  <h3 className="text-base sm:text-xl font-medium text-gray-900 tracking-tight line-clamp-1">
                     {featured.name}
                   </h3>
-                  <p className="text-sm sm:text-lg font-extrabold text-gray-900">
+                  <p className="text-sm sm:text-lg font-semibold text-gray-900">
                     ${featured.price}
                   </p>
                 </div>
@@ -143,7 +143,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
                   <span className="text-[11px] sm:text-xs font-semibold text-gray-600">
                     Limited Edition
                   </span>
-                  <span className="inline-flex items-center text-[11px] sm:text-xs font-bold text-orange-600 group-hover:translate-x-1 transition-transform">
+                  <span className="inline-flex items-center text-[11px] sm:text-xs font-semibold text-orange-600 group-hover:translate-x-1 transition-transform">
                     Explore Product →
                   </span>
                 </div>
@@ -177,7 +177,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
                         </div>
                       )}
                       {badge && (
-                        <span className="absolute left-2 top-2 rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-bold text-white shadow-md z-10">
+                        <span className="absolute left-2 top-2 rounded-full bg-gray-900 px-2 py-0.5 text-[10px] font-semibold text-white shadow-md z-10">
                           {badge}
                         </span>
                       )}
@@ -187,7 +187,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
                       <p className="text-[11px] sm:text-xs font-medium text-gray-400 uppercase tracking-wide">
                         {product.category?.name || "Accessory"}
                       </p>
-                      <h3 className="mt-0.5 text-xs sm:text-sm font-bold text-gray-900 line-clamp-1 group-hover:text-orange-600 transition-colors">
+                      <h3 className="mt-0.5 text-xs sm:text-sm font-medium text-gray-900 line-clamp-1 group-hover:text-orange-600 transition-colors">
                         {product.name}
                       </h3>
                       <p className="mt-0.5 text-xs sm:text-sm font-semibold text-gray-900">

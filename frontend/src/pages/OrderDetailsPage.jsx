@@ -108,7 +108,7 @@ function SectionHeader({ icon: Icon, title, subtitle }) {
         <Icon className="h-4 w-4" />
       </div>
       <div>
-        <h2 className="text-base font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-base font-medium text-gray-900">{title}</h2>
         {subtitle && <p className="text-xs text-gray-500">{subtitle}</p>}
       </div>
     </div>
@@ -287,7 +287,7 @@ function OrderDetailsPage() {
               <ArrowLeft className="h-4 w-4" />
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
+              <h1 className="text-2xl font-semibold text-gray-900 sm:text-3xl font-serif">
                 Order Details
               </h1>
               <p className="mt-0.5 text-sm text-gray-500">
@@ -446,7 +446,7 @@ function OrderDetailsPage() {
               <div className="border-t border-gray-100 pt-3">
                 <div className="flex justify-between">
                   <span className="font-semibold text-gray-900">Total</span>
-                  <span className="text-xl font-bold text-gray-900">${total.toFixed(2)}</span>
+                   <span className="text-xl font-semibold text-gray-900">${total.toFixed(2)}</span>
                 </div>
               </div>
             </div>

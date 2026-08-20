@@ -60,7 +60,7 @@ function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 text-center">
-        <h1 className="text-2xl font-bold text-slate-900">Your Cart is Empty</h1>
+         <h1 className="text-2xl font-semibold text-slate-900 font-serif">Your Cart is Empty</h1>
         <p className="mt-3 text-lg text-gray-600">Add some products to your cart.</p>
         <Link to="/products" className="mt-6 inline-block rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-base font-semibold text-white transition-colors">
           Continue Shopping
@@ -81,7 +81,7 @@ function CartPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Shopping Cart</h1>
+          <h1 className="text-2xl sm:text-3xl font-semibold text-slate-900 tracking-tight font-serif">Shopping Cart</h1>
         <span className="text-base text-slate-500">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
       </div>
 

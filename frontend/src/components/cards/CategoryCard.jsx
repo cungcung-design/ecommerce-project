@@ -15,7 +15,7 @@ function CategoryCard({ category }) {
       </div>
 
       <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-4">
-        <h3 className="text-sm font-semibold text-white">
+        <h3 className="text-sm font-medium text-white">
           {category.name}
         </h3>
 

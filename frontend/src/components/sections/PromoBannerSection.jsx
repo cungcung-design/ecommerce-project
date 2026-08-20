@@ -50,7 +50,7 @@ function CountdownTimer() {
       ].map((item) => (
         <div key={item.label} className="text-center">
           <div className="rounded-lg bg-white/25 px-2 py-1.5 sm:px-3 sm:py-2 backdrop-blur-md border border-white/20 shadow-inner">
-            <span className="text-base sm:text-xl font-bold text-white">{pad(item.value)}</span>
+            <span className="text-base sm:text-xl font-semibold text-white">{pad(item.value)}</span>
           </div>
           <span className="mt-0.5 sm:mt-1 block text-[10px] sm:text-xs font-medium text-white/90">{item.label}</span>
         </div>
@@ -74,7 +74,7 @@ function PromoBannerSection() {
                 {promoData.flashSale.tag}
               </span>
 
-              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white lg:text-4xl">
+              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-medium text-white lg:text-4xl font-serif">
                 {promoData.flashSale.title}
               </h3>
 
@@ -114,7 +114,7 @@ function PromoBannerSection() {
                 {promoData.collection.tag}
               </span>
 
-              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white lg:text-4xl">
+              <h3 className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-medium text-white lg:text-4xl font-serif">
                 {promoData.collection.title}
               </h3>
 

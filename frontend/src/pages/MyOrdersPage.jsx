@@ -83,7 +83,7 @@ function MyOrdersPage() {
     return (
       <div className="max-w-md mx-auto mt-12 p-6 rounded-2xl bg-rose-50 border border-rose-100 text-center space-y-2">
         <AlertCircle className="w-8 h-8 text-rose-600 mx-auto" />
-        <h3 className="text-sm font-bold text-rose-900">Unable to load orders</h3>
+        <h3 className="text-sm font-semibold text-rose-900">Unable to load orders</h3>
         <p className="text-xs text-rose-600">Please check your connection and try again.</p>
       </div>
     );
@@ -94,9 +94,9 @@ function MyOrdersPage() {
       {/* Header */}
       <div className="flex items-center justify-between border-b border-slate-100 pb-4">
         <div>
-          <h1 className="text-2xl font-black tracking-tight text-slate-900">My Orders</h1>
+          <h1 className="text-2xl font-semibold tracking-tight text-slate-900 font-serif">My Orders</h1>
         </div>
-        <span className="text-xs font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
+        <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-3 py-1 rounded-lg">
           {orders.length} {orders.length === 1 ? "Order" : "Orders"}
         </span>
       </div>
@@ -105,7 +105,7 @@ function MyOrdersPage() {
       {orders.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-bold text-slate-400 uppercase tracking-wider">Latest Status Tracker</span>
+            <span className="font-semibold text-slate-400 uppercase tracking-wider">Latest Status Tracker</span>
             <span className="font-semibold text-slate-600">{String(orders[0]?.id).slice(-6).toUpperCase()}</span>
           </div>
           <StatusFlowIndicator currentStatus={orders[0]?.status ?? "PENDING"} />
@@ -117,19 +117,19 @@ function MyOrdersPage() {
         <div className="text-center bg-slate-50 border border-dashed border-slate-200 rounded-2xl p-10 space-y-3">
           <ShoppingBag className="w-8 h-8 text-slate-400 mx-auto" />
           <div className="space-y-1">
-            <p className="text-sm font-bold text-slate-900">No orders yet</p>
+            <p className="text-sm font-semibold text-slate-900">No orders yet</p>
             <p className="text-xs text-slate-500">When you place orders, they will appear here.</p>
           </div>
           <Link
             to="/products"
-            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 text-white px-5 py-2.5 text-xs font-bold hover:bg-indigo-600 transition-colors"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-slate-900 text-white px-5 py-2.5 text-xs font-semibold hover:bg-indigo-600 transition-colors"
           >
             Start Shopping <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
       ) : (
         <div className="space-y-3">
-          <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Order History</h2>
+          <h2 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Order History</h2>
           <div className="space-y-3">
             {orders.map((order) => (
               <OrderCard key={order.id} order={order} />

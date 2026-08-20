@@ -48,7 +48,7 @@ function PaymentResultPage() {
     return (
       <div className="mx-auto max-w-2xl px-4 py-12">
         <div className="rounded-xl border bg-red-50 p-6 text-center">
-          <h1 className="text-xl font-bold text-red-700">
+          <h1 className="text-xl font-semibold text-red-700 font-serif">
             Unable to load payment
           </h1>
 
@@ -122,7 +122,7 @@ function PaymentResultPage() {
           </div>
         )}
 
-        <h1 className="mt-4 text-2xl font-bold">
+          <h1 className="mt-4 text-2xl font-semibold font-serif">
           {isSuccess
             ? "Payment Successful"
             : isFailed

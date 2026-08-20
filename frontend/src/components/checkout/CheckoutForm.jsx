@@ -40,7 +40,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 pb-16 lg:pb-0">
-      <h2 className="text-lg font-bold text-slate-900 tracking-tight pb-2 border-b border-slate-100">
+      <h2 className="text-lg font-semibold text-slate-900 tracking-tight pb-2 border-b border-slate-100">
         Shipping Information
       </h2>
 
@@ -140,7 +140,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
 
       {/* Payment Method Fieldset */}
       <fieldset className="space-y-3 pt-4 border-t border-slate-100">
-        <legend className="text-lg font-bold text-slate-900 tracking-tight mb-2">
+        <legend className="text-lg font-semibold text-slate-900 tracking-tight mb-2">
           Payment Method
         </legend>
 
@@ -178,7 +178,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 py-4 text-base font-bold text-white shadow-lg transition-all duration-300 disabled:opacity-50 disabled:hover:bg-slate-900 mt-6 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 disabled:opacity-50 disabled:hover:bg-slate-900 mt-6 cursor-pointer"
       >
         {isSubmitting ? (
           <>

@@ -27,10 +27,10 @@ function BestSellersSection({ id }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-end justify-between mb-8 sm:mb-12 lg:mb-16">
             <div>
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
                 Best Sellers
               </span>
-              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
+              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
                 The pieces everyone loves
               </h2>
             </div>
@@ -54,10 +54,10 @@ function BestSellersSection({ id }) {
     return (
       <section id={id} className="bg-white py-8 sm:py-12 lg:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
+              <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
             Best Sellers
           </span>
-          <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
+              <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
             The pieces everyone loves
           </h2>
           <p className="mt-3 text-xs sm:text-sm text-gray-500">
@@ -74,10 +74,10 @@ function BestSellersSection({ id }) {
         {/* Header */}
         <div className="flex items-end justify-between mb-8 sm:mb-12 lg:mb-16">
           <div>
-            <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.2em] text-orange-600">
+                <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
               Best Sellers
             </span>
-            <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight">
+                <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-gray-900 tracking-tight font-serif">
               The pieces everyone loves
             </h2>
           </div>
@@ -113,10 +113,10 @@ function BestSellersSection({ id }) {
 
           {/* Right: Product Info */}
           <div className="lg:col-span-6 flex flex-col justify-center h-full py-4">
-<span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600 px-2.5 py-1 rounded-full w-fit ml-[-8px]">
+<span className="inline-block text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.18em] text-orange-600 px-2.5 py-1 rounded-full w-fit ml-[-8px]">
   Best Seller {pad(activeIndex + 1)}
 </span>
-            <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
+            <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-medium text-gray-900 tracking-tight leading-tight">
               {current.name}
             </h3>
 
@@ -124,14 +124,14 @@ function BestSellersSection({ id }) {
               {current.category?.name || "Collection"}
             </p>
 
-            <p className="mt-4 text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900">
+            <p className="mt-4 text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-900">
               ${Number(current.price).toFixed(2)}
             </p>
 
             <div className="mt-6">
               <Link
                 to={`/products/${current.id}`}
-                className="inline-flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-bold text-gray-900 hover:text-orange-600 transition-colors group"
+                className="inline-flex items-center gap-2 sm:gap-3 text-xs sm:text-sm font-semibold text-gray-900 hover:text-orange-600 transition-colors group"
               >
                 <span className="inline-flex items-center justify-center w-9 h-9 sm:w-11 sm:h-11 rounded-full border border-gray-200 group-hover:border-orange-600 group-hover:bg-orange-50 transition-all shadow-sm">
                   <span className="transition-transform group-hover:translate-x-0.5">→</span>
@@ -186,14 +186,14 @@ function BestSellersSection({ id }) {
 
                   <div className="flex-1 min-w-0">
                     <span
-                      className={`block text-[10px] sm:text-xs font-bold tracking-wider uppercase transition-colors duration-300 ${
+                      className={`block text-[10px] sm:text-xs font-semibold tracking-wider uppercase transition-colors duration-300 ${
                         isActive ? "text-orange-600" : "text-gray-400"
                       }`}
                     >
                       No. {pad(index + 1)}
                     </span>
                     <p
-                      className={`mt-0.5 text-xs sm:text-sm font-semibold truncate transition-colors duration-300 ${
+                      className={`mt-0.5 text-xs sm:text-sm font-medium truncate transition-colors duration-300 ${
                         isActive ? "text-gray-900" : "text-gray-700 group-hover:text-gray-900"
                       }`}
                     >

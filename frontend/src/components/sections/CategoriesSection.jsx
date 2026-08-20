@@ -35,7 +35,7 @@ function CategoriesSection() {
     <section id="categories" className="bg-white py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">
+          <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 font-serif">
             Shop by Categories
           </h2>
 <Link
@@ -74,7 +74,7 @@ function CategoriesSection() {
                 </div>
 
                 <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/60 to-transparent p-3 sm:p-4">
-                  <h3 className="text-xs sm:text-sm font-semibold text-white">
+                  <h3 className="text-xs sm:text-sm font-medium text-white">
                     {category.name}
                   </h3>
 
