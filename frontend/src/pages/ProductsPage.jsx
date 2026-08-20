@@ -236,13 +236,7 @@ function Products() {
 
         {/* Product Grid Section */}
         <main className="lg:col-span-3">
-          {products.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-          ) : (
+          {products.length === 0 ? (
             <div className="my-16 text-center rounded-xl border border-dashed p-12 bg-gray-50">
               <h3 className="text-lg font-medium text-gray-900">No products found</h3>
               <p className="text-sm text-gray-500 mt-1">
@@ -257,6 +251,19 @@ function Products() {
                 Reset All Filters
               </button>
             </div>
+          ) : (
+            <>
+              <div className="grid grid-cols-2 gap-6 sm:hidden">
+                {products.slice(0, 6).map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+              <div className="hidden sm:grid sm:grid-cols-3 xl:grid-cols-4 gap-6">
+                {products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+            </>
           )}
 
           {/* Pagination Controls */}
