@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
+import { getFriendlyError } from "../lib/getFriendlyError";
 import ProductCard from "../components/cards/ProductCard";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
@@ -63,10 +64,7 @@ function Products() {
   if (isError) {
     return (
       <ErrorMessage
-        message={
-          error?.response?.data?.message ||
-          "Failed to load products"
-        }
+        message={getFriendlyError(error, "Failed to load products")}
       />
     );
   }

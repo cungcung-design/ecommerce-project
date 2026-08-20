@@ -1,24 +1,29 @@
 import { useCustomers } from "../../hooks/useCustomers";
+import { getFriendlyError } from "../../lib/getFriendlyError";
+import { AlertCircle } from "lucide-react";
 
 function Customers() {
   const {
     data: customers = [],
     isLoading,
     isError,
+    error,
   } = useCustomers();
 
   if (isLoading) {
     return (
-      <div className="p-8">
-        Loading customers...
+      <div className="p-8 flex items-center gap-3 text-slate-500">
+        <div className="w-5 h-5 border-2 border-slate-300 border-t-blue-500 rounded-full animate-spin" />
+        <span className="text-sm font-medium">Loading customers...</span>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="p-8">
-        Failed to load customers.
+      <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600 shadow-sm">
+        <AlertCircle className="h-5 w-5 shrink-0" />
+        <span className="text-sm font-medium">{getFriendlyError(error, "Failed to load customers. Please check your connection and try again.")}</span>
       </div>
     );
   }

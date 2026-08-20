@@ -7,6 +7,7 @@ import AdminRecentOrders
 import {
   useAdminDashboard,
 } from "../../hooks/useAdminDashboard";
+import { getFriendlyError } from "../../lib/getFriendlyError";
 
 export default function AdminDashboard() {
   const {
@@ -27,8 +28,7 @@ export default function AdminDashboard() {
   if (isError) {
     return (
       <div className="rounded-lg bg-red-900/30 border border-red-800 p-4 text-red-400">
-        {error?.response?.data?.message ||
-          "Failed to load dashboard"}
+        {getFriendlyError(error, "Failed to load dashboard")}
       </div>
     );
   }

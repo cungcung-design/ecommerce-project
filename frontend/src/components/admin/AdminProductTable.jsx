@@ -31,13 +31,14 @@ function AdminProductTable({ products, pagination, page, setPage }) {
       setDeletingId(id);
 
       deleteProduct.mutate(id, {
-      onSuccess: () => {
-        notify.success("Product deleted successfully");
-      },
-      onError: (err) => {
-        notify.error(getFriendlyError(err, "Couldn't delete this product."));
-        setDeletingId(null);
-      },
+        onSuccess: () => {
+          setDeletingId(null);
+          notify.success("Product deleted successfully");
+        },
+        onError: (err) => {
+          notify.error(getFriendlyError(err, "Couldn't delete this product."));
+          setDeletingId(null);
+        },
       });
     });
   };

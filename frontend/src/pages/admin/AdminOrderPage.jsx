@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Loader2, AlertCircle } from "lucide-react";
 
 import { useAdminOrders } from "../../hooks/useAdminOrders";
-
+import { getFriendlyError } from "../../lib/getFriendlyError";
 import AdminOrderTable from "../../components/admin/AdminOrderTable";
 
 const statusOptions = [
@@ -24,6 +25,7 @@ function AdminOrders() {
     data,
     isLoading,
     isError,
+    error,
   } = useAdminOrders({
     q: search,
     status: statusFilter || undefined,
@@ -46,20 +48,18 @@ function AdminOrders() {
 
   if (isLoading) {
     return (
-      <div className="p-4 sm:p-8">
-        <p className="text-gray-400">
-          Loading orders...
-        </p>
+      <div className="p-4 sm:p-8 flex items-center gap-3 text-slate-500">
+        <Loader2 className="h-5 w-5 animate-spin text-blue-500" />
+        <span className="text-sm font-medium">Loading orders...</span>
       </div>
     );
   }
 
   if (isError) {
     return (
-      <div className="p-4 sm:p-8">
-        <p className="text-red-400">
-          Failed to load orders.
-        </p>
+      <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600 shadow-sm">
+        <AlertCircle className="h-5 w-5 shrink-0" />
+        <span className="text-sm font-medium">{getFriendlyError(error, "Failed to load orders. Please check your connection and try again.")}</span>
       </div>
     );
   }
