@@ -67,7 +67,7 @@ function Navbar() {
   const category = searchParams.get("category");
   const hash = location.hash;
 
-  const { requireAuth } = useRequireAuth("wishlist");
+  const { requireAuth } = useRequireAuth();
 
   const isHomeActive = pathname === "/" && hash === "";
   const isShopActive = pathname === "/products" && !sort && !category;

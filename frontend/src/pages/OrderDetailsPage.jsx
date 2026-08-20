@@ -163,7 +163,7 @@ function OrderDetailsPage() {
   const justPlaced = Boolean(location.state?.fromCheckout);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
-  const { requireAuth } = useRequireAuth("orders");
+  const { requireAuth } = useRequireAuth();
 
   const {
     data: order,

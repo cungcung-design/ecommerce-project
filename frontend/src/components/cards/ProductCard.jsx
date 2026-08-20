@@ -10,8 +10,8 @@ function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
   const { notify } = useNotification();
-  const { requireAuth: requireQuickAdd } = useRequireAuth("quickAdd");
-  const { requireAuth: requireWishlist } = useRequireAuth("wishlist");
+  const { requireAuth: requireQuickAdd } = useRequireAuth();
+  const { requireAuth: requireWishlist } = useRequireAuth();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const inWishlist = isInWishlist(product.id);
 
@@ -34,7 +34,6 @@ function ProductCard({ product }) {
         onSuccess: () => {
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
-          notify.success("Added to cart");
         },
         onError: (err) => {
           notify.error(getFriendlyError(err, "Couldn't add this item to your cart."));
@@ -47,8 +46,7 @@ function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
     if (!requireWishlist()) return;
-    const added = toggleWishlist(product.id);
-    notify.success(added ? "Added to wishlist" : "Removed from wishlist");
+    toggleWishlist(product.id);
   };
 
   return (

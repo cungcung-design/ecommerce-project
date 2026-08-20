@@ -3,7 +3,7 @@ import { useRequireAuth } from "../../hooks/useRequireAuth";
 
 function CartSummary({ subtotal, shipping, total, itemCount }) {
   const navigate = useNavigate();
-  const { requireAuth } = useRequireAuth("checkout");
+  const { requireAuth } = useRequireAuth();
 
   const handleProceedToCheckout = () => {
     if (!requireAuth("/checkout")) return;

@@ -27,8 +27,8 @@ function ProductDetails() {
   const { data: product, isLoading, isError } = useProduct(id);
   const addToCart = useAddToCart();
   const { notify } = useNotification();
-  const { isLoggedIn: isLoggedInAdd, requireAuth: requireAddToCart } = useRequireAuth("addToCart");
-  const { isLoggedIn: isLoggedInBuy, requireAuth: requireBuyNow } = useRequireAuth("buyNow");
+  const { requireAuth: requireAddToCart } = useRequireAuth();
+  const { requireAuth: requireBuyNow } = useRequireAuth();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -67,7 +67,6 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
-      notify.success(`${product.name} added to cart`);
     } catch (error) {
       notify.error(getFriendlyError(error, "Couldn't add this item to your cart."));
     }
