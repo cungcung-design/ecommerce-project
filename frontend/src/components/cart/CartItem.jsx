@@ -1,19 +1,14 @@
 import { useRemoveFromCart, useUpdateCartItem } from "../../hooks/useCart";
-import useNotification from "../../hooks/useNotification";
-import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function CartItem({ item }) {
   const removeFromCart = useRemoveFromCart();
   const updateCartItem = useUpdateCartItem();
-  const { notify } = useNotification();
 
   const handleIncrease = () => {
     if (updateCartItem.isPending || removeFromCart.isPending) return;
     updateCartItem.mutate({
       productId: item.productId,
       quantity: item.quantity + 1,
-    }, {
-      onError: (err) => notify.error(getFriendlyError(err, "Couldn't update quantity.")),
     });
   };
 
@@ -23,17 +18,13 @@ function CartItem({ item }) {
       updateCartItem.mutate({
         productId: item.productId,
         quantity: item.quantity - 1,
-      }, {
-        onError: (err) => notify.error(getFriendlyError(err, "Couldn't update quantity.")),
       });
     }
   };
 
   const handleRemove = () => {
     if (updateCartItem.isPending || removeFromCart.isPending) return;
-    removeFromCart.mutate(item.productId, {
-      onError: (err) => notify.error(getFriendlyError(err, "Couldn't remove this item.")),
-    });
+    removeFromCart.mutate(item.productId);
   };
 
   const productImage = item.product?.imageUrl || item.product?.image || "";
