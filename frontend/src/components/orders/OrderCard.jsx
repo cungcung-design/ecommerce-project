@@ -36,7 +36,7 @@ function OrderCard({ order }) {
             </div>
           )}
 
-          <div>
+          <div className="min-w-0">
             <div className="flex items-center gap-3">
               <h2 className="font-medium">
                  Order {order.id}

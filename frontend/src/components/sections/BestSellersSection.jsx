@@ -73,7 +73,7 @@ function BestSellersSection({ id }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex items-end justify-between mb-8 sm:mb-12 lg:mb-16">
-          <div>
+          <div className="min-w-0">
                 <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-orange-600">
               Best Sellers
             </span>

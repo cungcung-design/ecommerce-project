@@ -56,7 +56,7 @@ function FeaturesSection() {
                   </div>
                 </div>
 
-                <div className="relative z-10">
+                <div className="relative z-10 min-w-0">
                   <h3 className="text-sm sm:text-base font-medium text-slate-900 tracking-tight transition-colors duration-300 group-hover:text-orange-600">
                     {feature.title}
                   </h3>
