@@ -82,9 +82,18 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
             <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.15em] text-orange-600">
               Our Collection
             </span>
-            <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
-              New Arrivals
-            </h2>
+            <div className="flex items-center justify-between sm:block">
+              <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+                New Arrivals
+              </h2>
+              <button
+                type="button"
+                tabIndex={-1}
+                className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1 sm:hidden"
+              >
+                VIEW ALL →
+              </button>
+            </div>
             <p className="mt-1 text-xs sm:text-sm text-gray-500">
               Discover our latest curated styles and trending drops.
             </p>
@@ -92,7 +101,7 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
           <button
             type="button"
             tabIndex={-1}
-            className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1 self-end sm:self-auto"
+            className="hidden sm:inline-flex text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors items-center gap-1"
           >
             VIEW ALL →
           </button>

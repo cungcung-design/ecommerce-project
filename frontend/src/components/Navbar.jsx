@@ -106,14 +106,15 @@ function Navbar() {
           <NavLink to="/products" className={`${getNavLinkClass(isShopActive)} ${isShopActive ? underlineClass : ""}`}>
             Shop
           </NavLink>
+            <NavLink to="/#categories" className={`${getNavLinkClass(isCategoriesActive)} ${isCategoriesActive ? underlineClass : ""}`}>
+            Categories
+          </NavLink>
+
           <NavLink to="/#new-arrivals" className={`${getNavLinkClass(isNewArrivalsActive)} ${isNewArrivalsActive ? underlineClass : ""}`}>
             New Arrivals
           </NavLink>
           <NavLink to="/#best-sellers" className={`${getNavLinkClass(isBestSellersActive)} ${isBestSellersActive ? underlineClass : ""}`}>
             Best Sellers
-          </NavLink>
-          <NavLink to="/#categories" className={`${getNavLinkClass(isCategoriesActive)} ${isCategoriesActive ? underlineClass : ""}`}>
-            Categories
           </NavLink>
         </div>
 
