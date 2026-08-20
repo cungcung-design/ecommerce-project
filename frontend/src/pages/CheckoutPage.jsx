@@ -67,10 +67,8 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
-          window.scrollTo({ top: 0, behavior: "smooth" });
-          setTimeout(() => {
-            window.location.href = session.paymentUrl;
-          }, 400);
+          window.scrollTo(0, 0);
+          window.location.href = session.paymentUrl;
           return;
         }
 
@@ -78,10 +76,8 @@ function CheckoutPage() {
       }
 
       notify.success("Order placed successfully!");
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      setTimeout(() => {
-        navigate(`/orders/${order.id}`);
-      }, 400);
+      window.scrollTo(0, 0);
+      navigate(`/orders/${order.id}`);
     } catch (err) {
       const message =
         (err && typeof err === "object" && err.response && typeof err.response === "object" && err.response.data && typeof err.response.data === "object" && err.response.data.message) ||
