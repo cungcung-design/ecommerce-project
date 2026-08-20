@@ -1,15 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
-import useNotification from "../../hooks/useNotification";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
 import { useWishlist } from "../../hooks/useWishlist";
-import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
-  const { notify } = useNotification();
   const { requireAuth: requireQuickAdd } = useRequireAuth();
   const { requireAuth: requireWishlist } = useRequireAuth();
   const { isInWishlist, toggleWishlist } = useWishlist();
@@ -34,9 +31,6 @@ function ProductCard({ product }) {
         onSuccess: () => {
           setAdded(true);
           setTimeout(() => setAdded(false), 1500);
-        },
-        onError: (err) => {
-          notify.error(getFriendlyError(err, "Couldn't add this item to your cart."));
         },
       }
     );

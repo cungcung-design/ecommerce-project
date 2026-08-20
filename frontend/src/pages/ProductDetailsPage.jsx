@@ -14,19 +14,16 @@ import {
 import { useProduct } from "../hooks/useProduct";
 import { useProducts } from "../hooks/useProducts";
 import { useAddToCart } from "../hooks/useCart";
-import useNotification from "../hooks/useNotification";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
 import ProductCard from "../components/cards/ProductCard";
-import { getFriendlyError } from "../lib/getFriendlyError";
 
 function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { data: product, isLoading, isError } = useProduct(id);
   const addToCart = useAddToCart();
-  const { notify } = useNotification();
   const { requireAuth: requireAddToCart } = useRequireAuth();
   const { requireAuth: requireBuyNow } = useRequireAuth();
 
@@ -36,6 +33,7 @@ function ProductDetails() {
 
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const { data: relatedData } = useProducts({
     categoryId: product?.category?.id,
@@ -61,6 +59,7 @@ function ProductDetails() {
     if (addToCart.isPending) return;
     if (!requireAddToCart()) return;
 
+    setActionError("");
     try {
       await addToCart.mutateAsync({
         productId: product.id,
@@ -68,8 +67,8 @@ function ProductDetails() {
       });
       setAdded(true);
       setTimeout(() => setAdded(false), 1500);
-    } catch (error) {
-      notify.error(getFriendlyError(error, "Couldn't add this item to your cart."));
+    } catch {
+      setActionError("Couldn't add this item to your cart.");
     }
   };
 
@@ -77,14 +76,15 @@ function ProductDetails() {
     if (addToCart.isPending) return;
     if (!requireBuyNow()) return;
 
+    setActionError("");
     try {
       await addToCart.mutateAsync({
         productId: product.id,
         quantity,
       });
       navigate("/checkout");
-    } catch (error) {
-      notify.error(getFriendlyError(error, "Couldn't add this item to your cart."));
+    } catch {
+      setActionError("Couldn't add this item to your cart.");
     }
   };
 
@@ -219,8 +219,11 @@ function ProductDetails() {
                 disabled={addToCart.isPending || product.stock === 0}
                 className="w-full min-h-[46px] inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 hover:bg-slate-800 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-slate-900/10 transition-all duration-300 hover:scale-[1.01] disabled:opacity-40"
               >
-                {addToCart.isPending ? "Please wait..." : "Buy Now"}
+                {addToCart.isPending ? "Please wait..." : "Buy Now"}
               </button>
+              {actionError && (
+                <p className="text-sm font-medium text-rose-600">{actionError}</p>
+              )}
             </div>
           )}
 
