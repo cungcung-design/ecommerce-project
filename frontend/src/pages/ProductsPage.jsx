@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
-import { useDebouncedCallback } from "use-debounce";
 import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
 import { getFriendlyError } from "../lib/getFriendlyError";
@@ -39,15 +38,21 @@ function Products() {
   }, [searchParam]);
 
   // Debounced handler to update URL search param after user stops typing
-  const handleDebouncedSearch = useDebouncedCallback((value) => {
-    if (value) {
-      searchParams.set("search", value);
-    } else {
-      searchParams.delete("search");
+  const debounceRef = useRef(null);
+  const handleDebouncedSearch = useCallback((value) => {
+    if (debounceRef.current) {
+      clearTimeout(debounceRef.current);
     }
-    searchParams.set("page", "1");
-    setSearchParams(searchParams);
-  }, 400);
+    debounceRef.current = setTimeout(() => {
+      if (value) {
+        searchParams.set("search", value);
+      } else {
+        searchParams.delete("search");
+      }
+      searchParams.set("page", "1");
+      setSearchParams(searchParams);
+    }, 400);
+  }, [searchParams, setSearchParams]);
 
   const {
     data,
