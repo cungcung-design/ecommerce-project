@@ -46,9 +46,7 @@ function CheckoutPage() {
 
   const handleSubmit = async (shippingData) => {
     setError("");
-
     disableBrowserScrollRestoration();
-    resetPageScroll();
 
     try {
       const order = await createOrder.mutateAsync({

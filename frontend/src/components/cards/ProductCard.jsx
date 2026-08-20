@@ -3,13 +3,17 @@ import { Link } from "react-router-dom";
 import { useAddToCart } from "../../hooks/useCart";
 import useNotification from "../../hooks/useNotification";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import { useWishlist } from "../../hooks/useWishlist";
 import { getFriendlyError } from "../../lib/getFriendlyError";
 
 function ProductCard({ product }) {
   const addToCartMutation = useAddToCart();
   const [added, setAdded] = useState(false);
   const { notify } = useNotification();
-  const { requireAuth } = useRequireAuth("quickAdd");
+  const { requireAuth: requireQuickAdd } = useRequireAuth("quickAdd");
+  const { requireAuth: requireWishlist } = useRequireAuth("wishlist");
+  const { isInWishlist, toggleWishlist } = useWishlist();
+  const inWishlist = isInWishlist(product.id);
 
   const discount = product.discount || null;
   const hasDiscount = Boolean(discount);
@@ -19,7 +23,7 @@ function ProductCard({ product }) {
     e.preventDefault();
     e.stopPropagation();
 
-    if (!requireAuth()) return;
+    if (!requireQuickAdd()) return;
 
     if (addToCartMutation.isPending) return;
     if (product.stock === 0) return;
@@ -42,7 +46,9 @@ function ProductCard({ product }) {
   const handleWishlistClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    requireAuth();
+    if (!requireWishlist()) return;
+    const added = toggleWishlist(product.id);
+    notify.success(added ? "Added to wishlist" : "Removed from wishlist");
   };
 
   return (
@@ -76,11 +82,20 @@ function ProductCard({ product }) {
 
           <button
             type="button"
-            aria-label="Add to wishlist"
+            aria-label={inWishlist ? "In wishlist" : "Add to wishlist"}
             onClick={handleWishlistClick}
-            className="absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white"
+            className={`absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm transition-opacity hover:bg-white ${
+              inWishlist ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+            }`}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className={`h-4 w-4 ${inWishlist ? "text-rose-500" : "text-gray-600"}`}
+              fill={inWishlist ? "currentColor" : "none"}
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
               <path strokeLinecap="round" strokeLinejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
           </button>

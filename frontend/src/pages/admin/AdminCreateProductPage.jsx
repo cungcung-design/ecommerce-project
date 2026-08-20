@@ -32,7 +32,7 @@ function AdminCreateProduct() {
 
       await createProduct.mutateAsync(productData);
 
-      notify.success("Product created");
+      notify.success("Product created successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(getFriendlyError(error, "Couldn't create this product."));

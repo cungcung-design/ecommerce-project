@@ -17,6 +17,7 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
     formState: { errors },
   } = useForm({
     resolver: zodResolver(checkoutSchema),
+    shouldFocusError: true,
     defaultValues: {
       fullName: "",
       phone: "",

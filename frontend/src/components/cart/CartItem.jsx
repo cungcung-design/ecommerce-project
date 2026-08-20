@@ -29,7 +29,7 @@ function CartItem({ item }) {
 
   const handleRemove = () => {
     removeFromCart.mutate(item.productId, {
-      onSuccess: () => notify.success("Removed from cart"),
+      onSuccess: () => notify.success("Item removed from cart"),
       onError: (err) => notify.error(getFriendlyError(err, "Couldn't remove this item.")),
     });
   };

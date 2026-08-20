@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
 import useNotification from "../hooks/useNotification";
-import ErrorMessage from "../components/ErrorMessage";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
+import { loginSchema } from "../validators/authValidator";
 
 function Login() {
   const navigate = useNavigate();
@@ -13,13 +15,18 @@ function Login() {
   const { login, user } = useAuth();
   const { notify } = useNotification();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const redirectTo = searchParams.get("redirectTo") || "/";
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm({
+    resolver: zodResolver(loginSchema),
+    shouldFocusError: true,
+    defaultValues: { email: "", password: "" },
+  });
 
   useEffect(() => {
     if (user) {
@@ -31,12 +38,7 @@ function Login() {
     }
   }, [user, navigate, redirectTo]);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    setError("");
-    setLoading(true);
-
+  const onSubmit = async ({ email, password }) => {
     try {
       const loggedInUser = await login(email, password);
 
@@ -47,14 +49,16 @@ function Login() {
       }
     } catch (error) {
       if (isNetworkError(error)) {
-        notify.error("Unable to connect to the server. Please try again.");
-      } else if (error.response?.status === 401 || error.response?.status === 400) {
-        setError("Invalid email or password.");
-      } else {
-        setError(getFriendlyError(error, "Invalid email or password."));
+        notify.error("Unable to connect. Please try again.");
+        return;
       }
-    } finally {
-      setLoading(false);
+
+      setError("root", {
+        message:
+          error.response?.status === 401 || error.response?.status === 400
+            ? "Invalid email or password."
+            : getFriendlyError(error, "Invalid email or password."),
+      });
     }
   };
 
@@ -77,18 +81,19 @@ function Login() {
           </div>
         </div>
 
-        {/* Error Banner */}
-        {error && (
+        {errors.root && (
           <div className="flex items-start gap-2.5 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
-            <div className="text-sm font-medium">
-              <ErrorMessage message={error} />
-            </div>
+            <p className="text-sm font-medium">{errors.root.message}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form
+          noValidate
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-5"
+        >
           <div className="space-y-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Email Address
@@ -100,12 +105,14 @@ function Login() {
               <input
                 type="email"
                 placeholder="name@example.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
+                {...register("email")}
                 className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 pl-10 pr-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
-                required
               />
             </div>
+            {errors.email && (
+              <p className="text-xs font-medium text-rose-600">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="space-y-1.5">
@@ -121,20 +128,22 @@ function Login() {
               <input
                 type="password"
                 placeholder="••••••••"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="current-password"
+                {...register("password")}
                 className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 pl-10 pr-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
-                required
               />
             </div>
+            {errors.password && (
+              <p className="text-xs font-medium text-rose-600">{errors.password.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isSubmitting}
             className="w-full flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
           >
-            {loading ? (
+            {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
                 <span>Logging in...</span>

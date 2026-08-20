@@ -1,5 +1,5 @@
 import { useState, useEffect, useLayoutEffect } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   Search,
   Heart,
@@ -26,6 +26,7 @@ function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   
   const location = useLocation();
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
   const { data: cart } = useCart({ enabled: !!user });
   const { data: orders } = useOrders();
@@ -57,6 +58,7 @@ function Navbar() {
     await logout();
     setIsAccountOpen(false);
     setIsMenuOpen(false);
+    navigate("/");
   };
 
   const pathname = location.pathname;

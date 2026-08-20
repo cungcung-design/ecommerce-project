@@ -1,43 +1,43 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag, CheckCircle2 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
 import useNotification from "../hooks/useNotification";
-import ErrorMessage from "../components/ErrorMessage";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
+import { registerSchema } from "../validators/authValidator";
 
 function Register() {
   const navigate = useNavigate();
-
-  const { register } = useAuth();
+  const { register: registerAccount } = useAuth();
   const { notify } = useNotification();
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+  } = useForm({
+    resolver: zodResolver(registerSchema),
+    shouldFocusError: true,
+    defaultValues: { name: "", email: "", password: "" },
+  });
 
-    setError("");
-    setLoading(true);
-
+  const onSubmit = async ({ name, email, password }) => {
     try {
-      await register(name, email, password);
+      await registerAccount(name, email, password);
       setSuccess(true);
     } catch (error) {
       if (isNetworkError(error)) {
-        notify.error("Unable to connect to the server. Please try again.");
+        notify.error("Unable to connect. Please try again.");
       } else {
-        setError(getFriendlyError(error, "We couldn't create your account. Please try again."));
+        setError("root", {
+          message: getFriendlyError(error, "We couldn't create your account. Please try again."),
+        });
       }
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -93,18 +93,15 @@ function Register() {
           </div>
         </div>
 
-        {/* Error Banner */}
-        {error && (
+        {errors.root && (
           <div className="flex items-start gap-2.5 rounded-2xl bg-rose-50 border border-rose-100 p-4 text-rose-700 shadow-sm">
             <AlertCircle className="w-5 h-5 shrink-0 mt-0.5 text-rose-600" />
-            <div className="text-sm font-medium">
-              <ErrorMessage message={error} />
-            </div>
+            <p className="text-sm font-medium">{errors.root.message}</p>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <form noValidate onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold uppercase tracking-wider text-slate-500">
               Full Name
@@ -116,12 +113,14 @@ function Register() {
               <input
                 type="text"
                 placeholder="John Doe"
-                value={name}
-                onChange={(event) => setName(event.target.value)}
+                autoComplete="name"
+                {...register("name")}
                 className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 pl-10 pr-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
-                required
               />
             </div>
+            {errors.name && (
+              <p className="text-xs font-medium text-rose-600">{errors.name.message}</p>
+            )}
           </div>
 
           <div className="space-y-1.5">
@@ -135,12 +134,14 @@ function Register() {
               <input
                 type="email"
                 placeholder="name@example.com"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                autoComplete="email"
+                {...register("email")}
                 className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 pl-10 pr-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
-                required
               />
             </div>
+            {errors.email && (
+              <p className="text-xs font-medium text-rose-600">{errors.email.message}</p>
+            )}
           </div>
 
           <div className="space-y-1.5">
@@ -154,20 +155,22 @@ function Register() {
               <input
                 type="password"
                 placeholder="••••••••"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                autoComplete="new-password"
+                {...register("password")}
                 className="w-full rounded-xl border border-slate-200/80 bg-slate-50/50 pl-10 pr-4 py-3 text-sm font-medium text-slate-900 placeholder:text-slate-400 focus:bg-white focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 outline-none transition-all"
-                required
               />
             </div>
+            {errors.password && (
+              <p className="text-xs font-medium text-rose-600">{errors.password.message}</p>
+            )}
           </div>
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={isSubmitting}
             className="w-full flex items-center justify-center gap-2 rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-all duration-300 hover:scale-[1.01] disabled:opacity-50 disabled:hover:scale-100 cursor-pointer"
           >
-            {loading ? (
+            {isSubmitting ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
                 <span>Creating account...</span>

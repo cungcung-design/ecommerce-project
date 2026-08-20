@@ -47,7 +47,7 @@ function AdminCategoryPage() {
         {
           onSuccess: () => {
             setEditingCategory(null);
-            notify.success("Category updated");
+            notify.success("Category updated successfully");
           },
           onError: (err) =>
             setError(getFriendlyError(err, "Couldn't update this category.")),
@@ -56,7 +56,7 @@ function AdminCategoryPage() {
     } else {
       createCategory.mutate(payload.name, {
           onSuccess: () => {
-            notify.success("Category created");
+            notify.success("Category created successfully");
           },
         onError: (err) =>
           setError(getFriendlyError(err, "Couldn't create this category.")),

@@ -32,7 +32,7 @@ function AdminProductTable({ products, pagination, page, setPage }) {
 
       deleteProduct.mutate(id, {
       onSuccess: () => {
-        notify.success("Product deleted");
+        notify.success("Product deleted successfully");
       },
       onError: (err) => {
         notify.error(getFriendlyError(err, "Couldn't delete this product."));
@@ -43,12 +43,22 @@ function AdminProductTable({ products, pagination, page, setPage }) {
   };
 
   const handleToggleStatus = async (product) => {
-    await toggleStatus.mutate({
+    const nextStatus = !product.isActive;
+    const confirmed = await confirm({
+      title: nextStatus ? "Activate Product" : "Deactivate Product",
+      message: `${nextStatus ? "Activate" : "Deactivate"} this product?`,
+      confirmText: nextStatus ? "Activate" : "Deactivate",
+      cancelText: "Cancel",
+    });
+
+    if (!confirmed) return;
+
+    toggleStatus.mutate({
       id: product.id,
-      isActive: !product.isActive,
+      isActive: nextStatus,
     }, {
       onSuccess: () => {
-        notify.success(`Product ${!product.isActive ? "activated" : "deactivated"}`);
+        notify.success(`Product ${nextStatus ? "activated" : "deactivated"}`);
       },
       onError: (err) => notify.error(getFriendlyError(err, "Couldn't update product status")),
     });

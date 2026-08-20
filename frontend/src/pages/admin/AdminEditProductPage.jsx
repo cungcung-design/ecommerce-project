@@ -83,7 +83,7 @@ function AdminEditProduct() {
         ...productData,
       });
 
-      notify.success("Product updated");
+      notify.success("Product updated successfully");
       navigate("/admin/products");
     } catch (error) {
       setError(getFriendlyError(error, "Couldn't update this product."));

@@ -57,11 +57,20 @@ function AdminUserPage() {
       return;
     }
 
-    updateRole.mutate({ id: user.id, role }, {
-      onSuccess: () => {
-        notify.success(`User role updated to ${role}`);
-      },
-      onError: (err) => notify.error(getFriendlyError(err, "Couldn't update user role")),
+    confirm({
+      title: "Update User Role",
+      message: `Change this user's role to ${role}?`,
+      confirmText: "Update role",
+      cancelText: "Cancel",
+    }).then((confirmed) => {
+      if (!confirmed) return;
+
+      updateRole.mutate({ id: user.id, role }, {
+        onSuccess: () => {
+          notify.success(`User role updated to ${role}`);
+        },
+        onError: (err) => notify.error(getFriendlyError(err, "Couldn't update user role")),
+      });
     });
   };
 

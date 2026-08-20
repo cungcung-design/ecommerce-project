@@ -15,7 +15,6 @@ import {
 
 import { useOrder, useCancelOrder } from "../hooks/useOrders";
 import { useOrderPayment } from "../hooks/usePayment";
-import useNotification from "../hooks/useNotification";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import { getFriendlyError } from "../lib/getFriendlyError";
 
@@ -164,7 +163,6 @@ function OrderDetailsPage() {
   const justPlaced = Boolean(location.state?.fromCheckout);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
-  const { notify } = useNotification();
   const { requireAuth } = useRequireAuth("orders");
 
   const {
@@ -199,10 +197,6 @@ function OrderDetailsPage() {
     cancelOrder.mutate(Number(id), {
       onSuccess: () => {
         setShowCancelSuccess(true);
-        notify.success("Order cancelled");
-      },
-      onError: (err) => {
-        notify.error(getFriendlyError(err, "Couldn't cancel this order."));
       },
     });
   };
@@ -311,12 +305,20 @@ function OrderDetailsPage() {
               <p className="text-sm text-emerald-700">
                 Order {order.id} is confirmed. You can track its status below.
               </p>
-              <Link
-                to="/products"
-                className="inline-flex text-sm font-semibold text-emerald-800 underline underline-offset-2 hover:text-emerald-900"
-              >
-                Continue shopping
-              </Link>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <Link
+                  to="/products"
+                  className="inline-flex rounded-lg bg-emerald-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-800"
+                >
+                  Continue shopping
+                </Link>
+                <Link
+                  to="/orders"
+                  className="inline-flex rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-800 hover:bg-emerald-50"
+                >
+                  View my orders
+                </Link>
+              </div>
             </div>
           </div>
         </div>
@@ -350,9 +352,7 @@ function OrderDetailsPage() {
             <div>
               <p className="text-sm font-medium text-red-800">Cancellation Failed</p>
               <p className="mt-1 text-sm text-red-600">
-                {cancelOrder.error?.response?.data?.message ||
-                  cancelOrder.error?.message ||
-                  "Failed to cancel order"}
+                {getFriendlyError(cancelOrder.error, "Couldn't cancel this order.")}
               </p>
             </div>
           </div>
