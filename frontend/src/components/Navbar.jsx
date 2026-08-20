@@ -244,9 +244,9 @@ function Navbar() {
           <div className="space-y-1">
             <NavLink to="/" end className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isHomeActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Home</NavLink>
             <NavLink to="/products" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isShopActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Shop</NavLink>
+               <NavLink to="/#categories" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isCategoriesActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Categories</NavLink>
             <NavLink to="/#new-arrivals" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isNewArrivalsActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>New Arrivals</NavLink>
             <NavLink to="/#best-sellers" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isBestSellersActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Best Sellers</NavLink>
-            <NavLink to="/#categories" className={`block px-3 py-2 rounded-xl text-base font-semibold transition-colors ${isCategoriesActive ? "bg-orange-50 text-orange-600" : "text-slate-700 hover:bg-slate-50"}`} onClick={() => setIsMenuOpen(false)}>Categories</NavLink>
           </div>
 
           <div className="h-px bg-slate-100 my-2" />
