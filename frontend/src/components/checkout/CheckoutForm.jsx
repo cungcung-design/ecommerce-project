@@ -39,7 +39,15 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5 pb-16 lg:pb-0">
+    <form
+      noValidate
+      onSubmit={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handleSubmit(onSubmit)(event);
+      }}
+      className="space-y-5 pb-16 lg:pb-0"
+    >
       <h2 className="text-lg font-medium text-slate-900 tracking-tight pb-2 border-b border-slate-100">
         Shipping Information
       </h2>
@@ -178,11 +186,6 @@ function CheckoutForm({ onSubmit, onPaymentMethodChange, isSubmitting = false })
       <button
         type="submit"
         disabled={isSubmitting}
-        onClick={(e) => {
-          if (e.currentTarget instanceof HTMLElement) {
-            e.currentTarget.blur();
-          }
-        }}
         className="w-full flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 py-4 text-base font-semibold text-white shadow-lg transition-all duration-300 disabled:opacity-50 disabled:hover:bg-slate-900 mt-6 cursor-pointer"
       >
         {isSubmitting ? (

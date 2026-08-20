@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 import {
@@ -22,6 +22,7 @@ import OrderStatus from "../components/orders/OrderStatus";
 import PaymentStatusBadge from "../components/payments/PaymentStatusBadge";
 import { paymentStatusDescription } from "../validators/paymentValidator";
 import { statusLabels } from "../validators/adminOrderValidator";
+import { useInstantScrollToTop } from "../lib/scrollToTop";
 
 const STATUS_ICONS = {
   PENDING: Clock,
@@ -163,15 +164,13 @@ function OrderDetailsPage() {
   const { notify } = useNotification();
   const { requireAuth } = useRequireAuth("orders");
 
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [id]);
-
   const {
     data: order,
     isLoading,
     isError,
   } = useOrder(id);
+
+  useInstantScrollToTop([id, isLoading, order?.id]);
 
   const {
     data: payment,

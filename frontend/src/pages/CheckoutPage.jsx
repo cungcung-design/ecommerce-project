@@ -6,6 +6,10 @@ import { useCart } from "../hooks/useCart";
 import { useCreateOrder } from "../hooks/useOrders";
 import { useCreatePaymentSession } from "../hooks/usePayment";
 import useNotification from "../hooks/useNotification";
+import {
+  disableBrowserScrollRestoration,
+  focusPageTop,
+} from "../lib/scrollToTop";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
@@ -29,6 +33,7 @@ function CheckoutPage() {
 
   const [error, setError] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [orderSucceeded, setOrderSucceeded] = useState(false);
 
   const items = cart?.items || [];
 
@@ -43,9 +48,8 @@ function CheckoutPage() {
   const handleSubmit = async (shippingData) => {
     setError("");
 
-    if (document.activeElement instanceof HTMLElement) {
-      document.activeElement.blur();
-    }
+    disableBrowserScrollRestoration();
+    focusPageTop();
 
     try {
       const order = await createOrder.mutateAsync({
@@ -67,7 +71,9 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
-          window.scrollTo(0, 0);
+          setOrderSucceeded(true);
+          disableBrowserScrollRestoration();
+          focusPageTop();
           window.location.href = session.paymentUrl;
           return;
         }
@@ -75,8 +81,10 @@ function CheckoutPage() {
         throw new Error("Payment session could not be created");
       }
 
+      setOrderSucceeded(true);
+      disableBrowserScrollRestoration();
+      focusPageTop();
       notify.success("Order placed successfully!");
-      window.scrollTo(0, 0);
       navigate(`/orders/${order.id}`);
     } catch (err) {
       const message =
@@ -98,7 +106,7 @@ function CheckoutPage() {
     );
   }
 
-  if (cartError || !cart || items.length === 0) {
+  if (!orderSucceeded && (cartError || !cart || items.length === 0)) {
     return (
       <div className="mx-auto max-w-lg px-4 py-24 text-center space-y-6">
         <div className="w-20 h-20 rounded-3xl bg-orange-50 text-orange-600 flex items-center justify-center mx-auto shadow-inner">
