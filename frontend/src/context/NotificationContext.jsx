@@ -83,11 +83,6 @@ export function NotificationProvider({ children }) {
     return showToast({ message, variant: "info", ...options });
   }, [showToast]);
 
-  notify.success = success;
-  notify.error = error;
-  notify.warning = warning;
-  notify.info = info;
-
   const confirm = useCallback((options = {}) => {
     return new Promise((resolve) => {
       setConfirmState({
