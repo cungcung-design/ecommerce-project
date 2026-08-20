@@ -63,6 +63,7 @@ function CheckoutPage() {
         const session = await createPaymentSession.mutateAsync(order.id);
 
         if (session?.paymentUrl) {
+          window.scrollTo({ top: 0, behavior: "smooth" });
           window.location.href = session.paymentUrl;
           return;
         }
@@ -71,6 +72,7 @@ function CheckoutPage() {
       }
 
       notify.success("Order placed successfully!");
+      window.scrollTo({ top: 0, behavior: "smooth" });
       navigate(`/orders/${order.id}`);
     } catch (err) {
       const message =

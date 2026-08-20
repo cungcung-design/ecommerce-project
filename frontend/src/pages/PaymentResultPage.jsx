@@ -18,6 +18,12 @@ function PaymentResultPage() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
+  useEffect(() => {
+    if (payment && terminalStatuses.includes(status)) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [payment, status]);
+
   const orderId = searchParams.get("orderId");
 
   const {
