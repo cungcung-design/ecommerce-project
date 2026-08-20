@@ -86,25 +86,25 @@ function NewArrivalsSection({ id, viewAllLink = "/products?sort=newest" }) {
               <h2 className="mt-1 text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
                 New Arrivals
               </h2>
-              <button
-                type="button"
-                tabIndex={-1}
-                className="text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors inline-flex items-center gap-1 sm:hidden"
-              >
-                View All →
-              </button>
+<button
+  type="button"
+  tabIndex={-1}
+  className="text-xs sm:text-sm font-semibold hover:text-orange-600 transition-colors inline-flex items-center gap-1 sm:hidden"
+>
+  View All →
+</button>
             </div>
             <p className="mt-1 text-xs sm:text-sm text-gray-500">
               Discover our latest curated styles and trending drops.
             </p>
           </div>
-          <button
-            type="button"
-            tabIndex={-1}
-            className="hidden sm:inline-flex text-xs sm:text-sm font-semibold text-orange-600 hover:text-orange-700 transition-colors items-center gap-1"
-          >
-            View All →
-          </button>
+<button
+  type="button"
+  tabIndex={-1}
+  className="hidden sm:inline-flex text-xs sm:text-sm font-semibold hover:text-orange-600 transition-colors items-center gap-1"
+>
+  View All →
+</button>
         </div>
 
         {/* Main Balanced Grid Layout */}
