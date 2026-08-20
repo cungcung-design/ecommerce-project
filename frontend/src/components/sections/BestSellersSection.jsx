@@ -113,10 +113,9 @@ function BestSellersSection({ id }) {
 
           {/* Right: Product Info */}
           <div className="lg:col-span-6 flex flex-col justify-center h-full py-4">
-            <span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600 bg-orange-50 px-2.5 py-1 rounded-full w-fit">
-              Best Seller {pad(activeIndex + 1)}
-            </span>
-
+<span className="inline-block text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-orange-600 px-2.5 py-1 rounded-full w-fit">
+  Best Seller {pad(activeIndex + 1)}
+</span>
             <h3 className="mt-3 text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 tracking-tight leading-tight">
               {current.name}
             </h3>
