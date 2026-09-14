@@ -21,7 +21,7 @@ function MainLayout() {
       <div id="page-top" tabIndex={-1} className="sr-only" />
       <Navbar />
 
-      <main className="w-full px-4 py-8">
+      <main className="w-full py-8">
         <Outlet />
       </main>
 
