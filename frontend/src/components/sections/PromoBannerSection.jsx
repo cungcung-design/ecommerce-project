@@ -62,7 +62,7 @@ function CountdownTimer() {
 function PromoBannerSection() {
   return (
     <section className="bg-white">
-      <div className="max-w-7xl mx-auto px-4 py-12 sm:py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
         <div className="grid grid-cols-1 gap-5 sm:gap-6 lg:grid-cols-2">
           
           <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl bg-gradient-to-br from-orange-500 via-orange-600 to-amber-600 p-6 sm:p-8 lg:p-12 shadow-xl shadow-orange-500/10 group">

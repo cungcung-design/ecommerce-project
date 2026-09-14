@@ -119,11 +119,10 @@ function HeroSection() {
 
   return (
     <section className="relative bg-white overflow-hidden">
-      {/* Reduced padding (pt-2 pb-6 sm:pb-8 lg:py-6) to shift the whole section higher up */}
-      <div className="px-4 pt-2 pb-6 sm:pb-8 lg:py-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2 pb-6 sm:pb-8 lg:py-6">
         <div className="grid items-center gap-8 lg:gap-12 lg:grid-cols-12">
           
-          <div className="relative z-10 transition-all duration-300 lg:col-span-5 lg:col-start-2">
+          <div className="relative z-10 transition-all duration-300 lg:col-span-5">
             <span className="inline-block text-[10px] sm:text-xs font-semibold uppercase tracking-widest text-orange-600">
               {current.category}
             </span>
@@ -178,7 +177,7 @@ function HeroSection() {
             }}
             role="button"
             tabIndex={0}
-            className="relative flex justify-center items-center py-4 sm:py-6 cursor-pointer group select-none lg:col-span-5 lg:col-start-7"
+            className="relative flex justify-center items-center py-4 sm:py-6 cursor-pointer group select-none lg:col-span-6 lg:col-start-7 lg:justify-end"
             title="Click to view next slide"
           >
             <div className="relative w-full max-w-sm sm:max-w-md flex justify-center">
