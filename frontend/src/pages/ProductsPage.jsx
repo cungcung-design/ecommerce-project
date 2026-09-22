@@ -5,8 +5,10 @@ import { useProducts } from "../hooks/useProducts";
 import { useCategories } from "../hooks/useCategories";
 import { getFriendlyError } from "../lib/getFriendlyError";
 import ProductCard from "../components/cards/ProductCard";
-import Loading from "../components/Loading";
-import ErrorMessage from "../components/ErrorMessage";
+import ProductSkeletonGrid from "../components/cards/ProductSkeleton";
+
+const PRODUCT_PAGE_SIZE = 12;
+const SKELETON_DELAY_MS = 200;
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,51 +42,80 @@ function Products() {
 
   // Debounced handler to update URL search param after user stops typing
   const handleDebouncedSearch = useDebouncedCallback((value) => {
-    if (value) {
-      searchParams.set("search", value);
-    } else {
-      searchParams.delete("search");
-    }
-    searchParams.set("page", "1");
-    setSearchParams(searchParams);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value) {
+        next.set("search", value);
+      } else {
+        next.delete("search");
+      }
+      next.set("page", "1");
+      return next;
+    });
   }, 400);
 
   const {
     data,
-    isLoading,
+    isPending,
+    isPlaceholderData,
     isError,
     error,
+    refetch,
   } = useProducts({
     search: searchParam,
     categoryId,
     page,
-    limit: 12,
+    limit: PRODUCT_PAGE_SIZE,
     sort,
   });
+
+  const [showDelayedSkeleton, setShowDelayedSkeleton] = useState(false);
+
+  useEffect(() => {
+    if (!isPlaceholderData) {
+      setShowDelayedSkeleton(false);
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => {
+      setShowDelayedSkeleton(true);
+    }, SKELETON_DELAY_MS);
+
+    return () => window.clearTimeout(timer);
+  }, [isPlaceholderData]);
+
+  const showSkeleton = isPending || (showDelayedSkeleton && isPlaceholderData);
 
   const { data: categories = [] } = useCategories();
   const selectedCategory = categories.find((c) => c.id === categoryId);
 
   const handleCategoryChange = (id) => {
-    if (id) {
-      searchParams.set("category", String(id));
-    } else {
-      searchParams.delete("category");
-    }
-    searchParams.set("page", "1");
-    setSearchParams(searchParams);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete("categoryId");
+      if (id) {
+        next.set("category", String(id));
+      } else {
+        next.delete("category");
+      }
+      next.set("page", "1");
+      return next;
+    });
     setIsMobileFilterOpen(false);
   };
 
   const handleSortChange = (e) => {
     const value = e.target.value;
-    if (value) {
-      searchParams.set("sort", value);
-    } else {
-      searchParams.delete("sort");
-    }
-    searchParams.set("page", "1");
-    setSearchParams(searchParams);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (value) {
+        next.set("sort", value);
+      } else {
+        next.delete("sort");
+      }
+      next.set("page", "1");
+      return next;
+    });
   };
 
   const clearAllFilters = () => {
@@ -93,24 +124,16 @@ function Products() {
   };
 
   const handlePageChange = (newPage) => {
-    searchParams.set("page", String(newPage));
-    setSearchParams(searchParams);
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("page", String(newPage));
+      return next;
+    });
   };
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    return (
-      <ErrorMessage
-        message={getFriendlyError(error, "Failed to load products")}
-      />
-    );
-  }
 
   const products = data?.products || [];
   const totalPages = data?.pagination?.totalPages || 1;
+  const showPagination = !showSkeleton && !isError && totalPages > 1;
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -235,8 +258,29 @@ function Products() {
         </aside>
 
         {/* Product Grid Section */}
-        <main className="lg:col-span-3">
-          {products.length === 0 ? (
+        <main className="lg:col-span-3" aria-busy={showSkeleton}>
+          {showSkeleton ? (
+            <ProductSkeletonGrid />
+          ) : isError ? (
+            <div
+              role="alert"
+              className="my-16 rounded-xl border border-red-200 bg-red-50 p-12 text-center"
+            >
+              <h3 className="text-lg font-medium text-gray-900">
+                Products could not be loaded
+              </h3>
+              <p className="mt-1 text-sm text-gray-600">
+                {getFriendlyError(error, "Products could not be loaded. Please try again.")}
+              </p>
+              <button
+                type="button"
+                onClick={() => refetch()}
+                className="mt-4 rounded-lg bg-orange-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-orange-700"
+              >
+                Try Again
+              </button>
+            </div>
+          ) : products.length === 0 ? (
             <div className="my-16 text-center rounded-xl border border-dashed p-12 bg-gray-50">
               <h3 className="text-lg font-medium text-gray-900">No products found</h3>
               <p className="text-sm text-gray-500 mt-1">
@@ -267,7 +311,7 @@ function Products() {
           )}
 
           {/* Pagination Controls */}
-          {totalPages > 1 && (
+          {showPagination && (
             <div className="mt-12 flex items-center justify-center gap-4">
               <button
                 disabled={page === 1}

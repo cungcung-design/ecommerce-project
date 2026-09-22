@@ -50,12 +50,29 @@
   animation: slideOutRight 0.2s ease-in forwards;
 }
 
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    rgb(229 231 235) 0%,
+    rgb(243 244 246) 45%,
+    rgb(229 231 235) 90%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .toast-enter,
   .toast-exit,
   .dialog-backdrop,
   .animate-fade-in-up,
-  .animate-image-reveal {
+  .animate-image-reveal,
+  .skeleton-shimmer {
     animation: none;
   }
 }
