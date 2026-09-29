@@ -33,17 +33,17 @@ function CartSummary({ subtotal, shipping, total, itemCount }) {
         </div>
       </div>
 
-      <div className="mt-6 flex w-full min-w-0 items-stretch gap-3">
+      <div className="mt-6 flex w-full min-w-0 flex-row items-stretch gap-3 lg:flex-col lg:gap-3 xl:flex-row">
         <Link
           to={SHOP_PATH}
-          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-300 px-3 text-center text-sm font-semibold leading-tight text-slate-800 transition-colors hover:border-slate-900 hover:text-slate-900"
+          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-300 px-3 text-center text-sm font-semibold leading-tight text-slate-800 transition-colors hover:border-slate-900 hover:text-slate-900 lg:w-full lg:flex-none xl:w-auto xl:flex-1 xl:basis-0"
         >
           Continue Shopping
         </Link>
         <button
           type="button"
           onClick={handleProceedToCheckout}
-          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-900 bg-slate-900 px-3 text-center text-sm font-semibold leading-tight text-white transition-colors hover:border-orange-600 hover:bg-orange-600"
+          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-900 bg-slate-900 px-3 text-center text-sm font-semibold leading-tight text-white transition-colors hover:border-orange-600 hover:bg-orange-600 lg:w-full lg:flex-none xl:w-auto xl:flex-1 xl:basis-0"
         >
           Checkout
         </button>
