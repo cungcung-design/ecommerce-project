@@ -28,6 +28,14 @@
         {
           "name": "AI_SERVICE_URL",
           "value": "http://ai.novatrend.local:8001"
+        },
+        {
+          "name": "ALLOWED_ORIGINS",
+          "value": "https://novatrendshopp.com,https://www.novatrendshopp.com"
+        },
+        {
+          "name": "FRONTEND_URL",
+          "value": "https://novatrendshopp.com"
         }
       ],
       "secrets": [
