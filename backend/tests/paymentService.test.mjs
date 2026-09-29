@@ -164,6 +164,8 @@ describe("Payment Service", () => {
   });
 
   it("throws SIGNATURE_INVALID on bad signature", () => {
+    process.env.PAYMENT_PROVIDER_KEY = "sk_test_ci";
+    process.env.PAYMENT_WEBHOOK_SECRET = "whsec_test_ci";
     constructEvent.mockImplementation(() => {
       const error = new Error("Invalid signature");
       error.code = "SIGNATURE_INVALID";
