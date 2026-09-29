@@ -17,6 +17,8 @@ import CheckoutPage from "./pages/CheckoutPage";
 import PaymentResultPage from "./pages/PaymentResultPage";
 import MyOrdersPage from "./pages/MyOrdersPage";
 import OrderDetailsPage from "./pages/OrderDetailsPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import AssistantPage from "./pages/AssistantPage";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
 
@@ -28,6 +30,7 @@ import AdminCreateProductPage from "./pages/admin/AdminCreateProductPage";
 import AdminEditProductPage from "./pages/admin/AdminEditProductPage";
 import AdminUserPage from "./pages/admin/AdminUserPage";
 import AdminCategoryPage from "./pages/admin/AdminCategoryPage";
+import AdminAiPage from "./pages/admin/AdminAiPage";
 
 import { NotificationProvider } from "./context/NotificationContext";
 
@@ -47,6 +50,11 @@ function App() {
 
           <Route
             path="/products"
+            element={<ProductsPage />}
+          />
+
+          <Route
+            path="/shop"
             element={<ProductsPage />}
           />
 
@@ -87,8 +95,18 @@ function App() {
             />
 
             <Route
+              path="/orders/:id/confirmation"
+              element={<OrderConfirmationPage />}
+            />
+
+            <Route
               path="/orders/:id"
               element={<OrderDetailsPage />}
+            />
+
+            <Route
+              path="/assistant"
+              element={<AssistantPage />}
             />
           </Route>
 
@@ -138,6 +156,11 @@ function App() {
               <Route
                 path="categories"
                 element={<AdminCategoryPage />}
+              />
+
+              <Route
+                path="ai"
+                element={<AdminAiPage />}
               />
             </Route>
           </Route>

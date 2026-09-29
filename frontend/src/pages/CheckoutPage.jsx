@@ -10,6 +10,7 @@ import {
   resetPageScroll,
 } from "../lib/scrollToTop";
 import { getFriendlyError } from "../lib/getFriendlyError";
+import { SHOP_PATH } from "../lib/authRedirect";
 
 import CheckoutForm from "../components/checkout/CheckoutForm";
 import CheckoutSummary from "../components/checkout/CheckoutSummary";
@@ -81,7 +82,7 @@ function CheckoutPage() {
       setOrderSucceeded(true);
       disableBrowserScrollRestoration();
       resetPageScroll();
-      navigate(`/orders/${order.id}`, { state: { fromCheckout: true } });
+      navigate(`/orders/${order.id}/confirmation`);
     } catch (err) {
       setError(getFriendlyError(err, "We couldn't place your order. Please try again."));
     }
@@ -109,7 +110,7 @@ function CheckoutPage() {
           <p className="text-base text-slate-500">Add some items to your cart before proceeding to checkout.</p>
         </div>
         <Link
-          to="/products"
+          to={SHOP_PATH}
           className="inline-flex items-center justify-center gap-2 rounded-2xl bg-slate-900 hover:bg-orange-600 px-8 py-4 text-base font-semibold text-white shadow-xl transition-all duration-300"
         >
           Continue Shopping

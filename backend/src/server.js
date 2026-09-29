@@ -10,6 +10,7 @@ import authRoutes from "./routes/authRoutes.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import adminDashboardRoutes from "./routes/adminDashboardRoutes.js";
+import adminAiRoutes from "./routes/adminAiRoutes.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import adminOrderRoutes from "./routes/adminOrderRoutes.js";
 import adminUserRoutes from "./routes/adminUserRoutes.js";
@@ -18,6 +19,12 @@ import adminCategoryRoutes from "./routes/adminCategoryRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import refreshRoutes from "./routes/refreshRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+import internalRoutes from "./routes/internalRoutes.js";
+import internalKnowledgeRoutes from "./routes/internalKnowledgeRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
+import aiConversationRoutes from "./routes/aiConversationRoutes.js";
+import healthRoutes from "./routes/healthRoutes.js";
+import { requestId } from "./middleware/requestId.js";
 import { notFound, errorHandler } from "./middleware/errorMiddleware.js";
 import prisma from "./lib/prisma.js";
 
@@ -53,7 +60,9 @@ app.use(
 );
 
 app.use("/api/payments/webhook", express.raw({ type: "application/json" }));
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(requestId);
+app.use("/health", healthRoutes);
 
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -65,6 +74,7 @@ const loginLimiter = rateLimit({
 });
 
 app.use("/api/auth/login", loginLimiter);
+app.use("/api/auth/google", loginLimiter);
 
 app.get("/", (req, res) => {
   res.json({
@@ -97,6 +107,7 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/payments", paymentRoutes);
 app.use("/api/admin/dashboard", adminDashboardRoutes);
+app.use("/api/admin/ai", adminAiRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
 app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/admin/products", adminProductRoutes);
@@ -104,6 +115,10 @@ app.use("/api/admin/categories", adminCategoryRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes);
 app.use("/api/refresh", refreshRoutes);
+app.use("/api/internal", internalRoutes);
+app.use("/api/internal", internalKnowledgeRoutes);
+app.use("/api/ai/conversations", aiConversationRoutes);
+app.use("/api/ai", aiRoutes);
 
 app.use(notFound);
 

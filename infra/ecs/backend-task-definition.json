@@ -1,0 +1,70 @@
+{
+  "family": "novatrend-backend",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::722160255281:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "backend",
+      "image": "722160255281.dkr.ecr.ap-southeast-1.amazonaws.com/novatrend-backend:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 5000,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "NODE_ENV",
+          "value": "production"
+        },
+        {
+          "name": "PORT",
+          "value": "5000"
+        },
+        {
+          "name": "AI_SERVICE_URL",
+          "value": "http://ai.novatrend.local:8001"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DATABASE_URL",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/database-DRQC50"
+        },
+        {
+          "name": "JWT_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/jwt-DBTni4"
+        },
+        {
+          "name": "JWT_REFRESH_SECRET",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/jwt-refresh-Yz3aQw"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/internal-key-lNpUvg"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "wget --spider -q http://localhost:5000/health || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/novatrend-backend",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "backend"
+        }
+      }
+    }
+  ]
+}

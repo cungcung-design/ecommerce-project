@@ -72,9 +72,10 @@ function MyOrdersPage() {
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-3">
-        <div className="w-10 h-10 rounded-full border-3 border-indigo-100 border-t-indigo-600 animate-spin" />
-        <p className="text-sm text-slate-500 font-medium">Loading your orders...</p>
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-6 space-y-4" aria-busy="true" aria-label="Loading orders">
+        <div className="skeleton-shimmer h-8 w-40 rounded bg-slate-200" />
+        <div className="skeleton-shimmer h-24 rounded-2xl bg-slate-200" />
+        <div className="skeleton-shimmer h-24 rounded-2xl bg-slate-200" />
       </div>
     );
   }

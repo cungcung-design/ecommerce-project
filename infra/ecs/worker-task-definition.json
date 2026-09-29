@@ -1,0 +1,58 @@
+{
+  "family": "novatrend-ai-worker",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::722160255281:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "ai-worker",
+      "image": "722160255281.dkr.ecr.ap-southeast-1.amazonaws.com/novatrend-ai:latest",
+      "essential": true,
+      "command": [
+        "celery",
+        "-A",
+        "app.celery_app.celery_app",
+        "worker",
+        "--loglevel=INFO"
+      ],
+      "environment": [
+        {
+          "name": "OPENAI_MODEL",
+          "value": "gpt-5.6-luna"
+        },
+        {
+          "name": "OPENAI_EMBEDDING_MODEL",
+          "value": "text-embedding-3-small"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/openai-F1aRLj"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/internal-key-lNpUvg"
+        },
+        {
+          "name": "CELERY_BROKER_URL",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/celery-broker-2vMDnq"
+        },
+        {
+          "name": "CELERY_RESULT_BACKEND",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/celery-result-jVCc97"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/novatrend-ai-worker",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ai-worker"
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useParams, useLocation } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import {
   Package,
@@ -159,8 +159,6 @@ function CancelConfirmationDialog({ onConfirm, onCancel, isPending }) {
 
 function OrderDetailsPage() {
   const { id } = useParams();
-  const location = useLocation();
-  const justPlaced = Boolean(location.state?.fromCheckout);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showCancelSuccess, setShowCancelSuccess] = useState(false);
   const { requireAuth } = useRequireAuth();
@@ -295,34 +293,6 @@ function OrderDetailsPage() {
 
         <OrderStatus status={order.status} className="text-sm" />
       </div>
-
-      {justPlaced && (
-        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
-          <div className="flex gap-3">
-            <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-600" />
-            <div className="space-y-2">
-              <p className="text-sm font-medium text-emerald-800">Your order has been placed</p>
-              <p className="text-sm text-emerald-700">
-                Order {order.id} is confirmed. You can track its status below.
-              </p>
-              <div className="flex flex-wrap gap-3 pt-1">
-                <Link
-                  to="/products"
-                  className="inline-flex rounded-lg bg-emerald-700 px-3 py-1.5 text-sm font-semibold text-white hover:bg-emerald-800"
-                >
-                  Continue shopping
-                </Link>
-                <Link
-                  to="/orders"
-                  className="inline-flex rounded-lg border border-emerald-300 bg-white px-3 py-1.5 text-sm font-semibold text-emerald-800 hover:bg-emerald-50"
-                >
-                  View my orders
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Cancel success message */}
       {showCancelSuccess && (

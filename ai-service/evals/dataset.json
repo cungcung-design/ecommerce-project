@@ -1,0 +1,84 @@
+[
+  {
+    "id": "eval_001",
+    "message": "Where is order #1042?",
+    "expected_agent": "support",
+    "expected_tool": "get_order_status"
+  },
+  {
+    "id": "eval_002",
+    "message": "What is your return policy?",
+    "expected_agent": "knowledge",
+    "expected_tool": "search_knowledge",
+    "expected_source": "return-policy.pdf",
+    "reference_answer": "NovaTrend offers a 30-day return policy. A return can be requested within 30 days after delivery."
+  },
+  {
+    "id": "eval_003",
+    "message": "I need wireless headphones under RM100.",
+    "expected_agent": "commerce",
+    "expected_tool": "search_products"
+  },
+  {
+    "id": "eval_004",
+    "message": "Is product 12 in stock?",
+    "expected_agent": "commerce",
+    "expected_tool": "get_inventory"
+  },
+  {
+    "id": "eval_005",
+    "message": "What did I buy in order #1042?",
+    "expected_agent": "support",
+    "expected_tool": "get_order_items"
+  },
+  {
+    "id": "eval_006",
+    "message": "Cancel order #1042.",
+    "expected_agent": "support",
+    "expected_tool": "cancel_order"
+  },
+  {
+    "id": "eval_007",
+    "message": "How much does shipping cost?",
+    "expected_agent": "knowledge",
+    "expected_tool": "search_knowledge",
+    "expected_source": "shipping-policy.pdf",
+    "reference_answer": "Standard shipping costs 10 dollars and is free when the order subtotal is over 100 dollars."
+  },
+  {
+    "id": "eval_008",
+    "message": "What is the warranty?",
+    "expected_agent": "knowledge",
+    "expected_tool": "search_knowledge",
+    "expected_source": "warranty-policy.pdf",
+    "reference_answer": "Defective products are handled within the 30-day return window. There is no separate multi-year warranty."
+  },
+  {
+    "id": "eval_009",
+    "message": "Which payment methods do you accept?",
+    "expected_agent": "knowledge",
+    "expected_tool": "search_knowledge",
+    "expected_source": "payment-policy.pdf",
+    "reference_answer": "NovaTrend accepts Cash on Delivery and Online Payment."
+  },
+  {
+    "id": "eval_010",
+    "message": "Tell me more about product 12.",
+    "expected_agent": "commerce",
+    "expected_tool": "get_product"
+  },
+  {
+    "id": "eval_011",
+    "message": "I have a payment problem and need someone to help me.",
+    "expected_agent": "support",
+    "expected_tool": "create_support_ticket"
+  },
+  {
+    "id": "eval_012",
+    "message": "Can I return a product after 30 days?",
+    "expected_agent": "knowledge",
+    "expected_tool": "search_knowledge",
+    "expected_source": "return-policy.pdf",
+    "reference_answer": "Returns can be requested within 30 days after the order is delivered."
+  }
+]

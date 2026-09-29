@@ -74,6 +74,21 @@ export function AuthProvider({ children }) {
     return user;
   };
 
+  const loginWithGoogle = async (code) => {
+    const response = await api.post("/auth/google", {
+      code,
+    });
+
+    const { accessToken, refreshToken, user } = response.data;
+
+    localStorage.setItem("token", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
+
+    setUser(user);
+
+    return user;
+  };
+
   const logout = async () => {
     const refreshToken = localStorage.getItem("refreshToken");
     try {
@@ -98,6 +113,7 @@ export function AuthProvider({ children }) {
         loading,
         login,
         register,
+        loginWithGoogle,
         logout,
       }}
     >

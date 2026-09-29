@@ -1,7 +1,17 @@
 import prisma from "../lib/prisma.js";
 import cloudinary from "../config/cloudinary.js";
 
-export const getProducts = async ({ search, category, categoryId, page, limit, includeInactive, isActive, sort }) => {
+export const getProducts = async ({
+  search,
+  category,
+  categoryId,
+  page,
+  limit,
+  includeInactive,
+  isActive,
+  sort,
+  maxPrice,
+}) => {
   const currentPage = Number(page) || 1;
   const pageSize = Number(limit) || 12;
   const skip = (currentPage - 1) * pageSize;
@@ -27,6 +37,12 @@ export const getProducts = async ({ search, category, categoryId, page, limit, i
 
   if (categoryId) {
     where.categoryId = Number(categoryId);
+  }
+
+  if (maxPrice !== undefined && maxPrice !== "") {
+    where.price = {
+      lte: Number(maxPrice),
+    };
   }
 
   const orderBy = [{ createdAt: "desc" }];

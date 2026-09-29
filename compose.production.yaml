@@ -1,0 +1,43 @@
+services:
+  postgres:
+    restart: unless-stopped
+    ports: !reset []
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    restart: unless-stopped
+    ports: !reset []
+    volumes:
+      - redis_data:/data
+
+  backend:
+    restart: unless-stopped
+    ports: !reset []
+    environment:
+      NODE_ENV: production
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    restart: unless-stopped
+    ports: !override
+      - "80:80"
+
+  ai-service:
+    restart: unless-stopped
+    ports: !reset []
+    depends_on:
+      redis:
+        condition: service_started
+      backend:
+        condition: service_started
+
+  ai-worker:
+    restart: unless-stopped
+    depends_on:
+      redis:
+        condition: service_started
+      backend:
+        condition: service_started

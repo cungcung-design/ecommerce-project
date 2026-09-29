@@ -1,0 +1,62 @@
+{
+  "family": "novatrend-ai",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "executionRoleArn": "arn:aws:iam::722160255281:role/ecsTaskExecutionRole",
+  "containerDefinitions": [
+    {
+      "name": "ai-service",
+      "image": "722160255281.dkr.ecr.ap-southeast-1.amazonaws.com/novatrend-ai:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8001,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "OPENAI_MODEL",
+          "value": "gpt-5.6-luna"
+        },
+        {
+          "name": "OPENAI_EMBEDDING_MODEL",
+          "value": "text-embedding-3-small"
+        },
+        {
+          "name": "COMMERCE_API_URL",
+          "value": "http://backend.novatrend.local:5000/api/internal"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "OPENAI_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/openai-F1aRLj"
+        },
+        {
+          "name": "INTERNAL_API_KEY",
+          "valueFrom": "arn:aws:secretsmanager:ap-southeast-1:722160255281:secret:novatrend/prod/internal-key-lNpUvg"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8001/health')\""
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3
+      },
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/novatrend-ai",
+          "awslogs-region": "ap-southeast-1",
+          "awslogs-stream-prefix": "ai-service"
+        }
+      }
+    }
+  ]
+}

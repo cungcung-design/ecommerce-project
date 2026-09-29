@@ -37,7 +37,7 @@ const variantConfig = {
 };
 
 function Toast({ toast, onDismiss }) {
-  const { message, variant = "info", duration = 4000, action } = toast;
+  const { message, description, variant = "info", duration = 4000, actions = [] } = toast;
   const config = variantConfig[variant] || variantConfig.info;
   const Icon = config.icon;
   const [progress, setProgress] = useState(100);
@@ -85,13 +85,29 @@ function Toast({ toast, onDismiss }) {
         <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 mt-0.5 ${config.iconColor}`} />
         <div className="flex-1 min-w-0">
           <p className={`text-xs sm:text-sm font-semibold ${config.textColor} break-words`}>{message}</p>
-          {action && (
-            <button
-              onClick={action.onClick}
-               className="mt-2 inline-flex items-center rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-700 transition-colors"
-            >
-              {action.text}
-            </button>
+          {description && (
+            <p className={`mt-0.5 text-xs font-medium ${config.textColor} opacity-80 break-words`}>{description}</p>
+          )}
+          {actions.length > 0 && (
+            <div className="mt-2 flex flex-wrap gap-2">
+              {actions.map((item) => (
+                <button
+                  key={item.text}
+                  type="button"
+                  onClick={() => {
+                    handleDismiss();
+                    item.onClick?.();
+                  }}
+                  className={
+                    item.variant === "secondary"
+                      ? "inline-flex items-center rounded-lg border border-current/20 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-white transition-colors"
+                      : "inline-flex items-center rounded-lg bg-orange-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-orange-700 transition-colors"
+                  }
+                >
+                  {item.text}
+                </button>
+              ))}
+            </div>
           )}
         </div>
         <button

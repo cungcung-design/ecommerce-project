@@ -1,5 +1,6 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRequireAuth } from "../../hooks/useRequireAuth";
+import { SHOP_PATH } from "../../lib/authRedirect";
 
 function CartSummary({ subtotal, shipping, total, itemCount }) {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function CartSummary({ subtotal, shipping, total, itemCount }) {
     navigate("/checkout");
   };
   return (
-    <div className="h-fit rounded-xl border border-slate-200 p-5 sm:p-6">
+    <div className="h-fit w-full min-w-0 rounded-xl border border-slate-200 p-5 sm:p-6">
       <h2 className="text-xl font-medium text-slate-900">Order Summary</h2>
 
       <div className="mt-6 space-y-3">
@@ -32,13 +33,21 @@ function CartSummary({ subtotal, shipping, total, itemCount }) {
         </div>
       </div>
 
-      <button
-        type="button"
-        onClick={handleProceedToCheckout}
-        className="mt-6 block w-full rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-center text-base font-semibold text-white transition-colors"
-      >
-        Proceed to Checkout
-      </button>
+      <div className="mt-6 flex w-full min-w-0 items-stretch gap-3">
+        <Link
+          to={SHOP_PATH}
+          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-300 px-3 text-center text-sm font-semibold leading-tight text-slate-800 transition-colors hover:border-slate-900 hover:text-slate-900"
+        >
+          Continue Shopping
+        </Link>
+        <button
+          type="button"
+          onClick={handleProceedToCheckout}
+          className="inline-flex min-h-10 min-w-0 flex-1 basis-0 items-center justify-center rounded-lg border border-slate-900 bg-slate-900 px-3 text-center text-sm font-semibold leading-tight text-white transition-colors hover:border-orange-600 hover:bg-orange-600"
+        >
+          Checkout
+        </button>
+      </div>
     </div>
   );
 }

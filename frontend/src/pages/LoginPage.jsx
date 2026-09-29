@@ -5,15 +5,20 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LogIn, Mail, Lock, Loader2, AlertCircle, ShoppingBag } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
+import { destinationAfterAuth, getSafeRedirect } from "../lib/authRedirect";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 import { loginSchema } from "../validators/authValidator";
+import GoogleSignInButton from "../components/auth/GoogleSignInButton";
 
 function Login() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { login, user } = useAuth();
 
-  const redirectTo = searchParams.get("redirectTo") || "/";
+  const redirectTo = getSafeRedirect(searchParams.get("redirectTo"));
+  const registerTo = searchParams.get("redirectTo")
+    ? `/register?redirectTo=${encodeURIComponent(redirectTo)}`
+    : "/register";
 
   const {
     register,
@@ -28,30 +33,24 @@ function Login() {
 
   useEffect(() => {
     if (user) {
-      if (user.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate(redirectTo);
-      }
+      navigate(destinationAfterAuth(user, redirectTo));
     }
   }, [user, navigate, redirectTo]);
 
+  const finishLogin = (loggedInUser) => {
+    navigate(destinationAfterAuth(loggedInUser, redirectTo));
+  };
+
   const onSubmit = async ({ email, password }) => {
     try {
-      const loggedInUser = await login(email, password);
-
-      if (loggedInUser.role === "ADMIN") {
-        navigate("/admin");
-      } else {
-        navigate(redirectTo);
-      }
+      finishLogin(await login(email, password));
     } catch (error) {
       setError("root", {
         message: isNetworkError(error)
-          ? "Unable to connect. Please try again."
+          ? "Something went wrong. Please try again in a moment."
           : error.response?.status === 401 || error.response?.status === 400
-            ? "Invalid email or password."
-            : getFriendlyError(error, "Invalid email or password."),
+            ? "Unable to sign in. Please check your email and password."
+            : getFriendlyError(error, "Unable to sign in. Please check your email and password."),
       });
     }
   };
@@ -151,12 +150,24 @@ function Login() {
           </button>
         </form>
 
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-xs font-medium uppercase tracking-wider text-slate-400">or</span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+
+        <GoogleSignInButton
+          disabled={isSubmitting}
+          onSuccess={finishLogin}
+          onError={(message) => setError("root", { message })}
+        />
+
         {/* Footer Redirect */}
         <div className="text-center pt-2 border-t border-slate-100">
           <p className="text-xs sm:text-sm text-slate-500 font-medium">
             Don't have an account?{" "}
             <Link
-              to="/register"
+              to={registerTo}
               className="font-semibold text-orange-600 hover:text-orange-700 underline underline-offset-2 transition-colors"
             >
               Register

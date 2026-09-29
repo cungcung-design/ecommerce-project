@@ -2,6 +2,9 @@ import { useLayoutEffect } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import AIChatWidget from "../components/ai/AIChatWidget";
+import { AIChatProvider } from "../context/AIChatContext";
+import { useAuth } from "../context/AuthContext";
 import {
   disableBrowserScrollRestoration,
   useInstantScrollToTop,
@@ -9,6 +12,7 @@ import {
 
 function MainLayout() {
   const { pathname, hash } = useLocation();
+  const { user } = useAuth();
 
   useLayoutEffect(() => {
     disableBrowserScrollRestoration();
@@ -17,16 +21,19 @@ function MainLayout() {
   useInstantScrollToTop([pathname], { skip: Boolean(hash) });
 
   return (
-    <div className="min-h-screen bg-white [overflow-anchor:none]">
-      <div id="page-top" tabIndex={-1} className="sr-only" />
-      <Navbar />
+    <AIChatProvider>
+      <div className="min-h-screen bg-white [overflow-anchor:none]">
+        <div id="page-top" tabIndex={-1} className="sr-only" />
+        <Navbar />
 
-      <main className="w-full py-8">
-        <Outlet />
-      </main>
+        <main className="w-full py-8">
+          <Outlet />
+        </main>
 
-      <Footer />
-    </div>
+        <Footer />
+        {user && pathname !== "/assistant" && <AIChatWidget />}
+      </div>
+    </AIChatProvider>
   );
 }
 

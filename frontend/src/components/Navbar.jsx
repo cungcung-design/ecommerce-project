@@ -11,7 +11,8 @@ import {
   Menu,
   ShieldCheck,
   LogOut,
-  ShoppingBag
+  ShoppingBag,
+  MessageCircle
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../hooks/useCart";
@@ -70,7 +71,7 @@ function Navbar() {
   const { requireAuth } = useRequireAuth();
 
   const isHomeActive = pathname === "/" && hash === "";
-  const isShopActive = pathname === "/products" && !sort && !category;
+  const isShopActive = (pathname === "/products" || pathname === "/shop") && !sort && !category;
   const isNewArrivalsActive = (pathname === "/" && hash === "#new-arrivals") || (pathname === "/products" && sort === "newest");
   const isBestSellersActive = (pathname === "/" && hash === "#best-sellers") || (pathname === "/products" && sort === "best-selling");
   const isCategoriesActive = (pathname === "/" && hash === "#categories") || (pathname === "/products" && Boolean(category));
@@ -156,7 +157,7 @@ function Navbar() {
           >
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-rose-500 text-[11px] font-semibold text-white shadow-sm">
+              <span key={cartCount} className="cart-badge-pop absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-orange-600 px-1 text-[11px] font-semibold text-white shadow-sm">
                 {cartCount}
               </span>
             )}
@@ -183,6 +184,15 @@ function Navbar() {
                     <p className="text-sm font-semibold text-slate-800 truncate">{user.email || user.name}</p>
                   </div>
                   
+                  <Link
+                    to="/assistant"
+                    onClick={() => setIsAccountOpen(false)}
+                    className="flex items-center gap-2.5 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-orange-600 rounded-xl transition-colors"
+                  >
+                    <MessageCircle className="h-4 w-4 text-slate-400" />
+                    Assistant
+                  </Link>
+
                   <Link
                     to="/orders"
                     onClick={() => setIsAccountOpen(false)}
@@ -272,6 +282,11 @@ function Navbar() {
 
           {user ? (
             <div className="space-y-1.5">
+              <NavLink to="/assistant" className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50" onClick={() => setIsMenuOpen(false)}>
+                <MessageCircle className="h-4 w-4 text-slate-400" />
+                Assistant
+              </NavLink>
+
               <NavLink to="/orders" className="flex items-center justify-between px-3 py-2.5 rounded-xl text-sm font-medium text-slate-700 hover:bg-slate-50" onClick={() => setIsMenuOpen(false)}>
                 <div className="flex items-center gap-2.5">
                   <Package className="h-4 w-4 text-slate-400" />
@@ -300,7 +315,7 @@ function Navbar() {
           ) : (
             <div className="grid grid-cols-2 gap-2 pt-1">
               <NavLink to="/login" className="flex items-center justify-center py-2.5 rounded-xl border border-slate-200 text-sm font-semibold text-slate-800 hover:bg-slate-50" onClick={() => setIsMenuOpen(false)}>Login</NavLink>
-              <NavLink to="/register" className="flex items-center justify-center py-2.5 rounded-xl bg-orange-600 text-sm font-semibold text-white shadow-md shadow-orange-500/20" onClick={() => setIsMenuOpen(false)}>Register</NavLink>
+              <NavLink to={`/register?redirectTo=${encodeURIComponent(`${location.pathname}${location.search}`)}`} className="flex items-center justify-center py-2.5 rounded-xl bg-orange-600 text-sm font-semibold text-white shadow-md shadow-orange-500/20" onClick={() => setIsMenuOpen(false)}>Register</NavLink>
             </div>
           )}
         </div>

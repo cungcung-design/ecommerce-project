@@ -36,19 +36,36 @@ export function NotificationProvider({ children }) {
   }, []);
 
   const showToast = useCallback((messageOrOptions, options) => {
-    let message, variant, duration, action;
+    let message, variant, duration, action, description, actions;
 
     if (typeof messageOrOptions === "string") {
       message = sanitizeMessage(messageOrOptions);
       variant = options?.variant || "info";
       duration = options?.duration ?? DEFAULT_DURATION[variant] ?? 3000;
       action = options?.action;
+      description = options?.description;
+      actions = options?.actions;
     } else {
       variant = messageOrOptions?.variant || "info";
       message = sanitizeMessage(messageOrOptions?.message);
       duration = messageOrOptions?.duration ?? DEFAULT_DURATION[variant] ?? 3000;
       action = messageOrOptions?.action;
+      description = messageOrOptions?.description;
+      actions = messageOrOptions?.actions;
     }
+
+    if (typeof description === "string") {
+      const trimmed = description.trim();
+      description = trimmed && !isTechnicalMessage(trimmed) ? trimmed : "";
+    } else {
+      description = "";
+    }
+
+    const toastActions = Array.isArray(actions) && actions.length > 0
+      ? actions
+      : action
+        ? [action]
+        : [];
 
     const key = `${variant}:${message}`;
     const now = Date.now();
@@ -60,7 +77,7 @@ export function NotificationProvider({ children }) {
 
     recentRef.current.set(key, now);
     const id = ++toastId;
-    setToasts((prev) => [...prev, { id, message, variant, duration, action }]);
+    setToasts((prev) => [...prev, { id, message, description, variant, duration, actions: toastActions }]);
     if (duration > 0) {
       setTimeout(() => {
         recentRef.current.delete(key);
@@ -107,6 +124,8 @@ export function NotificationProvider({ children }) {
     if (!confirmState) return;
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
+        e.preventDefault();
+        e.stopPropagation();
         handleConfirmClose(false);
       }
     };

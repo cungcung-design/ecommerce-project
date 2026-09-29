@@ -74,11 +74,10 @@ function ProductCard({ product }) {
 
           <button
             type="button"
-            aria-label={inWishlist ? "In wishlist" : "Add to wishlist"}
+            aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+            aria-pressed={inWishlist}
             onClick={handleWishlistClick}
-            className={`absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm transition-opacity hover:bg-white ${
-              inWishlist ? "opacity-100" : "opacity-0 group-hover:opacity-100"
-            }`}
+            className="absolute right-2.5 top-2.5 rounded-full bg-white/90 p-2 shadow-sm transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-500"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

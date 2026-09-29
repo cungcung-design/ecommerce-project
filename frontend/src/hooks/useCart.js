@@ -1,5 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import api from "../services/api";
+import { useNotification } from "../context/NotificationContext";
+import { getFriendlyError } from "../lib/getFriendlyError";
 
 export function useCart(options = {}) {
   return useQuery({
@@ -109,6 +111,7 @@ export function useAddToCart() {
 
 export function useUpdateCartItem() {
   const queryClient = useQueryClient();
+  const { error: notifyError } = useNotification();
 
   return useMutation({
     mutationFn: async ({ productId, quantity }) => {
@@ -147,6 +150,7 @@ export function useUpdateCartItem() {
       if (context?.previousCart) {
         queryClient.setQueryData(["cart"], context.previousCart);
       }
+      notifyError(getFriendlyError(err, "Couldn't update the quantity. Please try again."));
     },
 
     onSettled: () => {
@@ -155,37 +159,91 @@ export function useUpdateCartItem() {
   });
 }
 
+const removalsInFlight = new Set();
+
+function toProductId(value) {
+  const id = Number(value);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+
+export function isRemovalInFlight(productId) {
+  const id = toProductId(productId);
+  return id != null && removalsInFlight.has(id);
+}
+
+function withoutProduct(cart, productId) {
+  if (!cart?.items) return cart;
+  return {
+    ...cart,
+    items: cart.items.filter((item) => Number(item.productId) !== productId),
+  };
+}
+
 export function useRemoveFromCart() {
   const queryClient = useQueryClient();
+  const { error: notifyError } = useNotification();
 
   return useMutation({
     mutationFn: async (productId) => {
-      const response = await api.delete(`/cart/items/${productId}`);
-      return response.data;
-    },
+      const id = toProductId(productId);
+      if (!id) {
+        throw new Error("Couldn't remove that item. Please try again.");
+      }
 
-    onMutate: async (productId) => {
-      await queryClient.cancelQueries({ queryKey: ["cart"] });
-      const previousCart = queryClient.getQueryData(["cart"]);
-
-      queryClient.setQueryData(["cart"], (old) => {
-        if (!old) return old;
-        return {
-          ...old,
-          items: old.items.filter((item) => item.productId !== productId),
-        };
-      });
-
-      return { previousCart };
-    },
-
-    onError: (err, variables, context) => {
-      if (context?.previousCart) {
-        queryClient.setQueryData(["cart"], context.previousCart);
+      try {
+        const response = await api.delete(`/cart/items/${id}`);
+        return response.data;
+      } catch (error) {
+        if (error.response?.status === 404) {
+          return { success: true, alreadyRemoved: true };
+        }
+        throw error;
       }
     },
 
-    onSettled: () => {
+    onMutate: async (productId) => {
+      const id = toProductId(productId);
+      if (!id) {
+        throw new Error("Couldn't remove that item. Please try again.");
+      }
+      if (removalsInFlight.has(id)) {
+        const error = new Error("duplicate-remove");
+        error.duplicate = true;
+        throw error;
+      }
+
+      removalsInFlight.add(id);
+      await queryClient.cancelQueries({ queryKey: ["cart"] });
+      const previousCart = queryClient.getQueryData(["cart"]);
+
+      queryClient.setQueryData(["cart"], (old) => withoutProduct(old, id));
+
+      return { previousCart, id };
+    },
+
+    onError: async (err, productId, context) => {
+      if (err?.duplicate) return;
+
+      const id = context?.id || toProductId(productId);
+      try {
+        const response = await api.get("/cart");
+        const cart = response.data?.data || { items: [] };
+        queryClient.setQueryData(["cart"], cart);
+        const stillThere = cart.items?.some((item) => Number(item.productId) === id);
+        if (!stillThere) return;
+      } catch {
+        if (context?.previousCart) {
+          queryClient.setQueryData(["cart"], context.previousCart);
+        }
+      }
+
+      notifyError(getFriendlyError(err, "Couldn't remove that item. Please try again."));
+    },
+
+    onSettled: (_data, err, productId) => {
+      if (err?.duplicate) return;
+      const id = toProductId(productId);
+      if (id) removalsInFlight.delete(id);
       queryClient.invalidateQueries({ queryKey: ["cart"] });
     },
   });

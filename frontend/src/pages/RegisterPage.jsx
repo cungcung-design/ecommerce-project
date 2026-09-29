@@ -1,17 +1,36 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UserPlus, Mail, Lock, User, Loader2, AlertCircle, ShoppingBag, CheckCircle2 } from "lucide-react";
 
 import { useAuth } from "../context/AuthContext";
+import { getSafeRedirect } from "../lib/authRedirect";
 import { getFriendlyError, isNetworkError } from "../lib/getFriendlyError";
 import { registerSchema } from "../validators/authValidator";
+import GoogleSignInButton from "../components/auth/GoogleSignInButton";
+
+function registrationContinuePath(user, redirectValue) {
+  if (user?.role === "ADMIN") return "/admin";
+
+  const path = getSafeRedirect(redirectValue, "/");
+  if (path === "/register" || path.startsWith("/register?") || path === "/login" || path.startsWith("/login?")) {
+    return "/";
+  }
+
+  return path;
+}
 
 function Register() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { register: registerAccount } = useAuth();
-  const [success, setSuccess] = useState(false);
+  const [createdUser, setCreatedUser] = useState(null);
+  const redirectValue = searchParams.get("redirectTo");
+  const redirectTo = getSafeRedirect(redirectValue, "/");
+  const loginTo = redirectValue
+    ? `/login?redirectTo=${encodeURIComponent(redirectTo)}`
+    : "/login";
 
   const {
     register,
@@ -24,47 +43,44 @@ function Register() {
     defaultValues: { name: "", email: "", password: "" },
   });
 
+  const finishRegistration = (loggedInUser) => {
+    setCreatedUser(loggedInUser);
+  };
+
   const onSubmit = async ({ name, email, password }) => {
     try {
-      await registerAccount(name, email, password);
-      setSuccess(true);
+      finishRegistration(await registerAccount(name, email, password));
     } catch (error) {
       setError("root", {
         message: isNetworkError(error)
-          ? "Unable to connect. Please try again."
+          ? "Something went wrong. Please try again in a moment."
           : getFriendlyError(error, "We couldn't create your account. Please try again."),
       });
     }
   };
 
-  if (success) {
+  if (createdUser) {
     return (
       <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
         <div className="w-full max-w-md space-y-6 bg-white p-8 sm:p-10 rounded-3xl border border-slate-200/80 shadow-xl shadow-slate-900/5 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto">
-            <CheckCircle2 className="w-6 h-6" />
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+            <CheckCircle2 className="h-7 w-7" />
           </div>
           <div className="space-y-2">
             <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight font-serif">
               Account created successfully
             </h1>
             <p className="text-sm text-slate-500 font-medium">
-              You can start shopping right away.
+              Welcome to NovaTrend. Your account is ready to use.
             </p>
           </div>
           <button
             type="button"
-            onClick={() => navigate("/products")}
-            className="w-full rounded-xl bg-orange-600 hover:bg-orange-700 p-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-colors"
+            onClick={() => navigate(registrationContinuePath(createdUser, redirectValue))}
+            className="w-full rounded-xl bg-orange-600 hover:bg-orange-700 px-6 py-3.5 text-sm font-semibold text-white shadow-lg shadow-orange-600/25 transition-colors cursor-pointer"
           >
-            Continue shopping
+            Continue
           </button>
-          <Link
-            to="/"
-            className="inline-block text-sm font-semibold text-orange-600 hover:text-orange-700"
-          >
-            Go to homepage
-          </Link>
         </div>
       </div>
     );
@@ -180,12 +196,24 @@ function Register() {
           </button>
         </form>
 
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-slate-200" />
+          <span className="text-xs font-medium uppercase tracking-wider text-slate-400">or</span>
+          <div className="h-px flex-1 bg-slate-200" />
+        </div>
+
+        <GoogleSignInButton
+          disabled={isSubmitting}
+          onSuccess={finishRegistration}
+          onError={(message) => setError("root", { message })}
+        />
+
         {/* Footer Redirect */}
         <div className="text-center pt-2 border-t border-slate-100">
           <p className="text-xs sm:text-sm text-slate-500 font-medium">
             Already have an account?{" "}
             <Link
-              to="/login"
+              to={loginTo}
               className="font-semibold text-orange-600 hover:text-orange-700 underline underline-offset-2 transition-colors"
             >
               Login

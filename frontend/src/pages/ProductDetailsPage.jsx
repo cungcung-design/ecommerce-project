@@ -14,6 +14,7 @@ import {
 import { useProduct } from "../hooks/useProduct";
 import { useProducts } from "../hooks/useProducts";
 import { useAddToCart } from "../hooks/useCart";
+import { useAIChat } from "../context/AIChatContext";
 import { useRequireAuth } from "../hooks/useRequireAuth";
 import Loading from "../components/Loading";
 import ErrorMessage from "../components/ErrorMessage";
@@ -26,6 +27,8 @@ function ProductDetails() {
   const addToCart = useAddToCart();
   const { requireAuth: requireAddToCart } = useRequireAuth();
   const { requireAuth: requireBuyNow } = useRequireAuth();
+  const { requireAuth: requireAskAI } = useRequireAuth();
+  const { ask } = useAIChat();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -224,8 +227,41 @@ function ProductDetails() {
               {actionError && (
                 <p className="text-sm font-medium text-rose-600">{actionError}</p>
               )}
-            </div>
-          )}
+            </div>
+          )}
+
+          <div className="space-y-3 pt-2">
+            <button
+              type="button"
+              onClick={() => {
+                if (!requireAskAI()) return;
+                ask("Is this good for gaming?");
+              }}
+              className="inline-flex items-center rounded-xl border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 hover:border-orange-200 hover:text-orange-700"
+            >
+              Ask AI about this product
+            </button>
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Is this good for gaming?",
+                "Does it have warranty?",
+                "Show me something cheaper.",
+                "What are similar products?",
+              ].map((suggestion) => (
+                <button
+                  key={suggestion}
+                  type="button"
+                  onClick={() => {
+                    if (!requireAskAI()) return;
+                    ask(suggestion);
+                  }}
+                  className="rounded-full border border-slate-200 px-3 py-1.5 text-xs text-slate-600 hover:border-orange-200 hover:text-orange-700"
+                >
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {/* Value Props Mini Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-6 border-t border-slate-100">

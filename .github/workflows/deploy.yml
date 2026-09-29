@@ -1,0 +1,114 @@
+name: Deploy NovaTrend
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  AWS_REGION: ap-southeast-1
+  ECR_BACKEND: novatrend-backend
+  ECR_AI: novatrend-ai
+  ECR_FRONTEND: novatrend-frontend
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Backend tests
+        working-directory: backend
+        run: npm ci && npm test -- --passWithNoTests
+
+      - name: AI import check
+        working-directory: ai-service
+        run: |
+          python -m pip install -r requirements.txt
+          python -m py_compile app/main.py app/celery_app.py app/orchestrator.py evals/run_eval.py
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Configure AWS
+        uses: aws-actions/configure-aws-credentials@v6.3.0
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build backend
+        run: |
+          docker build \
+            -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:${{ github.sha }} \
+            ./backend
+
+      - name: Build AI
+        run: |
+          docker build \
+            -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_AI }}:${{ github.sha }} \
+            ./ai-service
+
+      - name: Build frontend
+        run: |
+          docker build \
+            --build-arg VITE_API_URL=/api \
+            -t ${{ steps.ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:${{ github.sha }} \
+            ./frontend
+
+      - name: Push images
+        run: |
+          docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:${{ github.sha }}
+          docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_AI }}:${{ github.sha }}
+          docker push ${{ steps.ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:${{ github.sha }}
+
+      - name: Set image tags
+        run: |
+          sed -i "s|<BACKEND_IMAGE>|${{ steps.ecr.outputs.registry }}/${{ env.ECR_BACKEND }}:${{ github.sha }}|" infra/ecs/backend-task-definition.json
+          sed -i "s|<AI_IMAGE>|${{ steps.ecr.outputs.registry }}/${{ env.ECR_AI }}:${{ github.sha }}|" infra/ecs/ai-task-definition.json
+          sed -i "s|<AI_IMAGE>|${{ steps.ecr.outputs.registry }}/${{ env.ECR_AI }}:${{ github.sha }}|" infra/ecs/worker-task-definition.json
+          sed -i "s|<FRONTEND_IMAGE>|${{ steps.ecr.outputs.registry }}/${{ env.ECR_FRONTEND }}:${{ github.sha }}|" infra/ecs/frontend-task-definition.json
+
+      - name: Deploy backend
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.6.3
+        with:
+          task-definition: infra/ecs/backend-task-definition.json
+          service: novatrend-backend
+          cluster: novatrend-prod
+          wait-for-service-stability: true
+
+      - name: Deploy AI
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.6.3
+        with:
+          task-definition: infra/ecs/ai-task-definition.json
+          service: novatrend-ai
+          cluster: novatrend-prod
+          wait-for-service-stability: true
+
+      - name: Deploy AI worker
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.6.3
+        with:
+          task-definition: infra/ecs/worker-task-definition.json
+          service: novatrend-ai-worker
+          cluster: novatrend-prod
+          wait-for-service-stability: true
+
+      - name: Deploy frontend
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2.6.3
+        with:
+          task-definition: infra/ecs/frontend-task-definition.json
+          service: novatrend-frontend
+          cluster: novatrend-prod
+          wait-for-service-stability: true

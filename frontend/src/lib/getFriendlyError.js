@@ -23,14 +23,14 @@ export function getFriendlyError(
       error.code === "ERR_NETWORK" ||
       error.code === "ECONNABORTED"
     ) {
-      return "Unable to connect to the server. Please try again.";
+      return "Something went wrong. Please try again in a moment.";
     }
 
     if (typeof error.message === "string" && error.message.trim() && !isTechnicalMessage(error.message)) {
       return error.message.trim();
     }
 
-    return "Unable to connect to the server. Please try again.";
+    return "Something went wrong. Please try again in a moment.";
   }
 
   const message = error.response?.data?.message;

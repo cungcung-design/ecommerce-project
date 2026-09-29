@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AlertCircle } from "lucide-react";
-import { useCart } from "../hooks/useCart";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { isRemovalInFlight, useCart, useRemoveFromCart } from "../hooks/useCart";
+import { SHOP_PATH } from "../lib/authRedirect";
 import CartItem from "../components/cart/CartItem";
-
 import CartSummary from "../components/cart/CartSummary";
 
 function CartPage() {
   const queryClient = useQueryClient();
+  const removeFromCart = useRemoveFromCart();
   const {
     data: cart,
     isLoading,
@@ -21,13 +22,22 @@ function CartPage() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, []);
 
+  const handleRemove = (item) => {
+    if (isRemovalInFlight(item.productId)) return;
+    removeFromCart.mutate(item.productId);
+  };
+
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[50vh] p-8 space-y-4">
-        <div className="relative">
-          <div className="w-14 h-14 rounded-full border-4 border-orange-100 border-t-orange-600 animate-spin" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-4" aria-busy="true" aria-label="Loading cart">
+        <div className="skeleton-shimmer h-8 w-48 rounded bg-slate-200" />
+        <div className="grid gap-8 lg:grid-cols-3">
+          <div className="space-y-4 lg:col-span-2">
+            <div className="skeleton-shimmer h-28 rounded-xl bg-slate-200" />
+            <div className="skeleton-shimmer h-28 rounded-xl bg-slate-200" />
+          </div>
+          <div className="skeleton-shimmer h-56 rounded-xl bg-slate-200" />
         </div>
-        <p className="text-slate-500 font-medium text-lg animate-pulse">Loading your cart...</p>
       </div>
     );
   }
@@ -60,9 +70,9 @@ function CartPage() {
   if (items.length === 0) {
     return (
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 text-center">
-         <h1 className="text-2xl font-medium text-slate-900 font-serif">Your Cart is Empty</h1>
+        <h1 className="text-2xl font-medium text-slate-900 font-serif">Your Cart is Empty</h1>
         <p className="mt-3 text-lg text-gray-600">Add some products to your cart.</p>
-        <Link to="/products" className="mt-6 inline-block rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-base font-semibold text-white transition-colors">
+        <Link to={SHOP_PATH} className="mt-6 inline-block rounded-lg bg-slate-900 hover:bg-orange-600 px-6 py-3 text-base font-semibold text-white transition-colors">
           Continue Shopping
         </Link>
       </div>
@@ -81,14 +91,19 @@ function CartPage() {
   return (
     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 space-y-8">
       <div className="flex items-center justify-between">
-           <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight font-serif">Shopping Cart</h1>
+        <h1 className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight font-serif">Shopping Cart</h1>
         <span className="text-base text-slate-500">{itemCount} {itemCount === 1 ? "item" : "items"}</span>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-3 lg:items-start">
-        <div className="space-y-4 lg:col-span-2">
+      <div className="grid min-w-0 gap-8 lg:grid-cols-3 lg:items-start">
+        <div className="min-w-0 space-y-4 lg:col-span-2">
           {items.map((item) => (
-            <CartItem key={item.id} item={item} />
+            <CartItem
+              key={item.id}
+              item={item}
+              onRemove={handleRemove}
+              isRemoving={removeFromCart.isPending && Number(removeFromCart.variables) === Number(item.productId)}
+            />
           ))}
         </div>
 

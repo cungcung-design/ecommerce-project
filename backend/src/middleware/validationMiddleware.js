@@ -30,6 +30,10 @@ export const loginSchema = z.object({
   password: z.string().min(1, "Password is required"),
 });
 
+export const googleAuthSchema = z.object({
+  code: z.string().min(1, "Google authorization code is required"),
+});
+
 export const productSchema = z.object({
   name: z.string().min(2, "Product name is required").max(100),
   description: z.string().max(2000).optional(),

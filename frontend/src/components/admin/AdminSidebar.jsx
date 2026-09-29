@@ -66,6 +66,10 @@ function AdminSidebar({ mobileOpen = false, onClose = () => {} }) {
           <NavLink to="/admin/users" className={navLinkClass} onClick={onClose}>
             Users
           </NavLink>
+
+          <NavLink to="/admin/ai" className={navLinkClass} onClick={onClose}>
+            AI
+          </NavLink>
         </nav>
       </aside>
     </>

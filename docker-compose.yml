@@ -1,8 +1,6 @@
-version: '3.8'
-
 services:
   postgres:
-    image: postgres:15-alpine
+    image: pgvector/pgvector:pg15
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -13,10 +11,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d ecommerce_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   backend:
     build: ./backend
     restart: always
+    env_file:
+      - ./backend/.env
     ports:
       - "5000:5000"
     environment:
@@ -31,8 +36,15 @@ services:
       CLOUDINARY_API_SECRET: "cdQzyEuqp-Zq2SvjNPvBMDMbQkE"
       FRONTEND_URL: "http://localhost:5173"
       ALLOWED_ORIGINS: "http://localhost:5173,http://172.26.32.1:5175"
+      AI_SERVICE_URL: "http://ai-service:8001"
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:5000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
 
   frontend:
     build:
@@ -45,5 +57,45 @@ services:
     depends_on:
       - backend
 
+  ai-service:
+    build: ./ai-service
+    restart: always
+    env_file:
+      - ./ai-service/.env
+    ports:
+      - "8001:8001"
+    depends_on:
+      - backend
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8001/health')",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  ai-worker:
+    build: ./ai-service
+    restart: always
+    env_file:
+      - ./ai-service/.env
+    command: celery -A app.celery_app.celery_app worker --loglevel=INFO
+    depends_on:
+      - redis
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
 volumes:
   postgres_data:
+  redis_data:
